@@ -1,0 +1,39 @@
+# ============================================================
+# Smart SIEM - docker-compose.yml
+# ============================================================
+# À compléter au fur et à mesure du développement
+# Orchestration des services Docker
+#
+# Services prévus :
+#   api          : Application FastAPI (backend principal)
+#   worker       : Worker Celery pour le traitement asynchrone
+#   beat         : Planificateur Celery Beat
+#   flower       : Interface de monitoring Celery (port 5555)
+#   postgres     : Base de données PostgreSQL (port 5432)
+#   elasticsearch: Moteur de recherche et stockage de logs (port 9200)
+#   kibana       : Visualisation Elasticsearch (port 5601)
+#   redis        : Cache et file d'attente (port 6379)
+#   logstash     : Pipeline de collecte et transformation de logs
+#   nginx        : Reverse proxy sécurisé (ports 80, 443)
+#
+# Sections à configurer par service :
+#   build:      contexte et Dockerfile
+#   image:      nom de l'image
+#   container_name:
+#   restart:    politique de redémarrage
+#   ports:      binding des ports
+#   env_file:   fichier .env
+#   environment: variables spécifiques au service
+#   depends_on: ordre de démarrage
+#   volumes:    montage des volumes
+#   networks:   réseau partagé
+#   healthcheck: vérification de santé
+#   command:    commande de démarrage (si différente de l'image)
+#
+# Volumes persistants à définir :
+#   postgres_data:
+#   elasticsearch_data:
+#   redis_data:
+#
+# Réseau à créer :
+#   siem-network (driver: bridge)

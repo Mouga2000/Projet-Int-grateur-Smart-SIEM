@@ -1,0 +1,79 @@
+# ============================================================
+# Smart SIEM - Dépendances Python (requirements.txt)
+# ============================================================
+# À compléter au fur et à mesure du développement
+# Ajouter chaque dépendance avec `pip install <package>`
+# puis figer avec `pip freeze > requirements.txt`
+#
+# --- Framework Web ---
+
+# gunicorn
+# python-multipart
+#
+# --- Base de données ---
+# sqlalchemy
+# alembic
+# asyncpg
+# psycopg2-binary
+#
+# --- Validation ---
+# pydantic
+# pydantic-settings
+#
+# --- Authentification ---
+# passlib[bcrypt]
+# python-jose[cryptography]
+#
+# --- Elasticsearch ---
+# elasticsearch
+# elasticsearch-dsl
+#
+# --- File d'attente ---
+# celery
+# redis
+#
+# --- Monitoring système ---
+# psutil
+# netifaces
+#
+# --- Parsing de logs ---
+# pyyaml
+# python-dateutil
+#
+# --- Requêtes HTTP ---
+# httpx
+# requests
+#
+# --- Utilitaires ---
+# python-dotenv
+# loguru
+# typer
+#
+# --- Machine Learning ---
+# scikit-learn
+# numpy
+# pandas
+# joblib
+#
+# --- Tests ---
+# pytest
+# pytest-asyncio
+# pytest-cov
+# httpx
+#
+# --- Développement ---
+# black
+# isort
+# flake8
+# mypy
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-jose[cryptography]==3.3.0   # JWT
+passlib[bcrypt]==1.7.4              # Hachage de mots de passe
+bcrypt==4.1.0                       # Algorithme de hachage
+pyotp==2.9.0                        # MFA TOTP
+python-dotenv==1.0.0                # Variables d'environnement
+elasticsearch==8.11.0               # Client Elasticsearch (sync)
+elasticsearch[async]==8.11.0        # Client asynchrone
+pydantic==2.5.0
+pydantic-settings==2.1.0
