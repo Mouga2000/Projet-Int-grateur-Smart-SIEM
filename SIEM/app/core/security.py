@@ -1,20 +1,17 @@
-from passlib.context import CryptContext
+import bcrypt
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from typing import Optional
 from app.core.config import settings
 
-# Contexte de hachage pour bcrypt
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-# --- Hachage des mots de passe ---
+# --- Hachage des mots de passe (bcrypt direct) ---
 def hash_password(password: str) -> str:
     """Hash un mot de passe avec bcrypt"""
-    return pwd_context.hash(password)
+    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """Vérifie un mot de passe par rapport à son hash"""
-    return pwd_context.verify(plain_password, hashed_password)
+    return bcrypt.checkpw(plain_password.encode("utf-8"), hashed_password.encode("utf-8"))
 
 # --- Gestion des tokens JWT ---
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:

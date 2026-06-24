@@ -1,79 +1,33 @@
 # ============================================================
 # Smart SIEM - Dépendances Python (requirements.txt)
 # ============================================================
-# À compléter au fur et à mesure du développement
-# Ajouter chaque dépendance avec `pip install <package>`
-# puis figer avec `pip freeze > requirements.txt`
-#
-# --- Framework Web ---
 
-# gunicorn
-# python-multipart
-#
-# --- Base de données ---
-# sqlalchemy
-# alembic
-# asyncpg
-# psycopg2-binary
-#
-# --- Validation ---
-# pydantic
-# pydantic-settings
-#
+# --- Framework Web ---
+fastapi==0.138.0
+uvicorn[standard]==0.49.0
+python-multipart==0.0.32
+
 # --- Authentification ---
-# passlib[bcrypt]
-# python-jose[cryptography]
-#
-# --- Elasticsearch ---
-# elasticsearch
-# elasticsearch-dsl
-#
-# --- File d'attente ---
-# celery
-# redis
-#
-# --- Monitoring système ---
-# psutil
-# netifaces
-#
-# --- Parsing de logs ---
-# pyyaml
-# python-dateutil
-#
-# --- Requêtes HTTP ---
-# httpx
-# requests
-#
-# --- Utilitaires ---
-# python-dotenv
-# loguru
-# typer
-#
-# --- Machine Learning ---
-# scikit-learn
-# numpy
-# pandas
-# joblib
-#
-# --- Tests ---
-# pytest
-# pytest-asyncio
-# pytest-cov
-# httpx
-#
-# --- Développement ---
-# black
-# isort
-# flake8
-# mypy
-fastapi==0.104.1
-uvicorn[standard]==0.24.0
-python-jose[cryptography]==3.3.0   # JWT
+python-jose[cryptography]==3.5.0   # JWT
 passlib[bcrypt]==1.7.4              # Hachage de mots de passe
-bcrypt==4.1.0                       # Algorithme de hachage
-pyotp==2.9.0                        # MFA TOTP
-python-dotenv==1.0.0                # Variables d'environnement
-elasticsearch==8.11.0               # Client Elasticsearch (sync)
-elasticsearch[async]==8.11.0        # Client asynchrone
-pydantic==2.5.0
-pydantic-settings==2.1.0
+bcrypt==5.0.0
+pyotp==2.10.0                       # MFA TOTP
+qrcode[pil]==8.2                    # QR codes pour la MFA
+pillow==12.2.0                      # Nécessaire pour qrcode[pil]
+
+# --- PostgreSQL (données structurées : utilisateurs, règles, audits…) ---
+sqlalchemy==2.0.36
+asyncpg==0.30.0
+psycopg2-binary==2.9.10
+alembic==1.14.1
+
+# --- Elasticsearch (logs, alertes — données volumineuses) ---
+elasticsearch==8.19.3
+
+# --- Validation ---
+pydantic==2.13.4
+pydantic-settings==2.0.3
+email-validator==2.3.0              # Validation des emails (EmailStr)
+
+# --- Utilitaires ---
+python-dotenv==1.2.2

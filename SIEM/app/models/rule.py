@@ -1,38 +1,41 @@
 # app/models/rule.py
 # -------------------------------
-# Modèle Rule — Règles de corrélation / détection
+# Modèle Rule (règle de corrélation) — stocké dans l'index ES "rules"
 #
 # Ce que tu dois mettre ici :
 #
-#   from sqlalchemy import String, Integer, Boolean, DateTime, JSON, Text, Enum as SAEnum
-#   from sqlalchemy.orm import Mapped, mapped_column
-#   from app.models.base import Base, TimestampMixin, SoftDeleteMixin
-#   import enum
+#   from pydantic import BaseModel, Field
+#   from typing import Optional, List
+#   from datetime import datetime
+#   from enum import Enum
 #
-#   class RuleType(enum.Enum):
-#       SINGLE_EVENT = "single_event"       # Événement unique détecté
-#       THRESHOLD = "threshold"              # Seuil dépassé sur une fenêtre
-#       CORRELATION = "correlation"          # Corrélation multi-sources
-#       SEQUENCE = "sequence"                # Séquence d'événements
-#       UEBA = "ueba"                        # Anomalie comportementale
-#       CUSTOM = "custom"                    # Règle personnalisée (Sigma)
+#   class RuleType(str, Enum):
+#       SINGLE_EVENT = "single_event"
+#       THRESHOLD = "threshold"
+#       CORRELATION = "correlation"
+#       SEQUENCE = "sequence"
+#       UEBA = "ueba"
+#       CUSTOM = "custom"
 #
-#   class Rule(Base, TimestampMixin, SoftDeleteMixin):
-#       __tablename__ = "rules"
+#   class Rule(BaseModel):
+#       """Règle de détection / corrélation d'événements."""
+#       id: Optional[str] = None
+#       name: str
+#       description: Optional[str] = None
+#       rule_type: RuleType
+#       enabled: bool = True
+#       severity: str = "medium"             # low, medium, high, critical
+#       mitre_attack_id: Optional[str] = None
+#       mitre_tactic: Optional[str] = None
+#       sigma_rule: Optional[str] = None     # Règle au format Sigma (YAML)
+#       condition: dict = {}                 # {"field": "event_type", "operator": "eq", "value": "login_failed", "threshold": 5, "window": "5m"}
+#       actions: dict = {}                   # {"create_alert": True, "run_playbook": "playbook_id", "notify_slack": True}
+#       priority: int = 50                   # 1-100
+#       version: int = 1
+#       created_by: Optional[str] = None
+#       tags: List[str] = []
+#       created_at: datetime = Field(default_factory=datetime.now)
+#       updated_at: datetime = Field(default_factory=datetime.now)
 #
-#       id: Mapped[int] = mapped_column(primary_key=True)
-#       name: Mapped[str] = mapped_column(String(255), index=True)
-#       description: Mapped[str | None] = mapped_column(Text)
-#       rule_type: Mapped[RuleType] = mapped_column(SAEnum(RuleType))
-#       enabled: Mapped[bool] = mapped_column(Boolean, default=True)
-#       severity: Mapped[str] = mapped_column(String(20), default="medium")  # low/medium/high/critical
-#       mitre_attack_id: Mapped[str | None] = mapped_column(String(20))
-#       sigma_rule: Mapped[str | None] = mapped_column(Text)  # Format Sigma si applicable
-#       condition: Mapped[dict] = mapped_column(JSON, default=dict)
-#       # condition stocke : {"field": "event_type", "operator": "eq", "value": "login_failed", "threshold": 5, "window": "5m"}
-#       actions: Mapped[dict] = mapped_column(JSON, default=dict)
-#       # actions stocke : {"create_alert": true, "run_playbook": 1, "notify_slack": true}
-#       priority: Mapped[int] = mapped_column(Integer, default=50)  # 1-100
-#       version: Mapped[int] = mapped_column(Integer, default=1)
-#
-#   # Unicité : (name) doit être unique sauf soft-deleted
+#       def to_es_document(self) -> dict:
+#           return self.model_dump(exclude={"id"})

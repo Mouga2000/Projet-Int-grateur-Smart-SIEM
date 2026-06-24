@@ -5,19 +5,20 @@
 # Ce que tu dois mettre ici :
 #
 #   from app.repositories.alert_repo import AlertRepository
+#   from app.core.elasticsearch import get_es
 #   from app.schemas.alert_schemas import AlertUpdate
 #
 #   class AlertService:
 #       """Logique métier autour des alertes."""
 #
-#       def __init__(self, db):
-#           self.repo = AlertRepository(db)
+#       def __init__(self, es):
+#           self.repo = AlertRepository(es)
 #
 #       async def get_alerts(self, filters: dict, page: int, size: int) -> dict:
 #           """Liste les alertes avec filtrage et pagination."""
 #           pass
 #
-#       async def get_alert(self, alert_id: int) -> dict:
+#       async def get_alert(self, alert_id: str) -> dict:
 #           """Détail d'une alerte."""
 #           pass
 #

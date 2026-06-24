@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # scripts/populate_test_data.py
 # -------------------------------
-# Script de peuplement des données de test dans PostgreSQL et Elasticsearch
+# Script de peuplement des données de test dans Elasticsearch
 #
 # Ce script :
 #   1. Crée des utilisateurs de test
@@ -13,12 +13,11 @@
 # Ce que tu dois mettre ici :
 #
 #   import asyncio
-#   from app.core.database import async_session_factory, engine
-#   from app.core.elasticsearch import get_es_client
+#   from app.core.elasticsearch import get_es
 #   from app.repositories.user_repo import UserRepository
 #   from app.repositories.rule_repo import RuleRepository
 #   from app.repositories.playbook_repo import PlaybookRepository
-#   from app.utils.security import hash_password
+#   from app.core.security import hash_password
 #
 #   async def create_test_users():
 #       """Crée les utilisateurs de test."""

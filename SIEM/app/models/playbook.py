@@ -1,34 +1,37 @@
 # app/models/playbook.py
 # -------------------------------
-# Modèle Playbook — Automatisation SOAR
+# Modèle Playbook SOAR — stocké dans l'index ES "playbooks"
 #
 # Ce que tu dois mettre ici :
 #
-#   from sqlalchemy import String, Integer, Boolean, JSON, Text, Enum as SAEnum
-#   from sqlalchemy.orm import Mapped, mapped_column
-#   from app.models.base import Base, TimestampMixin, SoftDeleteMixin
-#   import enum
+#   from pydantic import BaseModel, Field
+#   from typing import Optional, List
+#   from datetime import datetime
+#   from enum import Enum
 #
-#   class PlaybookTrigger(enum.Enum):
+#   class PlaybookTrigger(str, Enum):
 #       MANUAL = "manual"
 #       ALERT_CREATED = "alert_created"
 #       ALERT_ESCALATED = "alert_escalated"
 #       SCHEDULED = "scheduled"
 #       WEBHOOK = "webhook"
 #
-#   class Playbook(Base, TimestampMixin, SoftDeleteMixin):
-#       __tablename__ = "playbooks"
+#   class Playbook(BaseModel):
+#       """Playbook d'automatisation SOAR."""
+#       id: Optional[str] = None
+#       name: str
+#       description: Optional[str] = None
+#       trigger: PlaybookTrigger = PlaybookTrigger.MANUAL
+#       enabled: bool = True
+#       steps: List[dict] = []               # [{"action": "enrich_ip", "params": {"ip": "{{source_ip}}", "provider": "virustotal"}}, ...]
+#       variables: dict = {}
+#       timeout_seconds: int = 300
+#       max_retries: int = 3
+#       last_executed_at: Optional[datetime] = None
+#       execution_count: int = 0
+#       created_by: Optional[str] = None
+#       created_at: datetime = Field(default_factory=datetime.now)
+#       updated_at: datetime = Field(default_factory=datetime.now)
 #
-#       id: Mapped[int] = mapped_column(primary_key=True)
-#       name: Mapped[str] = mapped_column(String(255))
-#       description: Mapped[str | None] = mapped_column(Text)
-#       trigger: Mapped[PlaybookTrigger] = mapped_column(SAEnum(PlaybookTrigger), default=PlaybookTrigger.MANUAL)
-#       enabled: Mapped[bool] = mapped_column(Boolean, default=True)
-#       steps: Mapped[list] = mapped_column(JSON, default=list)
-#       # steps : [{"action": "enrich_ip", "params": {"ip": "{{source_ip}}", "provider": "virustotal"}}, ...]
-#       # Actions possibles : enrich_ip, enrich_domain, block_ip, isolate_host, notify_slack, notify_email, create_ticket, run_script
-#       variables: Mapped[dict] = mapped_column(JSON, default=dict)
-#       timeout_seconds: Mapped[int] = mapped_column(Integer, default=300)
-#       max_retries: Mapped[int] = mapped_column(Integer, default=3)
-#       last_executed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-#       execution_count: Mapped[int] = mapped_column(Integer, default=0)
+#       def to_es_document(self) -> dict:
+#           return self.model_dump(exclude={"id"})

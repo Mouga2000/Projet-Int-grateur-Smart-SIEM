@@ -1,35 +1,33 @@
 # app/models/log.py
 # -------------------------------
-# Modèle Log (table PostgreSQL pour les métadonnées des logs)
-#
-# NOTE : Les logs bruts sont stockés dans Elasticsearch.
-#        Ce modèle stocke les métadonnées/références en PostgreSQL.
+# Modèle Log — stocké dans l'index Elasticsearch "logs-YYYY-MM-DD"
 #
 # Ce que tu dois mettre ici :
 #
-#   from sqlalchemy import String, Integer, DateTime, JSON, Text, Enum as SAEnum
-#   from sqlalchemy.orm import Mapped, mapped_column
-#   from app.models.base import Base, TimestampMixin
-#   import enum
+#   from pydantic import BaseModel, Field
+#   from typing import Optional, List, Any
+#   from datetime import datetime
 #
-#   class LogSource(enum.Enum):
-#       SYSLOG = "syslog"
-#       WINDOWS_EVENT = "windows_event"
-#       NETFLOW = "netflow"
-#       API = "api"
-#       CUSTOM = "custom"
+#   class Log(BaseModel):
+#       """Log de sécurité normalisé."""
+#       id: Optional[str] = None
+#       timestamp: datetime
+#       received_at: datetime = Field(default_factory=datetime.now)
+#       source: str                # syslog, windows_event, netflow, api
+#       source_host: Optional[str] = None
+#       source_ip: Optional[str] = None
+#       log_type: Optional[str] = None
+#       severity: str = "info"     # debug, info, warning, error, critical
+#       message: str
+#       raw_data: Optional[dict] = None
+#       tags: List[str] = []
+#       event_code: Optional[str] = None
+#       process: Optional[dict] = None
+#       user: Optional[dict] = None
+#       network: Optional[dict] = None
+#       file: Optional[dict] = None
+#       registry: Optional[dict] = None
+#       mitre_attack_id: Optional[str] = None
 #
-#   class LogMetadata(Base, TimestampMixin):
-#       __tablename__ = "log_metadata"
-#
-#       id: Mapped[int] = mapped_column(primary_key=True)
-#       es_id: Mapped[str] = mapped_column(String(255), unique=True, index=True)  # ID dans Elasticsearch
-#       source: Mapped[LogSource] = mapped_column(SAEnum(LogSource))
-#       source_host: Mapped[str | None] = mapped_column(String(255))
-#       log_type: Mapped[str | None] = mapped_column(String(100))
-#       severity: Mapped[str | None] = mapped_column(String(50))
-#       timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
-#       received_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
-#       tags: Mapped[dict] = mapped_column(JSON, default=dict)
-#       raw_size: Mapped[int | None] = mapped_column(Integer)
-#       hash: Mapped[str | None] = mapped_column(String(64))  # SHA256 pour déduplication
+#       def to_es_document(self) -> dict:
+#           return self.model_dump(exclude={"id"})

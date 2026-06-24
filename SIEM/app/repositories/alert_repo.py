@@ -1,35 +1,40 @@
 # app/repositories/alert_repo.py
 # -------------------------------
-# Repository pour Alert
+# Repository pour Alert — index ES "alerts"
 #
 # Ce que tu dois mettre ici :
 #
-#   from app.repositories.base import BaseRepository
-#   from app.models.alert import Alert
-#   from typing import Optional
+#   from elasticsearch import AsyncElasticsearch
+#   from typing import Optional, List
+#   from app.core.config import settings
 #
-#   class AlertRepository(BaseRepository):
-#       """CRUD pour les alertes."""
+#   class AlertRepository:
+#       """CRUD pour les alertes dans Elasticsearch."""
 #
-#       def __init__(self, db):
-#           super().__init__(db)
-#           self.model = Alert
+#       def __init__(self, es: AsyncElasticsearch):
+#           self.es = es
+#           self.index = settings.ELASTICSEARCH_INDEX_ALERTS
 #
-#       async def get_by_status(self, status: str, skip: int = 0, limit: int = 50) -> list[Alert]:
+#       async def create(self, alert_data: dict) -> dict:
+#           """Crée une alerte."""
 #           pass
 #
-#       async def get_by_severity(self, severity: str, skip: int = 0, limit: int = 50) -> list[Alert]:
+#       async def get_by_id(self, alert_id: str) -> Optional[dict]:
+#           """Récupère une alerte par son ID."""
 #           pass
 #
-#       async def get_by_rule(self, rule_id: int) -> list[Alert]:
+#       async def search(self, filters: dict = None, page: int = 1, size: int = 50) -> dict:
+#           """Liste les alertes avec filtres (status, severity, date)."""
 #           pass
 #
-#       async def get_open_alerts_count(self) -> int:
-#           pass
-#
-#       async def get_alerts_by_date_range(self, date_from, date_to) -> list[Alert]:
+#       async def update(self, alert_id: str, update_data: dict) -> bool:
+#           """Met à jour le statut / assignation d'une alerte."""
 #           pass
 #
 #       async def get_stats_by_severity(self) -> list[dict]:
-#           """Retourne le nombre d'alertes par sévérité."""
+#           """Agrégation : nombre d'alertes par sévérité."""
+#           pass
+#
+#       async def get_stats_by_status(self) -> list[dict]:
+#           """Agrégation : nombre d'alertes par statut."""
 #           pass

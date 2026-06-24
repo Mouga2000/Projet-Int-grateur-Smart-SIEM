@@ -1,16 +1,15 @@
 # app/models/incident.py
 # -------------------------------
-# Modèle Incident — Regroupement d'alertes liées à une même menace
+# Modèle Incident — stocké dans l'index ES "incidents"
 #
 # Ce que tu dois mettre ici :
 #
-#   from sqlalchemy import String, Integer, DateTime, JSON, Text, ForeignKey, Enum as SAEnum
-#   from sqlalchemy.orm import Mapped, mapped_column, relationship
-#   from app.models.base import Base, TimestampMixin, SoftDeleteMixin
-#   import enum
+#   from pydantic import BaseModel, Field
+#   from typing import Optional, List
 #   from datetime import datetime
+#   from enum import Enum
 #
-#   class IncidentStatus(enum.Enum):
+#   class IncidentStatus(str, Enum):
 #       NEW = "new"
 #       INVESTIGATING = "investigating"
 #       CONTAINED = "contained"
@@ -18,27 +17,28 @@
 #       RECOVERED = "recovered"
 #       CLOSED = "closed"
 #
-#   class IncidentSeverity(enum.Enum):
+#   class IncidentSeverity(str, Enum):
 #       LOW = "low"
 #       MEDIUM = "medium"
 #       HIGH = "high"
 #       CRITICAL = "critical"
 #
-#   class Incident(Base, TimestampMixin, SoftDeleteMixin):
-#       __tablename__ = "incidents"
+#   class Incident(BaseModel):
+#       id: Optional[str] = None
+#       title: str
+#       description: Optional[str] = None
+#       status: IncidentStatus = IncidentStatus.NEW
+#       severity: IncidentSeverity = IncidentSeverity.MEDIUM
+#       alert_ids: List[str] = []
+#       rule_ids: List[str] = []
+#       mitre_attack_ids: List[str] = []
+#       affected_assets: List[str] = []
+#       assigned_to: Optional[str] = None
+#       created_at: datetime = Field(default_factory=datetime.now)
+#       updated_at: datetime = Field(default_factory=datetime.now)
+#       closed_at: Optional[datetime] = None
+#       resolution_notes: Optional[str] = None
+#       timeline: List[dict] = []
 #
-#       id: Mapped[int] = mapped_column(primary_key=True)
-#       title: Mapped[str] = mapped_column(String(255))
-#       description: Mapped[str | None] = mapped_column(Text)
-#       status: Mapped[IncidentStatus] = mapped_column(SAEnum(IncidentStatus), default=IncidentStatus.NEW)
-#       severity: Mapped[IncidentSeverity] = mapped_column(SAEnum(IncidentSeverity), default=IncidentSeverity.MEDIUM)
-#       alert_ids: Mapped[list] = mapped_column(JSON, default=list)  # IDs des alertes liées
-#       mitre_attack_ids: Mapped[list] = mapped_column(JSON, default=list)  # Tactiques MITRE
-#       affected_assets: Mapped[list] = mapped_column(JSON, default=list)  # Hôtes/IPs affectés
-#       lead_investigator: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
-#       containment_strategy: Mapped[str | None] = mapped_column(Text)
-#       remediation_steps: Mapped[list] = mapped_column(JSON, default=list)
-#       lessons_learned: Mapped[str | None] = mapped_column(Text)
-#       closed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-#
-#       lead = relationship("User", foreign_keys=[lead_investigator])
+#       def to_es_document(self) -> dict:
+#           return self.model_dump(exclude={"id"})

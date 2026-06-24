@@ -59,13 +59,14 @@
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional, List
 from datetime import datetime
+from app.utils.tags import Role, Perimeter
 
 class UserCreate(BaseModel):
     username: str = Field(..., min_length=3, max_length=50)
     email: EmailStr
     password: str = Field(..., min_length=8)
-    role: str  # "lecteur", "analyste", "rssi", "administrateur"
-    perimeter: List[str] = []
+    role: Role
+    perimeter: List[Perimeter] = []
 
 class UserLogin(BaseModel):
     username: str
@@ -84,11 +85,11 @@ class TokenData(BaseModel):
     perimeter: List[str]
 
 class UserResponse(BaseModel):
-    id: str
+    id: int
     username: str
     email: EmailStr
-    role: str
-    perimeter: List[str]
+    role: Role
+    perimeter: List[Perimeter]
     mfa_enabled: bool
     created_at: datetime
     last_login: Optional[datetime] = None
@@ -98,4 +99,9 @@ class UserUpdatePassword(BaseModel):
     new_password: str = Field(..., min_length=8)
 
 class UserUpdateRole(BaseModel):
-    role: str
+    """Schéma pour modifier le rôle d'un utilisateur (admin)."""
+    role: Role
+
+class UserUpdatePerimeter(BaseModel):
+    """Schéma pour modifier le périmètre fonctionnel d'un utilisateur (admin)."""
+    perimeter: List[Perimeter]

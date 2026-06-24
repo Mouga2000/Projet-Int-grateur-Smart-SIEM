@@ -1,26 +1,36 @@
 # app/repositories/playbook_repo.py
 # -------------------------------
-# Repository pour Playbook
+# Repository pour Playbook — index ES "playbooks"
 #
 # Ce que tu dois mettre ici :
 #
-#   from app.repositories.base import BaseRepository
-#   from app.models.playbook import Playbook
+#   from elasticsearch import AsyncElasticsearch
+#   from typing import Optional, List
+#   from app.core.config import settings
 #
-#   class PlaybookRepository(BaseRepository):
-#       """CRUD pour les playbooks SOAR."""
+#   class PlaybookRepository:
+#       """CRUD pour les playbooks SOAR dans Elasticsearch."""
 #
-#       def __init__(self, db):
-#           super().__init__(db)
-#           self.model = Playbook
+#       def __init__(self, es: AsyncElasticsearch):
+#           self.es = es
+#           self.index = settings.ELASTICSEARCH_INDEX_PLAYBOOKS
 #
-#       async def get_enabled_playbooks(self) -> list[Playbook]:
+#       async def create(self, playbook_data: dict) -> dict:
 #           pass
 #
-#       async def get_by_trigger(self, trigger: str) -> list[Playbook]:
-#           """Récupère les playbooks déclenchés par un événement."""
+#       async def get_by_id(self, playbook_id: str) -> Optional[dict]:
 #           pass
 #
-#       async def increment_execution_count(self, playbook_id: int):
-#           """Incrémente le compteur d'exécution."""
+#       async def get_enabled_playbooks(self) -> List[dict]:
+#           """Playbooks actifs (déclenchés automatiquement)."""
+#           pass
+#
+#       async def update(self, playbook_id: str, update_data: dict) -> bool:
+#           pass
+#
+#       async def delete(self, playbook_id: str) -> bool:
+#           pass
+#
+#       async def increment_execution(self, playbook_id: str):
+#           """Incrémente le compteur d'exécution et met à jour last_executed_at."""
 #           pass

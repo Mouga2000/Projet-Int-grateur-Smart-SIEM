@@ -6,7 +6,6 @@
 #
 #   from fastapi import FastAPI
 #   from app.core.config import settings
-#   from app.core.database import engine, async_session
 #   from app.api.v1.router import api_router
 #   from app.api.middleware import setup_middlewares
 #
@@ -24,7 +23,7 @@
 #
 #   @app.on_event("startup")
 #   async def startup():
-#       # Initialiser les connexions (DB, ES, Redis)
+#       # Initialiser les connexions (ES, Redis)
 #       pass
 #
 #   @app.on_event("shutdown")
@@ -37,3 +36,40 @@
 #       return {"message": "Smart SIEM API", "version": settings.APP_VERSION}
 #
 # Point d'entrée uvicorn : uvicorn app.main:app --reload
+
+from fastapi import FastAPI
+from contextlib import asynccontextmanager
+from app.api.v1.router import api_router
+from app.core.database import init_db, close_db
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Gère le cycle de vie de l'application."""
+    # Au démarrage : créer les tables PostgreSQL si elles n'existent pas
+    await init_db()
+    yield
+    # À l'arrêt : fermer les connexions
+    await close_db()
+
+
+app = FastAPI(
+    title="Smart SIEM API",
+    description="API du système de gestion des événements de sécurité",
+    version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json",
+    lifespan=lifespan,
+)
+
+# Inclure les routeurs
+app.include_router(api_router, prefix="/api/v1")
+
+@app.get("/")
+async def root():
+    return {"message": "Smart SIEM API is running"}
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}

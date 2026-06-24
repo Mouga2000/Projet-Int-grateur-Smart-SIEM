@@ -1,32 +1,34 @@
 # app/models/notification.py
 # -------------------------------
-# Modèle Notification — Notifications destinées aux utilisateurs
+# Modèle Notification — stocké dans l'index ES "notifications"
 #
 # Ce que tu dois mettre ici :
 #
-#   from sqlalchemy import String, Integer, Boolean, DateTime, JSON, Text, ForeignKey, Enum as SAEnum
-#   from sqlalchemy.orm import Mapped, mapped_column
-#   from app.models.base import Base, TimestampMixin
-#   import enum
+#   from pydantic import BaseModel, Field
+#   from typing import Optional
 #   from datetime import datetime
+#   from enum import Enum
 #
-#   class NotificationChannel(enum.Enum):
+#   class NotificationChannel(str, Enum):
 #       IN_APP = "in_app"
 #       EMAIL = "email"
 #       SLACK = "slack"
 #       SMS = "sms"
 #
-#   class Notification(Base, TimestampMixin):
-#       __tablename__ = "notifications"
+#   class Notification(BaseModel):
+#       """Notification destinée à un utilisateur."""
+#       id: Optional[str] = None
+#       user_id: str
+#       title: str
+#       message: str
+#       channel: NotificationChannel = NotificationChannel.IN_APP
+#       is_read: bool = False
+#       read_at: Optional[datetime] = None
+#       reference_type: Optional[str] = None  # alert, incident, report
+#       reference_id: Optional[str] = None
+#       delivered: bool = False
+#       delivered_at: Optional[datetime] = None
+#       created_at: datetime = Field(default_factory=datetime.now)
 #
-#       id: Mapped[int] = mapped_column(primary_key=True)
-#       user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), index=True)
-#       title: Mapped[str] = mapped_column(String(255))
-#       message: Mapped[str] = mapped_column(Text)
-#       channel: Mapped[NotificationChannel] = mapped_column(SAEnum(NotificationChannel), default=NotificationChannel.IN_APP)
-#       is_read: Mapped[bool] = mapped_column(Boolean, default=False)
-#       read_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-#       reference_type: Mapped[str | None] = mapped_column(String(50))  # alert | incident | report
-#       reference_id: Mapped[str | None] = mapped_column(String(50))
-#       delivered: Mapped[bool] = mapped_column(Boolean, default=False)
-#       delivered_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+#       def to_es_document(self) -> dict:
+#           return self.model_dump(exclude={"id"})

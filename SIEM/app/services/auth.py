@@ -1,42 +1,7 @@
 # app/services/auth.py
 # -------------------------------
 # Service d'authentification (JWT, MFA, sessions)
-#
-# Ce que tu dois mettre ici :
-#
-#   from datetime import datetime, timedelta, timezone
-#   from app.core.config import settings
-#   from app.repositories.user_repo import UserRepository
-#   from app.utils.security import verify_password, hash_password, create_access_token, decode_token
-#
-#   class AuthService:
-#       """Gère l'authentification, l'inscription et les tokens."""
-#
-#       async def authenticate(self, email: str, password: str) -> dict | None:
-#           """Vérifie les credentials et retourne les tokens JWT."""
-#           pass
-#
-#       async def refresh_token(self, refresh_token: str) -> dict:
-#           """Génère un nouveau token à partir d'un refresh token valide."""
-#           pass
-#
-#       async def revoke_token(self, token: str):
-#           """Révoque un token (ajout à une blacklist Redis)."""
-#           pass
-#
-#       async def setup_mfa(self, user_id: int) -> dict:
-#           """Génère un secret TOTP et retourne l'URI pour l'app d'authentification."""
-#           pass
-#
-#       async def verify_mfa(self, user_id: int, code: str) -> bool:
-#           """Vérifie un code TOTP."""
-#           pass
-#
-#       async def register_user(self, user_data: dict) -> dict:
-#           """Crée un nouvel utilisateur."""
-#           pass
 
-# app/services/auth.py
 from fastapi import HTTPException, status
 from app.core.security import (
     verify_password, 

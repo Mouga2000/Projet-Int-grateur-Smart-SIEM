@@ -37,8 +37,8 @@
 #           await es_client.close()
 #           es_client = None
 #
-# Note : Elasticsearch sert principalement à stocker/indexer les logs
-#         tandis que PostgreSQL stocke les métadonnées (alertes, users, etc.)
+# Note : Elasticsearch sert de base de données centralisée pour tout le projet
+#         (utilisateurs, audit, logs, alertes, règles, etc.)
 
 from elasticsearch import AsyncElasticsearch
 from app.core.config import settings

@@ -12,7 +12,6 @@
 #   class HealthResponse(BaseModel):
 #       status: str
 #       version: str
-#       database: str
 #       elasticsearch: str
 #       redis: str
 #
@@ -20,14 +19,12 @@
 #   async def health_check():
 #       """
 #       Health check principal. Vérifie :
-#       - Connexion PostgreSQL (SELECT 1)
 #       - Connexion Elasticsearch (ping)
 #       - Connexion Redis (ping)
 #       """
 #       return {
 #           "status": "ok",
 #           "version": "1.0.0",
-#           "database": "connected",
 #           "elasticsearch": "connected",
 #           "redis": "connected",
 #       }
