@@ -1,0 +1,95 @@
+agent:
+
+  id: AGENT-001
+
+  name: Poste-Test
+
+  version: 1.0.0
+
+
+server:
+
+  protocol: http
+
+  host: 169.254.170.76       #192.168.1.198
+
+  port: 8000
+
+  timeout: 10
+
+  verify_ssl: false
+
+
+authentication:
+
+  token: ""
+
+
+heartbeat:
+
+  enabled: true
+
+  interval: 30
+
+
+logging:
+
+  level: INFO
+
+  file: logs/agent.log
+
+  max_size: 10485760      # 10 Mo
+
+  backup_count: 5
+
+  console: true
+
+
+collectors:
+
+  logs: true
+
+  cpu: true
+
+  memory: false
+
+  process: false
+
+  network: false
+
+  filesystem: false
+
+  services: false
+
+
+
+logs:
+
+  paths:
+
+    linux:
+
+      - /var/log/syslog
+
+      - /var/log/auth.log
+
+    windows:
+      #- "C:\\Windows\\System32\\winevt\\Logs\\Application.evtx"
+      #- "C:\\Windows\\System32\\winevt\\Logs\\System.evtx"
+      #- C:\Windows\System32\winevt\Logs\Security.evtx
+      - "D:\\Promo X2028\\X3\\Projet Intégrateur\\Realisation\\Projet-Int-grateur-Smart-SIEM\\Agents\\agent\\logs\\test.log"
+
+  read_from_end: true
+
+
+
+cpu:
+
+  interval: 10
+
+  alert_threshold: 90
+
+
+
+
+

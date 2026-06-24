@@ -1,0 +1,1507 @@
+2026-06-24 09:12:39,616 | INFO     | INFO
+2026-06-24 09:12:39,617 | WARNING  | WARNING
+2026-06-24 09:12:39,617 | ERROR    | ERROR
+2026-06-24 09:12:39,618 | CRITICAL | CRITICAL
+2026-06-24 09:15:49,443 | INFO     | agent | INFO
+2026-06-24 09:15:49,444 | WARNING  | agent | WARNING
+2026-06-24 09:15:49,444 | ERROR    | agent | ERROR
+2026-06-24 09:15:49,445 | CRITICAL | agent | CRITICAL
+2026-06-24 09:34:57,464 | INFO     | agent | INFO
+2026-06-24 09:34:57,465 | WARNING  | agent | WARNING
+2026-06-24 09:34:57,465 | ERROR    | agent | ERROR
+2026-06-24 09:34:57,465 | CRITICAL | agent | CRITICAL
+2026-06-24 09:36:25,366 | INFO     | INFO
+2026-06-24 09:36:25,366 | WARNING  | WARNING
+2026-06-24 09:36:25,367 | ERROR    | ERROR
+2026-06-24 09:36:25,368 | CRITICAL | CRITICAL
+2026-06-24 11:22:58,771 | ERROR    | HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by SSLError(SSLError(1, '[SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1032)')))
+2026-06-24 11:24:23,486 | INFO     | POST /api/events -> 200
+2026-06-24 11:34:58,499 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 12:03:01,453 | ERROR    | 404 Client Error: Not Found for url: http://192.168.1.198:8000/api/agents/heartbeat
+2026-06-24 12:03:01,454 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 12:04:07,113 | INFO     | POST /api/agents/heartbeat -> 200
+2026-06-24 12:04:07,114 | INFO     | Heartbeat envoyé.
+2026-06-24 12:28:50,842 | INFO     | Tâche enregistrée : HelloTask
+2026-06-24 12:28:50,842 | INFO     | Démarrage du scheduler...
+2026-06-24 12:28:50,843 | INFO     | Scheduler démarré.
+2026-06-24 12:28:50,867 | INFO     | Task started.
+2026-06-24 12:35:31,372 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 13:35:44,522 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 13:36:40,867 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 13:45:03,041 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 13:45:25,778 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 13:57:11,213 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 14:02:05,725 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 14:02:05,792 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:02:25,765 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 14:02:25,808 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:18:20,135 | INFO     | Initialisation du Smart Agent...
+2026-06-24 14:18:20,156 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 14:18:20,156 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 14:18:20,156 | INFO     | Démarrage du Smart Agent...
+2026-06-24 14:18:20,156 | INFO     | Démarrage du scheduler...
+2026-06-24 14:18:20,157 | INFO     | Scheduler démarré.
+2026-06-24 14:18:20,160 | INFO     | Task started.
+2026-06-24 14:18:20,165 | INFO     | Task started.
+2026-06-24 14:18:20,228 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:18:23,264 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/agents/heartbeat (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:18:23,265 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 14:18:25,231 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:18:30,232 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:18:35,238 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:18:40,246 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:18:45,256 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:18:50,268 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:18:54,303 | INFO     | POST /api/agents/heartbeat -> 200
+2026-06-24 14:18:54,304 | INFO     | Heartbeat envoyé.
+2026-06-24 14:18:55,273 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:19:00,281 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:19:05,283 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:19:10,295 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:19:15,300 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:19:20,311 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:19:25,316 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:19:25,335 | INFO     | POST /api/agents/heartbeat -> 200
+2026-06-24 14:19:25,336 | INFO     | Heartbeat envoyé.
+2026-06-24 14:19:30,332 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:19:35,338 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:19:40,354 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:19:45,356 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:19:50,370 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:19:55,379 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:19:56,367 | INFO     | POST /api/agents/heartbeat -> 200
+2026-06-24 14:19:56,367 | INFO     | Heartbeat envoyé.
+2026-06-24 14:20:00,393 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:20:05,407 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:20:10,417 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:20:15,428 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:20:20,444 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:20:25,459 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:20:27,396 | INFO     | POST /api/agents/heartbeat -> 200
+2026-06-24 14:20:27,396 | INFO     | Heartbeat envoyé.
+2026-06-24 14:20:30,467 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:20:35,468 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:20:40,484 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:20:45,497 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:20:50,512 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:34:26,661 | INFO     | Initialisation du Smart Agent...
+2026-06-24 14:34:26,686 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 14:34:26,687 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 14:34:26,687 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 14:34:46,098 | INFO     | Initialisation du Smart Agent...
+2026-06-24 14:34:46,124 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 14:34:46,124 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 14:34:46,125 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 14:34:46,135 | INFO     | Démarrage du Smart Agent...
+2026-06-24 14:34:46,136 | INFO     | Démarrage du scheduler...
+2026-06-24 14:34:46,146 | INFO     | Task started.
+2026-06-24 14:34:46,147 | INFO     | Scheduler démarré.
+2026-06-24 14:34:46,151 | INFO     | Task started.
+2026-06-24 14:34:46,158 | INFO     | Task started.
+2026-06-24 14:34:46,194 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:34:47,159 | INFO     | CPU : 33.1%
+2026-06-24 14:34:47,176 | INFO     | POST /api/events -> 200
+2026-06-24 14:34:47,196 | INFO     | POST /api/agents/heartbeat -> 200
+2026-06-24 14:34:47,196 | INFO     | Heartbeat envoyé.
+2026-06-24 14:34:51,203 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:34:56,214 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:34:58,187 | INFO     | CPU : 24.4%
+2026-06-24 14:34:58,192 | INFO     | POST /api/events -> 200
+2026-06-24 14:35:01,222 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:35:06,227 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:35:09,195 | INFO     | CPU : 11.1%
+2026-06-24 14:35:09,220 | INFO     | POST /api/events -> 200
+2026-06-24 14:35:11,241 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:35:16,251 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:35:18,232 | INFO     | POST /api/agents/heartbeat -> 200
+2026-06-24 14:35:18,233 | INFO     | Heartbeat envoyé.
+2026-06-24 14:35:20,233 | INFO     | CPU : 10.5%
+2026-06-24 14:35:20,246 | INFO     | POST /api/events -> 200
+2026-06-24 14:35:21,256 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:35:26,262 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:35:31,260 | INFO     | CPU : 14.0%
+2026-06-24 14:35:31,267 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:35:31,286 | INFO     | POST /api/events -> 200
+2026-06-24 14:35:36,282 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:35:41,287 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:35:42,287 | INFO     | CPU : 11.5%
+2026-06-24 14:35:42,307 | INFO     | POST /api/events -> 200
+2026-06-24 14:35:46,305 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:35:49,264 | INFO     | POST /api/agents/heartbeat -> 200
+2026-06-24 14:35:49,265 | INFO     | Heartbeat envoyé.
+2026-06-24 14:35:51,310 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:35:53,306 | INFO     | CPU : 13.4%
+2026-06-24 14:35:53,327 | INFO     | POST /api/events -> 200
+2026-06-24 14:35:56,326 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:36:01,339 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:48:28,653 | INFO     | Initialisation du Smart Agent...
+2026-06-24 14:48:28,677 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 14:48:28,677 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 14:48:28,678 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 14:48:28,683 | INFO     | Démarrage du Smart Agent...
+2026-06-24 14:48:28,683 | INFO     | Démarrage du scheduler...
+2026-06-24 14:48:28,687 | INFO     | Task started.
+2026-06-24 14:48:28,693 | INFO     | Scheduler démarré.
+2026-06-24 14:48:28,693 | INFO     | Task started.
+2026-06-24 14:48:28,696 | INFO     | Task started.
+2026-06-24 14:48:28,743 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:48:29,698 | INFO     | CPU : 14.0%
+2026-06-24 14:48:29,720 | INFO     | POST /api/events -> 200
+2026-06-24 14:48:29,768 | INFO     | POST /api/agents/heartbeat -> 200
+2026-06-24 14:48:29,769 | INFO     | Heartbeat envoyé.
+2026-06-24 14:48:33,741 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:48:38,751 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:48:40,735 | INFO     | CPU : 15.1%
+2026-06-24 14:48:40,746 | INFO     | POST /api/events -> 200
+2026-06-24 14:48:43,761 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:48:48,775 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:48:51,762 | INFO     | CPU : 16.7%
+2026-06-24 14:48:51,787 | INFO     | POST /api/events -> 200
+2026-06-24 14:48:53,783 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:48:58,790 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:49:00,791 | INFO     | POST /api/agents/heartbeat -> 200
+2026-06-24 14:49:00,791 | INFO     | Heartbeat envoyé.
+2026-06-24 14:49:02,800 | INFO     | CPU : 11.6%
+2026-06-24 14:49:02,818 | INFO     | POST /api/events -> 200
+2026-06-24 14:49:03,803 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:49:08,807 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:49:13,816 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:49:13,820 | INFO     | CPU : 20.3%
+2026-06-24 14:49:13,823 | INFO     | POST /api/events -> 200
+2026-06-24 14:49:18,831 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:49:23,844 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:49:24,830 | INFO     | CPU : 29.7%
+2026-06-24 14:49:24,859 | INFO     | POST /api/events -> 200
+2026-06-24 14:49:28,851 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:49:31,806 | INFO     | POST /api/agents/heartbeat -> 200
+2026-06-24 14:49:31,807 | INFO     | Heartbeat envoyé.
+2026-06-24 14:49:33,866 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:49:35,871 | INFO     | CPU : 22.9%
+2026-06-24 14:49:35,886 | INFO     | POST /api/events -> 200
+2026-06-24 14:49:38,868 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:49:43,876 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:49:46,889 | INFO     | CPU : 36.5%
+2026-06-24 14:49:46,905 | INFO     | POST /api/events -> 200
+2026-06-24 14:49:48,887 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:49:53,889 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:49:57,913 | INFO     | CPU : 32.3%
+2026-06-24 14:49:57,929 | INFO     | POST /api/events -> 200
+2026-06-24 14:50:00,112 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:50:04,866 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/agents/heartbeat (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:50:04,867 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 14:50:05,118 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:50:08,932 | INFO     | CPU : 34.2%
+2026-06-24 14:50:10,124 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:50:10,973 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:50:15,132 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:50:20,144 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:50:21,974 | INFO     | CPU : 38.6%
+2026-06-24 14:50:23,988 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:50:25,145 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:50:30,150 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:50:35,004 | INFO     | CPU : 19.1%
+2026-06-24 14:50:35,160 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:50:37,036 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:50:37,893 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/agents/heartbeat (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:50:37,893 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 14:50:40,170 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:50:45,187 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:50:48,049 | INFO     | CPU : 6.8%
+2026-06-24 14:50:50,088 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:50:50,202 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:50:55,210 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:51:00,223 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:51:01,096 | INFO     | CPU : 25.0%
+2026-06-24 14:51:03,120 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:51:05,230 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:51:10,232 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:51:10,924 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/agents/heartbeat (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:51:10,924 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 14:51:14,129 | INFO     | CPU : 9.1%
+2026-06-24 14:51:15,239 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:51:16,165 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:51:20,250 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:51:25,256 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:51:27,167 | INFO     | CPU : 3.5%
+2026-06-24 14:51:29,201 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:51:30,268 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:51:35,270 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:51:40,204 | INFO     | CPU : 8.8%
+2026-06-24 14:51:40,271 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:51:42,238 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:51:43,986 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/agents/heartbeat (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:51:43,986 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 14:51:45,285 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:51:50,287 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:51:53,239 | INFO     | CPU : 7.9%
+2026-06-24 14:51:55,254 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:51:55,289 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:52:00,298 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:52:05,309 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:52:06,270 | INFO     | CPU : 8.3%
+2026-06-24 14:52:08,292 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:52:10,323 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:52:15,333 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:52:17,046 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/agents/heartbeat (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:52:17,046 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 14:52:19,302 | INFO     | CPU : 1.8%
+2026-06-24 14:52:20,335 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:52:21,349 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:52:25,336 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:52:30,349 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:52:32,351 | INFO     | CPU : 10.7%
+2026-06-24 14:52:34,400 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:52:35,353 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:52:40,363 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:52:45,364 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:52:45,402 | INFO     | CPU : 15.7%
+2026-06-24 14:52:47,421 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:52:50,071 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/agents/heartbeat (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:52:50,072 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 14:52:50,366 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:52:55,379 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:52:58,440 | INFO     | CPU : 2.3%
+2026-06-24 14:53:00,383 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:53:00,464 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:53:05,396 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:53:10,401 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:53:11,482 | INFO     | CPU : 3.5%
+2026-06-24 14:53:13,490 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:53:15,411 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:53:20,419 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:53:23,104 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/agents/heartbeat (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:53:23,105 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 14:53:24,506 | INFO     | CPU : 9.1%
+2026-06-24 14:53:25,420 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:53:26,547 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:53:30,425 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:53:35,431 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:53:37,561 | INFO     | CPU : 4.7%
+2026-06-24 14:53:39,588 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:53:40,443 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:53:45,449 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:53:50,463 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:53:50,589 | INFO     | CPU : 4.9%
+2026-06-24 14:53:52,622 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:53:55,469 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:53:56,169 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/agents/heartbeat (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:53:56,170 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 14:54:00,479 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:54:03,624 | INFO     | CPU : 9.0%
+2026-06-24 14:54:05,489 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:54:05,663 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:54:10,919 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:54:22,077 | INFO     | Initialisation du Smart Agent...
+2026-06-24 14:54:22,100 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 14:54:22,100 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 14:54:22,101 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 14:54:22,106 | INFO     | Démarrage du Smart Agent...
+2026-06-24 14:54:22,106 | INFO     | Démarrage du scheduler...
+2026-06-24 14:54:22,111 | INFO     | Task started.
+2026-06-24 14:54:22,114 | INFO     | Task started.
+2026-06-24 14:54:22,114 | INFO     | Scheduler démarré.
+2026-06-24 14:54:22,117 | INFO     | Task started.
+2026-06-24 14:54:22,183 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs
+2026-06-24 14:54:22,184 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:54:23,120 | INFO     | CPU : 8.4%
+2026-06-24 14:54:25,164 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/events (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:54:25,197 | ERROR    | HTTPConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/agents/heartbeat (Caused by NewConnectionError("HTTPConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 14:54:25,197 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 14:54:27,213 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs
+2026-06-24 14:54:27,213 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:54:32,227 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs
+2026-06-24 14:54:32,228 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:54:36,177 | INFO     | CPU : 9.1%
+2026-06-24 14:54:36,199 | INFO     | POST /api/events -> 200
+2026-06-24 14:54:37,235 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs
+2026-06-24 14:54:37,236 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:54:42,237 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs
+2026-06-24 14:54:42,237 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:54:47,212 | INFO     | CPU : 20.4%
+2026-06-24 14:54:47,229 | INFO     | POST /api/events -> 200
+2026-06-24 14:54:47,241 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs
+2026-06-24 14:54:47,242 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:54:52,253 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs
+2026-06-24 14:54:52,253 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:54:56,234 | INFO     | POST /api/agents/heartbeat -> 200
+2026-06-24 14:54:56,235 | INFO     | Heartbeat envoyé.
+2026-06-24 14:54:57,257 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs
+2026-06-24 14:54:57,257 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:54:58,242 | INFO     | CPU : 14.8%
+2026-06-24 14:54:58,246 | INFO     | POST /api/events -> 200
+2026-06-24 14:55:02,270 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs
+2026-06-24 14:55:02,270 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:55:07,271 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs
+2026-06-24 14:55:07,271 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:55:09,260 | INFO     | CPU : 22.9%
+2026-06-24 14:55:09,264 | INFO     | POST /api/events -> 200
+2026-06-24 14:55:12,271 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs
+2026-06-24 14:55:12,271 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:55:17,272 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs
+2026-06-24 14:55:17,272 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:55:20,272 | INFO     | CPU : 8.4%
+2026-06-24 14:55:20,289 | INFO     | POST /api/events -> 200
+2026-06-24 14:55:22,289 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs
+2026-06-24 14:55:22,289 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:55:27,261 | INFO     | POST /api/agents/heartbeat -> 200
+2026-06-24 14:55:27,261 | INFO     | Heartbeat envoyé.
+2026-06-24 14:55:27,289 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs
+2026-06-24 14:55:27,289 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:55:31,290 | INFO     | CPU : 15.6%
+2026-06-24 14:55:31,312 | INFO     | POST /api/events -> 200
+2026-06-24 14:55:32,294 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs
+2026-06-24 14:55:32,295 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:55:37,307 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs
+2026-06-24 14:55:37,308 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:55:42,317 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs
+2026-06-24 14:55:42,317 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:55:42,319 | INFO     | CPU : 16.9%
+2026-06-24 14:55:42,336 | INFO     | POST /api/events -> 200
+2026-06-24 14:55:47,320 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs
+2026-06-24 14:55:47,321 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:55:54,442 | INFO     | Initialisation du Smart Agent...
+2026-06-24 14:55:54,466 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 14:55:54,466 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 14:55:54,467 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 14:55:54,472 | INFO     | Démarrage du Smart Agent...
+2026-06-24 14:55:54,472 | INFO     | Démarrage du scheduler...
+2026-06-24 14:55:54,476 | INFO     | Task started.
+2026-06-24 14:55:54,481 | INFO     | Task started.
+2026-06-24 14:55:54,481 | INFO     | Scheduler démarré.
+2026-06-24 14:55:54,485 | INFO     | Task started.
+2026-06-24 14:55:54,584 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs\test.log
+2026-06-24 14:55:54,584 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:55:55,486 | INFO     | CPU : 17.4%
+2026-06-24 14:55:55,503 | INFO     | POST /api/events -> 200
+2026-06-24 14:55:55,597 | INFO     | POST /api/agents/heartbeat -> 200
+2026-06-24 14:55:55,598 | INFO     | Heartbeat envoyé.
+2026-06-24 14:55:59,595 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs\test.log
+2026-06-24 14:55:59,595 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:56:04,604 | WARNING  | Fichier introuvable : D:\Promo X2028\X3 rojet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\logs\test.log
+2026-06-24 14:56:04,608 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:56:28,072 | INFO     | Initialisation du Smart Agent...
+2026-06-24 14:56:28,095 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 14:56:28,096 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 14:56:28,096 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 14:56:28,101 | INFO     | Démarrage du Smart Agent...
+2026-06-24 14:56:28,101 | INFO     | Démarrage du scheduler...
+2026-06-24 14:56:28,105 | INFO     | Scheduler démarré.
+2026-06-24 14:56:28,106 | INFO     | Task started.
+2026-06-24 14:56:28,113 | INFO     | Task started.
+2026-06-24 14:56:28,113 | INFO     | Task started.
+2026-06-24 14:56:28,176 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:56:29,115 | INFO     | CPU : 13.6%
+2026-06-24 14:56:29,145 | INFO     | POST /api/events -> 200
+2026-06-24 14:56:29,194 | INFO     | POST /api/agents/heartbeat -> 200
+2026-06-24 14:56:29,195 | INFO     | Heartbeat envoyé.
+2026-06-24 14:56:33,185 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:56:38,186 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:56:40,159 | INFO     | CPU : 10.5%
+2026-06-24 14:56:43,190 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 14:57:00,224 | INFO     | POST /api/agents/heartbeat -> 200
+2026-06-24 14:58:39,242 | INFO     | Heartbeat envoyé.
+2026-06-24 14:58:39,255 | INFO     | POST /api/events -> 200
+2026-06-24 15:00:57,004 | INFO     | Initialisation du Smart Agent...
+2026-06-24 15:00:57,027 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 15:00:57,027 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 15:00:57,028 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 15:00:57,033 | INFO     | Démarrage du Smart Agent...
+2026-06-24 15:00:57,033 | INFO     | Démarrage du scheduler...
+2026-06-24 15:00:57,037 | INFO     | Task started.
+2026-06-24 15:00:57,037 | INFO     | Scheduler démarré.
+2026-06-24 15:00:57,042 | INFO     | Task started.
+2026-06-24 15:00:57,047 | INFO     | Task started.
+2026-06-24 15:00:57,086 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:00:58,048 | INFO     | CPU : 10.4%
+2026-06-24 15:00:58,072 | INFO     | POST /api/events -> 200
+2026-06-24 15:00:58,090 | INFO     | POST /api/agents/heartbeat -> 200
+2026-06-24 15:00:58,091 | INFO     | Heartbeat envoyé.
+2026-06-24 15:01:02,103 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 15:01:02,126 | INFO     | POST /api/events -> 200
+2026-06-24 15:01:02,144 | INFO     | POST /api/events -> 200
+2026-06-24 15:01:07,158 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 15:01:07,184 | INFO     | POST /api/events -> 200
+2026-06-24 15:01:09,081 | INFO     | CPU : 10.2%
+2026-06-24 15:01:09,105 | INFO     | POST /api/events -> 200
+2026-06-24 15:01:12,205 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 15:01:12,231 | INFO     | POST /api/events -> 200
+2026-06-24 15:01:17,247 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 15:01:17,273 | INFO     | POST /api/events -> 200
+2026-06-24 15:01:20,111 | INFO     | CPU : 11.7%
+2026-06-24 15:01:20,133 | INFO     | POST /api/events -> 200
+2026-06-24 15:01:22,291 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 15:01:22,299 | INFO     | POST /api/events -> 200
+2026-06-24 15:01:27,319 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 15:01:27,345 | INFO     | POST /api/events -> 200
+2026-06-24 15:01:29,112 | INFO     | POST /api/agents/heartbeat -> 200
+2026-06-24 15:01:29,112 | INFO     | Heartbeat envoyé.
+2026-06-24 15:01:31,148 | INFO     | CPU : 8.4%
+2026-06-24 15:01:31,176 | INFO     | POST /api/events -> 200
+2026-06-24 15:01:32,372 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 15:01:32,394 | INFO     | POST /api/events -> 200
+2026-06-24 15:01:37,405 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 15:01:37,430 | INFO     | POST /api/events -> 200
+2026-06-24 15:01:37,450 | INFO     | POST /api/events -> 200
+2026-06-24 15:01:42,190 | INFO     | CPU : 11.4%
+2026-06-24 15:01:42,214 | INFO     | POST /api/events -> 200
+2026-06-24 15:01:42,459 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 15:01:42,485 | INFO     | POST /api/events -> 200
+2026-06-24 15:01:42,501 | INFO     | POST /api/events -> 200
+2026-06-24 15:01:47,513 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 15:01:47,583 | INFO     | POST /api/events -> 200
+2026-06-24 15:32:38,259 | INFO     | Initialisation du Smart Agent...
+2026-06-24 15:32:38,320 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 15:32:38,320 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 15:32:38,322 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 15:32:38,335 | INFO     | Démarrage du Smart Agent...
+2026-06-24 15:32:38,336 | INFO     | Démarrage du scheduler...
+2026-06-24 15:32:38,339 | INFO     | Scheduler démarré.
+2026-06-24 15:32:38,354 | INFO     | Task started.
+2026-06-24 15:32:38,355 | INFO     | Task started.
+2026-06-24 15:32:38,362 | INFO     | Task started.
+2026-06-24 15:32:38,506 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:32:39,366 | INFO     | CPU : 4.7%
+2026-06-24 15:32:43,505 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:32:48,514 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:32:49,386 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/V1/logs/ingest (Caused by ConnectTimeoutError(<HTTPConnection(host='169.254.170.76', port=8000) at 0x24ff31fb0e0>, 'Connection to 169.254.170.76 timed out. (connect timeout=10)'))
+2026-06-24 15:32:49,499 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/agents/heartbeat (Caused by ConnectTimeoutError(<HTTPConnection(host='169.254.170.76', port=8000) at 0x24ff327d310>, 'Connection to 169.254.170.76 timed out. (connect timeout=10)'))
+2026-06-24 15:32:49,500 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 15:32:53,520 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:32:58,524 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:33:00,395 | INFO     | CPU : 10.3%
+2026-06-24 15:33:03,526 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:33:08,536 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:33:10,402 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/V1/logs/ingest (Caused by ConnectTimeoutError(<HTTPConnection(host='169.254.170.76', port=8000) at 0x24ff327de50>, 'Connection to 169.254.170.76 timed out. (connect timeout=10)'))
+2026-06-24 15:34:57,056 | INFO     | Initialisation du Smart Agent...
+2026-06-24 15:34:57,136 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 15:34:57,137 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 15:34:57,138 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 15:34:57,155 | INFO     | Démarrage du Smart Agent...
+2026-06-24 15:34:57,156 | INFO     | Démarrage du scheduler...
+2026-06-24 15:34:57,164 | INFO     | Task started.
+2026-06-24 15:34:57,173 | INFO     | Scheduler démarré.
+2026-06-24 15:34:57,173 | INFO     | Task started.
+2026-06-24 15:34:57,181 | INFO     | Task started.
+2026-06-24 15:34:57,242 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:34:58,184 | INFO     | CPU : 10.9%
+2026-06-24 15:35:02,259 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:35:07,260 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:35:08,194 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/V1/logs/ingest (Caused by ConnectTimeoutError(<HTTPConnection(host='169.254.170.76', port=8000) at 0x15d61efb0e0>, 'Connection to 169.254.170.76 timed out. (connect timeout=10)'))
+2026-06-24 15:35:08,258 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/agents/heartbeat (Caused by ConnectTimeoutError(<HTTPConnection(host='169.254.170.76', port=8000) at 0x15d61f7d310>, 'Connection to 169.254.170.76 timed out. (connect timeout=10)'))
+2026-06-24 15:35:08,259 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 15:40:51,162 | INFO     | Initialisation du Smart Agent...
+2026-06-24 15:40:51,240 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 15:40:51,240 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 15:40:51,242 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 15:40:51,260 | INFO     | Démarrage du Smart Agent...
+2026-06-24 15:40:51,260 | INFO     | Démarrage du scheduler...
+2026-06-24 15:40:51,274 | INFO     | Task started.
+2026-06-24 15:40:51,276 | INFO     | Scheduler démarré.
+2026-06-24 15:40:51,289 | INFO     | Task started.
+2026-06-24 15:40:51,300 | INFO     | Task started.
+2026-06-24 15:40:51,415 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:40:52,303 | INFO     | CPU : 9.4%
+2026-06-24 15:40:54,994 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/agents/heartbeat (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 15:40:54,995 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 15:40:55,006 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/V1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 15:40:56,429 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:41:01,439 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:41:06,019 | INFO     | CPU : 9.1%
+2026-06-24 15:41:06,445 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:41:08,080 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/V1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 15:41:11,451 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:41:16,458 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:41:19,086 | INFO     | CPU : 7.0%
+2026-06-24 15:41:49,994 | INFO     | Initialisation du Smart Agent...
+2026-06-24 15:41:50,026 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 15:41:50,026 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 15:41:50,027 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 15:41:50,034 | INFO     | Démarrage du Smart Agent...
+2026-06-24 15:41:50,034 | INFO     | Démarrage du scheduler...
+2026-06-24 15:41:50,036 | INFO     | Scheduler démarré.
+2026-06-24 15:41:50,040 | INFO     | Task started.
+2026-06-24 15:41:50,044 | INFO     | Task started.
+2026-06-24 15:41:50,048 | INFO     | Task started.
+2026-06-24 15:41:50,105 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:41:51,050 | INFO     | CPU : 11.6%
+2026-06-24 15:41:53,123 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 15:41:53,157 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/agents/heartbeat (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 15:41:53,158 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 15:41:55,112 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:42:00,119 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:42:04,127 | INFO     | CPU : 7.5%
+2026-06-24 15:42:05,120 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:42:06,195 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 15:42:10,126 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:42:15,131 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:42:18,040 | INFO     | CPU : 20.0%
+2026-06-24 15:52:30,986 | INFO     | Initialisation du Smart Agent...
+2026-06-24 15:52:31,054 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 15:52:31,054 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 15:52:31,056 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 15:52:31,065 | INFO     | Démarrage du Smart Agent...
+2026-06-24 15:52:31,065 | INFO     | Démarrage du scheduler...
+2026-06-24 15:52:31,071 | INFO     | Task started.
+2026-06-24 15:52:31,077 | INFO     | Scheduler démarré.
+2026-06-24 15:52:31,077 | INFO     | Task started.
+2026-06-24 15:52:31,083 | INFO     | Task started.
+2026-06-24 15:52:31,356 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:52:32,086 | INFO     | CPU : 16.5%
+2026-06-24 15:52:34,150 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 15:52:34,406 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/agents/heartbeat (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 15:52:34,407 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 15:52:36,372 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:52:41,377 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:52:45,164 | INFO     | CPU : 8.5%
+2026-06-24 15:52:46,390 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:52:47,242 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 15:52:51,393 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:52:56,404 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:52:58,255 | INFO     | CPU : 16.4%
+2026-06-24 15:53:00,301 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 15:53:01,417 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:53:06,429 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:53:07,491 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/agents/heartbeat (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 15:53:07,492 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 15:54:07,904 | INFO     | Initialisation du Smart Agent...
+2026-06-24 15:54:07,979 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 15:54:07,979 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 15:54:07,981 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 15:54:07,996 | INFO     | Démarrage du Smart Agent...
+2026-06-24 15:54:07,996 | INFO     | Démarrage du scheduler...
+2026-06-24 15:54:08,006 | INFO     | Task started.
+2026-06-24 15:54:08,013 | INFO     | Task started.
+2026-06-24 15:54:08,014 | INFO     | Scheduler démarré.
+2026-06-24 15:54:08,022 | INFO     | Task started.
+2026-06-24 15:54:08,222 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:54:09,025 | INFO     | CPU : 11.6%
+2026-06-24 15:54:09,067 | ERROR    | 422 Client Error: Unprocessable Content for url: http://169.254.170.76:8000/api/v1/logs/ingest
+2026-06-24 15:54:09,306 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 15:54:09,307 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 15:54:13,221 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:54:18,235 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:54:20,078 | INFO     | CPU : 7.5%
+2026-06-24 15:54:21,915 | ERROR    | 422 Client Error: Unprocessable Content for url: http://169.254.170.76:8000/api/v1/logs/ingest
+2026-06-24 15:54:23,240 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:54:28,256 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:54:32,926 | INFO     | CPU : 8.4%
+2026-06-24 15:54:32,953 | ERROR    | 422 Client Error: Unprocessable Content for url: http://169.254.170.76:8000/api/v1/logs/ingest
+2026-06-24 15:54:33,266 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:54:38,271 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:54:40,396 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 15:54:40,398 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 15:54:43,278 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:54:43,950 | INFO     | CPU : 26.1%
+2026-06-24 15:54:43,974 | ERROR    | 422 Client Error: Unprocessable Content for url: http://169.254.170.76:8000/api/v1/logs/ingest
+2026-06-24 15:54:48,282 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:54:53,290 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:54:54,977 | INFO     | CPU : 37.5%
+2026-06-24 15:54:55,009 | ERROR    | 422 Client Error: Unprocessable Content for url: http://169.254.170.76:8000/api/v1/logs/ingest
+2026-06-24 15:54:58,308 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:55:03,318 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:55:06,021 | INFO     | CPU : 27.2%
+2026-06-24 15:55:06,055 | ERROR    | 422 Client Error: Unprocessable Content for url: http://169.254.170.76:8000/api/v1/logs/ingest
+2026-06-24 15:55:08,320 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:55:11,476 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 15:55:11,477 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 15:55:13,347 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:55:17,058 | INFO     | CPU : 19.1%
+2026-06-24 15:55:17,091 | ERROR    | 422 Client Error: Unprocessable Content for url: http://169.254.170.76:8000/api/v1/logs/ingest
+2026-06-24 15:55:18,351 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 15:55:23,351 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:08:38,726 | INFO     | Initialisation du Smart Agent...
+2026-06-24 16:08:38,799 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 16:08:38,800 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 16:08:38,801 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 16:08:38,819 | INFO     | Démarrage du Smart Agent...
+2026-06-24 16:08:38,820 | INFO     | Démarrage du scheduler...
+2026-06-24 16:08:38,838 | INFO     | Task started.
+2026-06-24 16:08:38,851 | INFO     | Scheduler démarré.
+2026-06-24 16:08:38,851 | INFO     | Task started.
+2026-06-24 16:08:38,869 | INFO     | Task started.
+2026-06-24 16:08:39,013 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:08:39,872 | INFO     | CPU : 18.8%
+2026-06-24 16:08:40,074 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:08:40,096 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:08:40,123 | ERROR    | 422 Client Error: Unprocessable Content for url: http://169.254.170.76:8000/api/v1/logs/ingest
+2026-06-24 16:08:44,022 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:08:49,027 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:08:51,136 | INFO     | CPU : 18.2%
+2026-06-24 16:08:51,165 | ERROR    | 422 Client Error: Unprocessable Content for url: http://169.254.170.76:8000/api/v1/logs/ingest
+2026-06-24 16:08:54,036 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:16:30,841 | INFO     | Initialisation du Smart Agent...
+2026-06-24 16:16:30,921 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 16:16:30,921 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 16:16:30,922 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 16:16:30,931 | INFO     | Démarrage du Smart Agent...
+2026-06-24 16:16:30,931 | INFO     | Démarrage du scheduler...
+2026-06-24 16:16:30,938 | INFO     | Task started.
+2026-06-24 16:16:30,942 | INFO     | Scheduler démarré.
+2026-06-24 16:16:30,943 | INFO     | Task started.
+2026-06-24 16:16:30,947 | INFO     | Task started.
+2026-06-24 16:16:31,018 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:16:31,949 | INFO     | CPU : 16.6%
+2026-06-24 16:16:32,077 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:16:32,117 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:16:32,118 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:16:36,023 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:16:41,029 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:16:43,084 | INFO     | CPU : 25.0%
+2026-06-24 16:16:43,208 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:16:46,039 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:16:51,040 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:16:54,214 | INFO     | CPU : 51.1%
+2026-06-24 16:16:54,318 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:16:56,045 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:17:01,110 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:17:01,231 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:17:03,195 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:17:03,196 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:17:05,331 | INFO     | CPU : 8.7%
+2026-06-24 16:17:05,457 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:17:06,271 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:17:06,377 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:17:11,412 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:17:11,504 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:17:16,457 | INFO     | CPU : 6.4%
+2026-06-24 16:17:16,539 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:17:17,551 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:17:17,617 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:17:22,652 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:17:22,682 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10065] Une opération a été tentée sur un hôte impossible à atteindre"))
+2026-06-24 16:17:22,716 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10065] Une opération a été tentée sur un hôte impossible à atteindre"))
+2026-06-24 16:17:27,762 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:17:27,869 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:17:27,967 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:17:28,565 | INFO     | CPU : 27.3%
+2026-06-24 16:17:28,658 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:17:33,009 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:17:33,125 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:17:34,274 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:17:34,275 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:17:38,174 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:17:38,274 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:17:39,665 | INFO     | CPU : 14.6%
+2026-06-24 16:17:39,766 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:17:43,317 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:17:43,418 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:17:43,510 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:17:48,578 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:17:48,693 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:17:48,791 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:17:50,768 | INFO     | CPU : 7.6%
+2026-06-24 16:17:50,878 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:17:53,833 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:17:53,933 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:17:54,033 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:17:59,079 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:17:59,195 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:01,926 | INFO     | CPU : 36.2%
+2026-06-24 16:18:02,010 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:04,231 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:18:04,360 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:04,450 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:05,371 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:18:05,373 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:18:09,494 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:18:09,592 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:13,022 | INFO     | CPU : 12.0%
+2026-06-24 16:18:13,117 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:14,633 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:18:14,739 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:19,786 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:18:19,890 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:19,984 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:24,130 | INFO     | CPU : 40.5%
+2026-06-24 16:18:24,211 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:25,026 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:18:25,166 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:30,208 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:18:30,318 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:30,423 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:35,224 | INFO     | CPU : 9.6%
+2026-06-24 16:18:35,326 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:35,463 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:18:35,570 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:36,474 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:18:36,475 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:18:40,606 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:18:40,716 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:45,765 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:18:45,879 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:46,345 | INFO     | CPU : 9.2%
+2026-06-24 16:18:46,463 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:50,916 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:18:51,001 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:51,103 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:56,136 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:18:56,231 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:56,351 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:18:57,468 | INFO     | CPU : 25.4%
+2026-06-24 16:18:57,560 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:01,394 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:19:01,478 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:06,513 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:19:06,605 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:06,701 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:07,563 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:19:07,564 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:19:08,561 | INFO     | CPU : 22.3%
+2026-06-24 16:19:08,671 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:11,758 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:19:11,848 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:11,917 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:16,951 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:19:17,052 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:19,674 | INFO     | CPU : 20.0%
+2026-06-24 16:19:19,777 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:22,092 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:19:22,183 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:27,226 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:19:27,343 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:30,785 | INFO     | CPU : 7.6%
+2026-06-24 16:19:30,889 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:32,378 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:19:32,484 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:32,586 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:37,623 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:19:37,733 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:38,650 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:19:38,651 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:19:41,893 | INFO     | CPU : 31.9%
+2026-06-24 16:19:41,990 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:42,781 | INFO     | 3 nouveaux événements collectés.
+2026-06-24 16:19:42,877 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:42,987 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:43,094 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:48,120 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:19:48,215 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:52,996 | INFO     | CPU : 19.2%
+2026-06-24 16:19:53,091 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:53,249 | INFO     | 3 nouveaux événements collectés.
+2026-06-24 16:19:53,357 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:53,448 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:53,560 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:19:58,596 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:19:58,701 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:03,753 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:20:03,842 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:04,101 | INFO     | CPU : 13.3%
+2026-06-24 16:20:04,213 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:08,880 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:20:08,993 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:09,741 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:20:09,743 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:20:14,040 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:20:14,134 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:15,230 | INFO     | CPU : 11.9%
+2026-06-24 16:20:15,330 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:19,181 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:20:19,294 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:24,328 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:20:24,427 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:24,524 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:26,333 | INFO     | CPU : 22.5%
+2026-06-24 16:20:26,451 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:29,542 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:20:29,634 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:34,654 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:20:34,762 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:34,846 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:37,456 | INFO     | CPU : 13.2%
+2026-06-24 16:20:37,563 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:39,867 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:20:39,959 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:40,821 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:20:40,823 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:20:44,981 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:20:45,079 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:48,578 | INFO     | CPU : 14.2%
+2026-06-24 16:20:48,703 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:50,126 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:20:50,245 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:55,297 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:20:55,414 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:55,509 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:20:59,713 | INFO     | CPU : 6.2%
+2026-06-24 16:20:59,812 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:00,561 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:21:00,665 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:05,715 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:21:05,810 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:10,815 | INFO     | CPU : 4.7%
+2026-06-24 16:21:10,852 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:21:10,918 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:10,943 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:11,048 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:11,918 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:21:11,919 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:21:16,099 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:21:16,189 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:16,285 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:21,325 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:21:21,419 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:21,929 | INFO     | CPU : 8.9%
+2026-06-24 16:21:22,024 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:26,462 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:21:26,571 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:26,649 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:31,690 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:21:31,784 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:33,035 | INFO     | CPU : 6.4%
+2026-06-24 16:21:33,135 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:36,826 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:21:37,929 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:42,971 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:21:43,008 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:21:43,009 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:21:43,056 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:43,153 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:44,135 | INFO     | CPU : 10.2%
+2026-06-24 16:21:44,234 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:48,197 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:21:48,298 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:48,401 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:53,452 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:21:53,556 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:53,652 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:55,233 | INFO     | CPU : 3.3%
+2026-06-24 16:21:55,336 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:21:58,696 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:21:58,795 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:03,843 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:22:03,945 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:06,343 | INFO     | CPU : 9.3%
+2026-06-24 16:22:06,471 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:09,006 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:22:09,116 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:09,228 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:14,092 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:22:14,093 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:22:14,267 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:22:14,362 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:14,470 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:17,484 | INFO     | CPU : 10.5%
+2026-06-24 16:22:17,579 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:19,509 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:22:19,622 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:24,663 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:22:24,761 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:24,841 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:28,583 | INFO     | CPU : 2.2%
+2026-06-24 16:22:28,702 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:29,881 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:22:29,975 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:35,022 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:22:35,122 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:35,202 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:39,713 | INFO     | CPU : 7.5%
+2026-06-24 16:22:39,810 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:40,248 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:22:40,348 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:40,449 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:45,200 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:22:45,201 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:22:45,502 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:22:45,599 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:50,647 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:22:50,747 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:50,824 | INFO     | CPU : 10.1%
+2026-06-24 16:22:50,923 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:22:55,784 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:22:55,866 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:23:00,895 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:23:00,977 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:23:01,065 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:23:01,926 | INFO     | CPU : 14.8%
+2026-06-24 16:23:02,021 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:23:06,095 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:23:06,183 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:23:06,267 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:23:11,305 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:23:11,394 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:23:11,478 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:23:13,025 | INFO     | CPU : 7.0%
+2026-06-24 16:23:13,130 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:23:16,263 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:23:16,264 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:23:16,533 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:23:16,648 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:23:21,689 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:23:24,133 | INFO     | CPU : 3.9%
+2026-06-24 16:23:47,347 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:23:51,642 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:23:51,727 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:23:51,743 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:23:51,854 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:26:26,069 | INFO     | Initialisation du Smart Agent...
+2026-06-24 16:26:26,130 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 16:26:26,130 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 16:26:26,130 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 16:26:26,146 | INFO     | Démarrage du Smart Agent...
+2026-06-24 16:26:26,146 | INFO     | Démarrage du scheduler...
+2026-06-24 16:26:26,156 | INFO     | Task started.
+2026-06-24 16:26:26,162 | INFO     | Task started.
+2026-06-24 16:26:26,163 | INFO     | Scheduler démarré.
+2026-06-24 16:26:26,172 | INFO     | Task started.
+2026-06-24 16:26:26,298 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:26:27,174 | INFO     | CPU : 23.8%
+2026-06-24 16:26:27,310 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:26:27,337 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:26:27,338 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:26:31,312 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:26:36,360 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:26:36,457 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:26:36,553 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:26:38,321 | INFO     | CPU : 26.2%
+2026-06-24 16:26:38,425 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:26:41,598 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:26:41,686 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:26:46,730 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:26:46,812 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:26:49,428 | INFO     | CPU : 5.8%
+2026-06-24 16:26:49,510 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:26:51,857 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:26:51,938 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:26:56,970 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:26:57,062 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:26:57,175 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:26:58,419 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:26:58,420 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:27:00,517 | INFO     | CPU : 5.8%
+2026-06-24 16:27:00,617 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:02,214 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:27:02,312 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:07,350 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:27:07,461 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:11,628 | INFO     | CPU : 8.5%
+2026-06-24 16:27:11,742 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:12,499 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:27:12,582 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:12,678 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:17,726 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:27:17,837 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:22,747 | INFO     | CPU : 22.3%
+2026-06-24 16:27:22,842 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:22,881 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:27:22,979 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:23,089 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:28,128 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:27:28,239 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:28,320 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:29,486 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:27:29,486 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:27:33,353 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:27:33,454 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:33,849 | INFO     | CPU : 13.6%
+2026-06-24 16:27:33,945 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:38,491 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:27:38,600 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:43,646 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:27:43,722 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:43,829 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:44,951 | INFO     | CPU : 5.1%
+2026-06-24 16:27:45,035 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:48,851 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:27:48,922 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:53,942 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:27:54,035 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:56,044 | INFO     | CPU : 32.7%
+2026-06-24 16:27:56,136 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:59,080 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:27:59,179 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:27:59,275 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:28:00,567 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:28:00,568 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:28:04,318 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:28:04,399 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:28:04,480 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:28:07,152 | INFO     | CPU : 41.1%
+2026-06-24 16:28:07,251 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:28:09,528 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:28:09,635 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:28:14,682 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:28:14,787 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:28:18,262 | INFO     | CPU : 3.3%
+2026-06-24 16:28:18,370 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:28:19,831 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:28:19,919 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:28:24,971 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:28:25,071 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:28:25,144 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:28:29,379 | INFO     | CPU : 7.8%
+2026-06-24 16:28:29,474 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:28:30,181 | INFO     | 3 nouveaux événements collectés.
+2026-06-24 16:28:30,263 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:28:30,359 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:28:30,471 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:28:34,224 | INFO     | Initialisation du Smart Agent...
+2026-06-24 16:28:34,305 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 16:28:34,305 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 16:28:34,307 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 16:28:34,324 | INFO     | Démarrage du Smart Agent...
+2026-06-24 16:28:34,325 | INFO     | Démarrage du scheduler...
+2026-06-24 16:28:34,337 | INFO     | Task started.
+2026-06-24 16:28:34,347 | INFO     | Scheduler démarré.
+2026-06-24 16:28:34,347 | INFO     | Task started.
+2026-06-24 16:28:34,358 | INFO     | Task started.
+2026-06-24 16:28:34,662 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:28:35,361 | INFO     | CPU : 9.6%
+2026-06-24 16:28:35,468 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:28:35,706 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:28:35,708 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:28:39,694 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:28:39,801 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:29:35,799 | INFO     | Initialisation du Smart Agent...
+2026-06-24 16:29:35,860 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 16:29:35,861 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 16:29:35,862 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 16:29:35,875 | INFO     | Démarrage du Smart Agent...
+2026-06-24 16:29:35,876 | INFO     | Démarrage du scheduler...
+2026-06-24 16:29:35,884 | INFO     | Task started.
+2026-06-24 16:29:35,891 | INFO     | Task started.
+2026-06-24 16:29:35,891 | INFO     | Scheduler démarré.
+2026-06-24 16:29:35,898 | INFO     | Task started.
+2026-06-24 16:29:36,034 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:29:36,900 | INFO     | CPU : 19.7%
+2026-06-24 16:29:37,018 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:29:37,081 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:29:37,082 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:29:41,064 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:29:41,169 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:29:46,224 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:29:46,330 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:29:48,023 | INFO     | CPU : 2.5%
+2026-06-24 16:29:48,105 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:29:51,363 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:29:51,463 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:29:51,559 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:29:56,603 | INFO     | 3 nouveaux événements collectés.
+2026-06-24 16:29:56,698 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:29:56,779 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:29:56,858 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:29:59,118 | INFO     | CPU : 2.3%
+2026-06-24 16:29:59,207 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:30:01,895 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:30:02,006 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:41:03,633 | INFO     | Initialisation du Smart Agent...
+2026-06-24 16:41:03,710 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 16:41:03,711 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 16:41:03,712 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 16:41:03,730 | INFO     | Démarrage du Smart Agent...
+2026-06-24 16:41:03,731 | INFO     | Démarrage du scheduler...
+2026-06-24 16:41:03,742 | INFO     | Task started.
+2026-06-24 16:41:03,743 | INFO     | Scheduler démarré.
+2026-06-24 16:41:03,752 | INFO     | Task started.
+2026-06-24 16:41:03,764 | INFO     | Task started.
+2026-06-24 16:41:04,052 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:41:04,766 | INFO     | CPU : 8.7%
+2026-06-24 16:41:04,891 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:41:05,101 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:41:05,102 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:41:09,050 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:41:14,087 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:41:14,200 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:41:15,905 | INFO     | CPU : 8.6%
+2026-06-24 16:41:16,013 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:41:19,254 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:41:19,332 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:41:24,367 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:41:24,449 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:41:27,032 | INFO     | CPU : 3.1%
+2026-06-24 16:41:27,131 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:41:29,489 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:41:29,570 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:41:34,623 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:41:34,721 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:41:34,803 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:41:36,174 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:41:36,175 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:41:38,143 | INFO     | CPU : 3.5%
+2026-06-24 16:41:38,243 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:41:39,841 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:41:39,939 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:41:44,989 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:41:45,098 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:41:45,212 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:41:49,249 | INFO     | CPU : 3.3%
+2026-06-24 16:41:49,365 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:41:50,248 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:41:50,332 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:41:55,383 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:41:55,481 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:41:55,595 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:00,375 | INFO     | CPU : 4.1%
+2026-06-24 16:42:00,476 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:00,635 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:42:00,720 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:00,821 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:05,860 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:42:05,940 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:07,249 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:42:07,250 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:42:10,978 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:42:11,075 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:11,493 | INFO     | CPU : 7.4%
+2026-06-24 16:42:11,576 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:16,128 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:42:16,225 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:21,263 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:42:21,344 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:22,585 | INFO     | CPU : 3.7%
+2026-06-24 16:42:22,668 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:26,381 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:42:26,463 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:26,576 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:31,603 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:42:31,680 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:33,678 | INFO     | CPU : 7.3%
+2026-06-24 16:42:33,779 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:36,735 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:42:36,827 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:38,327 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:42:38,328 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:42:41,875 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:42:41,962 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:42,058 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:44,783 | INFO     | CPU : 5.6%
+2026-06-24 16:42:44,870 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:47,108 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:42:47,182 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:47,271 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:52,299 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:42:52,383 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:52,472 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:55,876 | INFO     | CPU : 6.6%
+2026-06-24 16:42:55,975 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:42:57,520 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:42:57,634 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:02,673 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:43:02,770 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:06,984 | INFO     | CPU : 5.3%
+2026-06-24 16:43:07,097 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:07,809 | INFO     | 3 nouveaux événements collectés.
+2026-06-24 16:43:07,905 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:08,017 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:08,112 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:09,415 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:43:09,416 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:43:13,165 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:43:13,281 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:18,110 | INFO     | CPU : 5.8%
+2026-06-24 16:43:18,209 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:18,319 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:43:18,418 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:23,466 | INFO     | 3 nouveaux événements collectés.
+2026-06-24 16:43:23,541 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:23,620 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:23,733 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:28,773 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:43:28,870 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:28,983 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:29,223 | INFO     | CPU : 8.1%
+2026-06-24 16:43:29,317 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:34,023 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:43:34,121 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:39,161 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:43:39,241 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:39,338 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:40,337 | INFO     | CPU : 4.1%
+2026-06-24 16:43:40,437 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:40,516 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:43:40,517 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:43:44,392 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:43:44,500 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:44,595 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:49,636 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:43:49,716 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:51,444 | INFO     | CPU : 3.5%
+2026-06-24 16:43:51,544 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:54,761 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:43:54,864 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:43:59,903 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:44:00,000 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:02,552 | INFO     | CPU : 2.4%
+2026-06-24 16:44:02,643 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:05,043 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:44:05,140 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:05,238 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:10,281 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:44:10,391 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:10,471 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:11,583 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:44:11,584 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:44:13,648 | INFO     | CPU : 4.1%
+2026-06-24 16:44:13,734 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:15,513 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:44:15,868 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:20,909 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:44:21,021 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:24,740 | INFO     | CPU : 3.9%
+2026-06-24 16:44:24,828 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:26,658 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:44:26,776 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:31,817 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:44:31,930 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:32,027 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:35,847 | INFO     | CPU : 3.8%
+2026-06-24 16:44:35,953 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:37,073 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:44:37,170 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:37,250 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:42,300 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:44:42,385 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:42,655 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:44:42,656 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:44:47,062 | INFO     | CPU : 15.0%
+2026-06-24 16:44:47,145 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:47,425 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:44:47,510 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:47,621 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:52,657 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:44:52,756 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:57,888 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:44:57,973 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:44:58,161 | INFO     | CPU : 5.7%
+2026-06-24 16:44:58,248 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:03,046 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:45:03,143 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:03,239 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:08,288 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:45:08,396 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:08,469 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:09,262 | INFO     | CPU : 24.3%
+2026-06-24 16:45:09,351 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:13,506 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:45:13,583 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:13,664 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:13,722 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:45:13,723 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:45:18,705 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:45:18,788 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:20,357 | INFO     | CPU : 8.8%
+2026-06-24 16:45:20,456 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:23,865 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:45:23,959 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:24,036 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:29,083 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:45:29,177 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:31,466 | INFO     | CPU : 4.8%
+2026-06-24 16:45:31,547 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:34,214 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:45:34,312 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:34,408 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:39,450 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:45:39,529 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:39,624 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:42,559 | INFO     | CPU : 22.6%
+2026-06-24 16:45:42,642 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:44,669 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:45:44,760 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:44,807 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:45:44,808 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:45:49,809 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:45:49,905 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:50,001 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:53,653 | INFO     | CPU : 7.5%
+2026-06-24 16:45:53,735 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:45:55,050 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:45:55,147 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:46:00,187 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:46:00,287 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:46:00,380 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:46:04,740 | INFO     | CPU : 8.7%
+2026-06-24 16:46:04,823 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:46:05,421 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:46:05,505 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:46:05,590 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:46:10,642 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:46:10,739 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:46:15,781 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:46:15,839 | INFO     | CPU : 12.6%
+2026-06-24 16:46:15,871 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:46:15,887 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:46:15,888 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:46:15,908 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:46:20,912 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:46:21,006 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:46:26,044 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:46:26,911 | INFO     | CPU : 5.1%
+2026-06-24 16:46:28,068 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 16:46:28,960 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 16:46:30,141 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 16:46:35,186 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:46:35,300 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:46:35,414 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:46:39,977 | INFO     | CPU : 2.9%
+2026-06-24 16:46:40,157 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:46:40,463 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:46:40,560 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:46:40,659 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:46:45,708 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:46:45,811 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:46:46,958 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:46:46,960 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:46:50,855 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:46:50,968 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:46:51,159 | INFO     | CPU : 7.2%
+2026-06-24 16:46:51,274 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:46:56,002 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:46:56,095 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:47:01,147 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:47:01,244 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:47:02,292 | INFO     | CPU : 9.6%
+2026-06-24 16:47:02,398 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:47:06,292 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:47:06,388 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:51:19,071 | INFO     | Initialisation du Smart Agent...
+2026-06-24 16:51:19,101 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 16:51:19,101 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 16:51:19,102 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 16:51:19,109 | INFO     | Démarrage du Smart Agent...
+2026-06-24 16:51:19,109 | INFO     | Démarrage du scheduler...
+2026-06-24 16:51:19,114 | INFO     | Task started.
+2026-06-24 16:51:19,114 | INFO     | Scheduler démarré.
+2026-06-24 16:51:19,123 | INFO     | Task started.
+2026-06-24 16:51:19,123 | INFO     | Task started.
+2026-06-24 16:51:19,406 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:51:20,125 | INFO     | CPU : 11.4%
+2026-06-24 16:51:20,257 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:51:20,431 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:51:20,432 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:51:24,440 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:51:24,542 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:51:29,588 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:51:29,663 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:51:31,275 | INFO     | CPU : 2.1%
+2026-06-24 16:51:31,377 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:51:34,702 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:51:34,802 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:51:34,897 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:51:39,941 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:51:40,037 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:51:42,393 | INFO     | CPU : 8.1%
+2026-06-24 16:51:42,506 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:51:45,074 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:51:45,187 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:51:45,283 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:51:50,307 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:51:50,399 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:51:51,514 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:51:51,515 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:51:53,524 | INFO     | CPU : 7.0%
+2026-06-24 16:51:53,639 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:51:55,449 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:51:55,530 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:52:00,584 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:52:00,688 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:52:04,656 | INFO     | CPU : 4.3%
+2026-06-24 16:52:04,764 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:52:05,722 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:52:05,837 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:52:10,880 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:52:10,970 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:52:11,071 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:52:15,771 | INFO     | CPU : 14.8%
+2026-06-24 16:52:15,864 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:52:16,111 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:52:16,197 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:55:07,572 | INFO     | Initialisation du Smart Agent...
+2026-06-24 16:55:07,618 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 16:55:07,619 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 16:55:07,619 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 16:55:07,629 | INFO     | Démarrage du Smart Agent...
+2026-06-24 16:55:07,629 | INFO     | Démarrage du scheduler...
+2026-06-24 16:55:07,637 | INFO     | Task started.
+2026-06-24 16:55:07,638 | INFO     | Scheduler démarré.
+2026-06-24 16:55:07,651 | INFO     | Task started.
+2026-06-24 16:55:07,651 | INFO     | Task started.
+2026-06-24 16:55:07,938 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:55:08,656 | INFO     | CPU : 14.1%
+2026-06-24 16:55:10,742 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 16:55:11,001 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/agents/heartbeat (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 16:55:11,002 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:55:12,972 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:55:15,042 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-06-24 16:55:15,673 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:55:20,731 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:55:20,830 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:55:20,910 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:55:21,749 | INFO     | CPU : 5.7%
+2026-06-24 16:55:21,831 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:55:25,965 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:55:26,072 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:55:26,185 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:55:31,226 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:55:31,323 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:55:32,839 | INFO     | CPU : 5.8%
+2026-06-24 16:55:32,922 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:55:36,361 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:55:36,475 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:55:36,589 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:55:41,628 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:55:41,719 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:55:41,814 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:55:42,086 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:55:42,087 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:55:43,925 | INFO     | CPU : 2.9%
+2026-06-24 16:55:44,022 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:55:46,836 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:55:46,930 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:55:51,953 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:55:52,067 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:55:52,141 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:55:55,025 | INFO     | CPU : 3.3%
+2026-06-24 16:55:55,107 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:55:57,190 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:55:57,304 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:56:02,353 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:56:02,465 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:56:06,112 | INFO     | CPU : 67.7%
+2026-06-24 16:56:06,138 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10065] Une opération a été tentée sur un hôte impossible à atteindre"))
+2026-06-24 16:56:07,513 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:56:07,529 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10065] Une opération a été tentée sur un hôte impossible à atteindre"))
+2026-06-24 16:56:12,576 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:56:13,514 | ERROR    | ('Connection aborted.', ConnectionResetError(10054, 'Une connexion existante a dû être fermée par l’hôte distant', None, 10054, None))
+2026-06-24 16:56:13,514 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/agents/heartbeat (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10053] Une connexion établie a été abandonnée par un logiciel de votre ordinateur hôte"))
+2026-06-24 16:56:13,520 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:56:13,549 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10065] Une opération a été tentée sur un hôte impossible à atteindre"))
+2026-06-24 16:58:06,502 | INFO     | Initialisation du Smart Agent...
+2026-06-24 16:58:06,561 | INFO     | Tâche enregistrée : Heartbeat
+2026-06-24 16:58:06,562 | INFO     | Tâche enregistrée : LogsCollector
+2026-06-24 16:58:06,563 | INFO     | Tâche enregistrée : CPUCollector
+2026-06-24 16:58:06,577 | INFO     | Démarrage du Smart Agent...
+2026-06-24 16:58:06,578 | INFO     | Démarrage du scheduler...
+2026-06-24 16:58:06,581 | INFO     | Scheduler démarré.
+2026-06-24 16:58:06,589 | INFO     | Task started.
+2026-06-24 16:58:06,596 | INFO     | Task started.
+2026-06-24 16:58:06,602 | INFO     | Task started.
+2026-06-24 16:58:06,854 | INFO     | 0 nouveaux événements collectés.
+2026-06-24 16:58:07,607 | INFO     | CPU : 20.4%
+2026-06-24 16:58:07,616 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10065] Une opération a été tentée sur un hôte impossible à atteindre"))
+2026-06-24 16:58:07,857 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/agents/heartbeat (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10065] Une opération a été tentée sur un hôte impossible à atteindre"))
+2026-06-24 16:58:07,858 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:58:11,890 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:58:11,905 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10065] Une opération a été tentée sur un hôte impossible à atteindre"))
+2026-06-24 16:58:11,921 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10065] Une opération a été tentée sur un hôte impossible à atteindre"))
+2026-06-24 16:58:17,030 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:58:17,037 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10065] Une opération a été tentée sur un hôte impossible à atteindre"))
+2026-06-24 16:58:18,633 | INFO     | CPU : 14.0%
+2026-06-24 16:58:18,642 | ERROR    | HTTPConnectionPool(host='169.254.170.76', port=8000): Max retries exceeded with url: /api/v1/logs/ingest (Caused by NewConnectionError("HTTPConnection(host='169.254.170.76', port=8000): Failed to establish a new connection: [WinError 10065] Une opération a été tentée sur un hôte impossible à atteindre"))
+2026-06-24 16:58:22,080 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:58:22,983 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:58:28,039 | INFO     | 2 nouveaux événements collectés.
+2026-06-24 16:58:28,142 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:58:28,248 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:58:29,651 | INFO     | CPU : 19.8%
+2026-06-24 16:58:29,760 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:58:33,291 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:58:33,387 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:58:38,437 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:58:38,702 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:58:38,929 | ERROR    | 404 Client Error: Not Found for url: http://169.254.170.76:8000/api/agents/heartbeat
+2026-06-24 16:58:38,930 | ERROR    | Impossible d'envoyer le heartbeat.
+2026-06-24 16:58:40,767 | INFO     | CPU : 10.1%
+2026-06-24 16:58:40,845 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-06-24 16:58:43,720 | INFO     | 1 nouveaux événements collectés.
+2026-06-24 16:58:43,799 | INFO     | POST /api/v1/logs/ingest -> 200
