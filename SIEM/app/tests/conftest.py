@@ -1,38 +1,60 @@
 # app/tests/conftest.py
 # -------------------------------
-# Configuration des fixtures pytest pour les tests
-#
-# Ce que tu dois mettre ici :
-#
-#   import pytest
-#   from httpx import AsyncClient, ASGITransport
-#   from app.main import app
-#   from app.core.elasticsearch import get_es, ElasticsearchClient
-#   from app.repositories.user_repo import UserRepository
-#   from app.core.security import hash_password
-#
-#   @pytest.fixture(scope="session")
-#   def es_client():
-#       """Connexion Elasticsearch pour les tests."""
-#       pass
-#
-#   @pytest.fixture
-#   async def clean_index(es_client):
-#       """Nettoie les index de test après chaque test."""
-#       pass
-#
-#   @pytest.fixture
-#   async def client():
-#       """Client HTTP de test."""
-#       async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
-#           yield ac
-#
-#   @pytest.fixture
-#   async def test_user(es_client):
-#       """Crée un utilisateur de test dans ES."""
-#       pass
-#
-#   @pytest.fixture
-#   async def auth_headers(test_user):
-#       """Génère les headers d'authentification JWT."""
-#       pass
+# Fixtures pytest partagées
+
+import pytest
+from datetime import datetime, timezone
+
+
+@pytest.fixture
+def sample_log_minimal():
+    """Un log minimal (juste le message)."""
+    return {"raw_message": "Test event"}
+
+
+@pytest.fixture
+def sample_log_complete():
+    """Un log complet au format SIEM."""
+    return {
+        "timestamp": datetime.now(timezone.utc),
+        "source_ip": "192.168.1.10",
+        "host": "server-01",
+        "log_type": "auth",
+        "severity": "error",
+        "raw_message": "Failed password for admin from 10.0.0.5",
+    }
+
+
+@pytest.fixture
+def sample_log_agent():
+    """Un log au format agent."""
+    return {
+        "event_id": "test-uuid-123",
+        "timestamp": "2026-06-24T15:29:56.602735+00:00",
+        "agent_id": "AGENT-001",
+        "hostname": "PC-SOPHIE",
+        "operating_system": "Windows",
+        "severity": "INFO",
+        "collector": "LogsCollector",
+        "event_type": "system_log",
+        "message": "Port 3389 ouvert",
+        "data": {"file": "test.log"},
+    }
+
+
+@pytest.fixture
+def admin_user_dict():
+    """Un utilisateur admin typique."""
+    return {
+        "id": 1,
+        "username": "admin",
+        "email": "admin@siem.local",
+        "password_hash": "$2b$12$dummyhash",
+        "role": "administrateur",
+        "perimeter": [],
+        "mfa_enabled": False,
+        "mfa_secret": None,
+        "is_active": True,
+        "last_login": None,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }

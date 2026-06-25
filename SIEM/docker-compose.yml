@@ -1,22 +1,23 @@
 # ============================================================
 # Smart SIEM - docker-compose.yml
 # ============================================================
-# Orchestration des services Docker
+# Services Docker :
+#   kibana : Visualisation Elasticsearch (port 5601)
 #
-# Services :
-#   api          : Application FastAPI (backend principal)
-#   worker       : Worker Celery pour le traitement asynchrone
-#   beat         : Planificateur Celery Beat
-#   flower       : Interface de monitoring Celery (port 5555)
-#   elasticsearch: Moteur de recherche et stockage (port 9200)
-#   kibana       : Visualisation Elasticsearch (port 5601)
-#   redis        : Cache et file d'attente (port 6379)
-#   logstash     : Pipeline de collecte et transformation de logs
-#   nginx        : Reverse proxy sécurisé (ports 80, 443)
-#
-# Volumes :
-#   elasticsearch_data:
-#   redis_data:
-#
-# Réseau :
-#   siem-network (driver: bridge)
+# Note : Elasticsearch est deja lance sur Docker Desktop (port 9200).
+#        Kibana se connecte via host.docker.internal.
+
+services:
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    container_name: siem-kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://host.docker.internal:9200
+    ports:
+      - "5601:5601"
+    networks:
+      - siem-network
+
+networks:
+  siem-network:
+    driver: bridge
