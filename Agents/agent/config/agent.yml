@@ -11,7 +11,7 @@ server:
 
   protocol: http
 
-  host: 169.254.170.76       #192.168.1.198
+  host: 192.168.1.198         #169.254.170.76       
 
   port: 8000
 
@@ -51,15 +51,15 @@ collectors:
 
   cpu: true
 
-  memory: false
+  memory: true
 
-  process: false
+  process: true
 
-  network: false
+  network: true
 
   filesystem: false
 
-  services: false
+  services: true
 
 
 
@@ -68,15 +68,13 @@ logs:
   paths:
 
     linux:
-
       - /var/log/syslog
-
       - /var/log/auth.log
 
     windows:
-      #- "C:\\Windows\\System32\\winevt\\Logs\\Application.evtx"
-      #- "C:\\Windows\\System32\\winevt\\Logs\\System.evtx"
-      #- C:\Windows\System32\winevt\Logs\Security.evtx
+      - "C:\\Windows\\System32\\winevt\\Logs\\Application.evtx"
+      - "C:\\Windows\\System32\\winevt\\Logs\\System.evtx"
+      - C:\Windows\System32\winevt\Logs\Security.evtx
       - "D:\\Promo X2028\\X3\\Projet Intégrateur\\Realisation\\Projet-Int-grateur-Smart-SIEM\\Agents\\agent\\logs\\test.log"
 
   read_from_end: true
@@ -89,6 +87,50 @@ cpu:
 
   alert_threshold: 90
 
+
+memory:
+
+  interval: 10
+
+  alert_threshold: 90
+
+
+process:
+  interval: 15
+
+  top_processes: 20
+
+
+network:
+  interval: 30
+
+  max_connections: 50
+
+
+services:
+  interval: 60
+
+  max_services: 100
+
+  monitor_only_critical: true
+
+  critical:
+
+    windows:
+
+      - WinDefend
+      - EventLog
+      - W32Time
+      - TermService
+
+    linux:
+
+      - ssh.service
+      - apache2.service
+      - nginx.service
+      - mysql.service
+      - docker.service
+      - filebeat.service
 
 
 

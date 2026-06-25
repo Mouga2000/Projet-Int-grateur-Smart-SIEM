@@ -134,11 +134,18 @@ from heartbeat import HeartbeatService
 from collectors.logs import LogsCollector
 from communication import CommunicationClient
 from collectors.cpu import CPUCollector
+from collectors.memory import MemoryCollector
+from collectors.process import ProcessCollector
+from collectors.network import NetworkCollector
+from collectors.services import ServicesCollector
 
 
 
 log =  AgentLogger()
 logger = log.get_logger()
+
+url_event = "/api/events"
+
 
 
 class SmartAgent:
@@ -152,6 +159,10 @@ class SmartAgent:
         self.logs_collector = LogsCollector()
         self.configure_tasks()
         self.cpu_collector = CPUCollector()
+        self.memory_collector = MemoryCollector()
+        self.process_collector = ProcessCollector()
+        self.network_collector = NetworkCollector()
+        self.services_collector = ServicesCollector()
 
 
 
@@ -187,6 +198,43 @@ class SmartAgent:
             )
         )
 
+        self.scheduler.register(
+            ScheduledTask(
+                name="MemoryCollector",
+
+                interval=10,
+                callback=self.collect_memory
+            )
+        )
+        """
+        self.scheduler.register(
+            ScheduledTask(
+                name="ProcessCollector",
+
+                interval=15,
+                callback=self.collect_processes
+            )
+        )
+
+        self.scheduler.register(
+            ScheduledTask(
+                name="NetworkCollector",
+
+                interval=30,
+                callback=self.collect_network
+            )
+        )
+        """
+        self.scheduler.register(
+            ScheduledTask(
+                name="ServicesCollector",
+
+                interval=15,        #60 normal
+                callback=self.collect_services
+            )
+        )
+
+        
 
 
     def collect_logs(self):
@@ -195,13 +243,11 @@ class SmartAgent:
 
         for event in events:
             self.client.post(
-                #"/api/events",
-                "/api/v1/logs/ingest",
+                url_event,
+                #"/api/v1/logs/ingest",
                 event.to_dict()
             )
-            print("="*50)
-            print(event.to_dict())
-
+            
 
     def collect_cpu(self):
         events = self.cpu_collector.collect()
@@ -209,12 +255,53 @@ class SmartAgent:
         for event in events:
             self.client.post(
 
-                #"/api/events",
-                "/api/v1/logs/ingest",
+                url_event,
+                #"/api/v1/logs/ingest",
                 event.to_dict()
             )
-            print("="*50)
-            print(event.to_dict())
+
+
+
+    def collect_memory(self):
+        events = self.memory_collector.collect()
+
+        for event in events:
+            self.client.post(
+                url_event,
+                event.to_dict()
+            )
+
+
+    def collect_processes(self):
+        events = self.process_collector.collect()
+
+        for event in events:
+            self.client.post(
+                url_event,
+                event.to_dict()
+            )
+
+    
+    def collect_network(self):
+        events = self.network_collector.collect()
+
+        for event in events:
+            self.client.post(
+                url_event,
+                event.to_dict()
+            )
+
+
+    def collect_services(self):
+        events = self.services_collector.collect()
+
+        for event in events:
+            self.client.post(
+                url_event,
+                event.to_dict()
+            )
+
+
 
 
 
