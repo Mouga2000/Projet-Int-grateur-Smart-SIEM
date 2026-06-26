@@ -60,8 +60,11 @@ SIEM/
 ├── .gitignore                   # Fichiers/dossiers exclus de Git
 ├── requirements.txt             # Dépendances Python
 ├── docker-compose.yml           # Orchestration Docker
-├── Dockerfile.api               # Image Docker de l'API
-├── Dockerfile.worker            # Image Docker du worker Celery
+├── Dockerfile                   # Image Docker de l'API (finalisé)
+├── Dockerfile.api               # ⏳ Template (inutilisé)
+├── Dockerfile.worker            # ⏳ Template (pour Celery plus tard)
+├── .dockerignore                # ✅ Exclusions build Docker
+├── docker-compose.yml           # ✅ API conteneurisée (+ labels Traefik)
 ├── alembic.ini                  # Configuration migrations
 ├── README.md                    # Cette documentation
 │
@@ -79,6 +82,8 @@ SIEM/
 │   │   ├── dependencies.py      # ✅ get_current_user (PG), require_role, require_permissions
 │   │   ├── middleware.py        # ⏳ CORS, TrustedHost, logging, rate limiting
 │   │   └── v1/                  # Routes API version 1
+│   │       ├── admin.py         # ✅ POST /admin/purge/logs, /admin/purge/audit (retention)
+│   │       ├── archive.py       # ✅ POST /admin/archive/create, /verify, /export (archivage conforme)
 │   │       ├── auth.py          # ✅ Login, logout, MFA (setup, verify, disable, status)
 │   │       ├── users.py         # ✅ CRUD users + /setup + /{username}/role + /{username}/perimeter
 │   │       ├── logs.py          # ✅ POST /logs/ingest (format universel), GET /logs, POST /search
@@ -90,7 +95,7 @@ SIEM/
 │   │       └── reports.py       # ⏳ GET /reports/dashboard, POST /reports/generate
 │   │
 │   ├── models/                  # Modèles de données
-│   │   ├── sql_models.py        # ✅ Modèles SQLAlchemy : User, Rule, Playbook, Incident, AuditLog, Notification
+│   │   ├── sql_models.py        # ✅ Modèles SQLAlchemy : User, Rule, Playbook, Incident, Alert, ProfilUEBA, Archive, AuditLog
 │   │   ├── user.py              # ✅ Modèle User (Pydantic — validation)
 │   │   ├── log.py               # ✅ Modèle Log (Pydantic → document ES)
 │   │   ├── alert.py             # ⏳ Alerte (Pydantic → ES)
@@ -113,6 +118,7 @@ SIEM/
 │   │   ├── normalization.py     # ✅ Pipeline : auto_tag (10 règles), extract_structured (IP, MAC, user, port), normalize
 │   │   ├── correlation.py       # ⏳ Moteur de corrélation (threshold, séquence)
 │   │   ├── ueba.py              # ⏳ Analyse comportementale (ML)
+│   │   ├── archiver.py          # ✅ ArchiverService (SHA-256, Merkle, chaîne, signature RSA)
 │   │   ├── soar.py              # ⏳ Orchestration SOAR (playbooks)
 │   │   ├── alerts.py            # ⏳ Gestion des alertes
 │   │   ├── search.py            # ⏳ Recherche Elasticsearch DSL
@@ -123,6 +129,7 @@ SIEM/
 │   │   ├── user_repo.py         # ✅ CRUD utilisateurs PostgreSQL
 │   │   ├── audit_repo.py        # ✅ Audit logs PostgreSQL
 │   │   ├── log_repo.py          # ✅ CRUD logs Elasticsearch (ingest, search, get_by_id, delete)
+│   │   ├── archive_repo.py      # ✅ Archive (PG - archivage conforme)
 │   │   ├── alert_repo.py        # ⏳ Alertes (ES)
 │   │   ├── rule_repo.py         # ⏳ Règles (PG)
 │   │   ├── playbook_repo.py     # ⏳ Playbooks (PG)
@@ -130,7 +137,7 @@ SIEM/
 │   │
 │   ├── tasks/                   # Tâches asynchrones Celery
 │   │   ├── celery.py            # ⏳ Configuration Celery
-│   │   ├── notification_tasks.py# ⏳ Envoi emails, Slack, nettoyage logs
+│   │   ├── notification_tasks.py# ✅ purge_old_logs() (retention auto via Celery Beat)
 │   │   ├── soar_tasks.py        # ⏳ Exécution playbooks, enrichissement
 │   │   ├── ueba_tasks.py        # ⏳ Entraînement ML, scoring anomalies
 │   │   └── report_tasks.py      # ⏳ Génération de rapports
@@ -194,6 +201,18 @@ SIEM/
 | `GET  /api/v1/logs/{id}`   | GET      | Détail d'un log par ID ES                                       | Token  |
 | `DELETE /api/v1/logs/{id}` | DELETE   | Supprimer un log                                                 | Token  |
 
+#### 🛠️ Administration
+
+| Endpoint | Méthode | Description | Auth |
+|---|---|---|---|
+| `POST /api/v1/admin/purge/logs` | POST | Purger les logs plus vieux que N jours | Admin |
+| `POST /api/v1/admin/purge/audit` | POST | Purger les audits plus vieux que N jours | Admin |
+| `POST /api/v1/admin/archive/create` | POST | Créer une archive certifiée des logs | Admin |
+| `GET  /api/v1/admin/archive/list` | GET | Lister les archives | Admin |
+| `GET  /api/v1/admin/archive/chain` | GET | Afficher la chaîne cryptographique | Admin |
+| `POST /api/v1/admin/archive/verify/{id}` | POST | Vérifier l'intégrité d'une archive | Admin |
+| `GET  /api/v1/admin/archive/{id}/export` | GET | Exporter les preuves pour audit | Admin |
+
 **Fonctionnalités :**
 
 - Hash bcrypt des mots de passe
@@ -206,12 +225,16 @@ SIEM/
 - Affichage console RAW -> NORMALIZED pour le débogage
 - Création automatique des tables PostgreSQL au démarrage (`init_db`)
 - Architecture duale : PostgreSQL (users, rules, audits) + ES (logs)
+- Politique de rétention configurable (logs: 90j, audits: 1 an) + purge manuelle admin
+- Archivage certifié conforme : SHA-256, Merkle tree, chaîne de confiance, signature RSA
+- Dockerisé (Dockerfile + docker-compose)
 
 ### ⏳ En cours / À faire
 
 | Module                            | Priorité | Description                              |
 | --------------------------------- | --------- | ---------------------------------------- |
 | **Alertes**                 | Haute     | CRUD + workflow (acquittement, escalade) |
+| **Tests API**               | Haute     | Tests des endpoints avec httpx           |
 | **Règles de corrélation** | Haute     | Moteur de détection sur les logs        |
 | **Playbooks SOAR**          | Moyenne   | Automatisation des réponses             |
 | **Rapports**                | Moyenne   | Dashboard stats + génération PDF/CSV   |

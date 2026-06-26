@@ -18,9 +18,15 @@ def send_email_notification(self, to: str, subject: str, body: str):
     raise NotImplementedError("SMTP non configuré")
 
 
+@celery_app.task(bind=True, max_retries=3)
+def send_slack_notification(self, channel: str, message: str):
+    """Envoie une notification Slack via webhook."""
+    raise NotImplementedError("Slack non configuré")
+
+
 @celery_app.task
 def send_in_app_notification(user_id: int, title: str, message: str):
-    """Crée une notification en base de données (affichage frontend)."""
+    """Crée une notification en base de données."""
     raise NotImplementedError("Notifications in-app non implémentées")
 
 

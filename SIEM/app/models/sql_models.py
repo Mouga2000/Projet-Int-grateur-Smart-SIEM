@@ -6,13 +6,25 @@
 # notifications, profils UEBA
 # Elasticsearch conserve : logs (données volumineuses / non structurées)
 
+import enum
+from datetime import datetime, timezone
+
 from sqlalchemy import (
-    Column, Integer, String, Boolean, DateTime, JSON, Text, ForeignKey, Enum as SAEnum,
-    UniqueConstraint, Index,
+    JSON,
+    Boolean,
+    Column,
+    DateTime,
+    ForeignKey,
+    Index,
+    Integer,
+    String,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy import (
+    Enum as SAEnum,
 )
 from sqlalchemy.orm import DeclarativeBase, relationship
-from datetime import datetime, timezone
-import enum
 
 
 class Base(DeclarativeBase):
@@ -23,15 +35,26 @@ class Base(DeclarativeBase):
 # MIXINS
 # =============================================================================
 
+
 class TimestampMixin:
     """Ajoute created_at et updated_at automatiques."""
-    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
-    updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc),
-                        onupdate=lambda: datetime.now(timezone.utc), nullable=False)
+
+    created_at = Column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at = Column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
 
 
 class SoftDeleteMixin:
     """Ajoute le soft-delete."""
+
     deleted_at = Column(DateTime(timezone=True), nullable=True, default=None)
 
 
@@ -39,8 +62,10 @@ class SoftDeleteMixin:
 # USER
 # =============================================================================
 
+
 class User(Base, TimestampMixin, SoftDeleteMixin):
     """Utilisateur de la plateforme SIEM."""
+
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -49,8 +74,12 @@ class User(Base, TimestampMixin, SoftDeleteMixin):
     password_hash = Column(String(255), nullable=False)
     mfa_secret = Column(String(64), nullable=True)
     mfa_enabled = Column(Boolean, default=False, nullable=False)
-    role = Column(String(50), default="lecteur", nullable=False)       # lecteur, analyste, auditeur, rssi, administrateur
-    perimeter = Column(JSON, default=list, nullable=False)             # ["equipe", "service", "filiale", "environnement"]
+    role = Column(
+        String(50), default="lecteur", nullable=False
+    )  # lecteur, analyste, auditeur, rssi, administrateur
+    perimeter = Column(
+        JSON, default=list, nullable=False
+    )  # ["equipe", "service", "filiale", "environnement"]
     is_active = Column(Boolean, default=True, nullable=False)
     last_login = Column(DateTime(timezone=True), nullable=True)
 
@@ -62,8 +91,10 @@ class User(Base, TimestampMixin, SoftDeleteMixin):
 # RULE (règle de corrélation)
 # =============================================================================
 
+
 class Rule(Base, TimestampMixin, SoftDeleteMixin):
     """Règle de corrélation / détection d'événements."""
+
     __tablename__ = "rules"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -72,7 +103,9 @@ class Rule(Base, TimestampMixin, SoftDeleteMixin):
     rule_type = Column(String(50), default="single_event", nullable=False)
     # single_event, threshold, correlation, sequence, ueba, custom
     enabled = Column(Boolean, default=True, nullable=False)
-    severity = Column(String(20), default="medium", nullable=False)   # low, medium, high, critical
+    severity = Column(
+        String(20), default="medium", nullable=False
+    )  # low, medium, high, critical
     mitre_tactic = Column(String(100), nullable=True)
     mitre_technique = Column(String(100), nullable=True)
     condition = Column(JSON, default=dict, nullable=False)
@@ -89,8 +122,10 @@ class Rule(Base, TimestampMixin, SoftDeleteMixin):
 # PLAYBOOK (automatisation SOAR)
 # =============================================================================
 
+
 class Playbook(Base, TimestampMixin, SoftDeleteMixin):
     """Playbook d'automatisation SOAR."""
+
     __tablename__ = "playbooks"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -115,12 +150,19 @@ class Playbook(Base, TimestampMixin, SoftDeleteMixin):
 # INCIDENT (regroupement d'alertes)
 # =============================================================================
 
+
 class Incident(Base, TimestampMixin):
     """Incident de sécurité regroupant plusieurs alertes."""
+
     __tablename__ = "incidents"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    cree_le = Column("cree_le", DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+    cree_le = Column(
+        "cree_le",
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
     statut = Column("statut", String(20), default="ouverte", nullable=False)
     # ouverte, en_cours, resolue, cloturee
     assigne_a = Column("assigne_a", Integer, ForeignKey("users.id"), nullable=True)
@@ -141,12 +183,19 @@ class Incident(Base, TimestampMixin):
 # ALERTE
 # =============================================================================
 
+
 class Alert(Base, TimestampMixin):
     """Alerte de sécurité déclenchée par une règle de corrélation."""
+
     __tablename__ = "alertes"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    cree_le = Column("cree_le", DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+    cree_le = Column(
+        "cree_le",
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
     regle_id = Column("regle_id", Integer, ForeignKey("rules.id"), nullable=True)
     niveau = Column(String(20), default="medium", nullable=False)
     titre = Column(String(255), nullable=False)
@@ -167,8 +216,10 @@ class Alert(Base, TimestampMixin):
 # PROFIL UEBA (analyse comportementale)
 # =============================================================================
 
+
 class ProfilUEBA(Base, TimestampMixin):
     """Profil comportemental d'une entité (utilisateur, machine)."""
+
     __tablename__ = "profils_ueba"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -176,7 +227,11 @@ class ProfilUEBA(Base, TimestampMixin):
     entity_type = Column(String(50), nullable=False)  # user, host, process
     baseline = Column(JSON, default=dict, nullable=False)
     risk_score = Column("risk_score", Integer, default=0, nullable=False)
-    last_updated = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+    last_updated = Column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
 
     def __repr__(self):
         return f"<ProfilUEBA {self.entity_id} ({self.entity_type}) score={self.risk_score}>"
@@ -186,8 +241,10 @@ class ProfilUEBA(Base, TimestampMixin):
 # AUDIT LOG (trace des actions sensibles)
 # =============================================================================
 
+
 class AuditLog(Base, TimestampMixin):
     """Trace d'une action sensible dans le SIEM."""
+
     __tablename__ = "audit_logs"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -217,8 +274,10 @@ class AuditLog(Base, TimestampMixin):
 # NOTIFICATION
 # =============================================================================
 
+
 class Notification(Base, TimestampMixin):
     """Notification destinée à un utilisateur."""
+
     __tablename__ = "notifications"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -238,3 +297,51 @@ class Notification(Base, TimestampMixin):
 
     def __repr__(self):
         return f"<Notification #{self.id} {self.title}>"
+
+
+# =============================================================================
+# ARCHIVE (logs archivés avec certification d'intégrité)
+# =============================================================================
+
+
+class Archive(Base, TimestampMixin):
+    """Archive de logs conforme (intégrité + horodatage)."""
+
+    __tablename__ = "archives"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    date_from = Column(DateTime(timezone=True), nullable=False)
+    date_to = Column(DateTime(timezone=True), nullable=False)
+    log_count = Column(Integer, nullable=False)
+    file_path = Column(String(500), nullable=False)
+    file_size_bytes = Column(Integer, nullable=False)
+
+    # Intégrité cryptographique
+    sha256_hash = Column(String(64), nullable=False)
+    merkle_root = Column(String(64), nullable=False)
+
+    # Chaîne de confiance (chaque archive hashée pointe vers la précédente)
+    previous_archive_id = Column(Integer, ForeignKey("archives.id"), nullable=True)
+    previous_hash = Column(String(64), nullable=True)
+    chain_hash = Column(String(64), nullable=False)
+
+    # Horodatage certifié
+    timestamp_signature = Column(Text, nullable=True)
+    certified_by = Column(String(100), default="self")
+    certified_at = Column(
+        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
+    )
+
+    # Cycle de vie
+    created_by = Column(Integer, ForeignKey("users.id"), nullable=True)
+    verified_at = Column(DateTime(timezone=True), nullable=True)
+    verified_by = Column(Integer, ForeignKey("users.id"), nullable=True)
+    status = Column(String(20), default="active")
+
+    # Relations
+    previous_archive = relationship(
+        "Archive", remote_side=[id], foreign_keys=[previous_archive_id]
+    )
+
+    def __repr__(self):
+        return f"<Archive #{self.id} [{self.date_from.date()} → {self.date_to.date()}] ({self.log_count} logs)>"

@@ -106,6 +106,11 @@ class Settings(BaseSettings):
     LOG_RETENTION_DAYS: int = 90  # 30, 90, 180 ou 365 jours
     AUDIT_RETENTION_DAYS: int = 365  # 1 an pour les audits
 
+    # --- Archivage ---
+    ARCHIVE_ENABLED: bool = True
+    ARCHIVE_DIR: str = "data/archives"
+    ARCHIVE_AFTER_DAYS: int = 90  # Âge minimum des logs pour être archivés
+
     class Config:
         env_file = ".env"
 

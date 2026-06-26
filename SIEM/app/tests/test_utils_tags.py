@@ -95,3 +95,42 @@ class TestRolePermissionsMap:
 
     def test_analyste_can_write_alerts(self):
         assert "write:alerts" in ROLE_PERMISSIONS_MAP[Role.ANALYSTE]
+
+
+class TestStatutIncident:
+
+    def test_statut_values(self):
+        from app.utils.tags import StatutIncident
+        assert StatutIncident.OUVERTE == "ouverte"
+        assert StatutIncident.EN_COURS == "en_cours"
+        assert StatutIncident.RESOLUE == "resolue"
+        assert StatutIncident.CLOTUREE == "cloturee"
+
+    def test_statut_count(self):
+        from app.utils.tags import StatutIncident
+        assert len(StatutIncident) == 4
+
+    def test_statut_from_string(self):
+        from app.utils.tags import StatutIncident
+        assert StatutIncident("ouverte") == StatutIncident.OUVERTE
+        assert StatutIncident("cloturee") == StatutIncident.CLOTUREE
+
+
+class TestNiveauAlerte:
+
+    def test_niveau_values(self):
+        from app.utils.tags import NiveauAlerte
+        assert NiveauAlerte.INFO == "info"
+        assert NiveauAlerte.LOW == "low"
+        assert NiveauAlerte.MEDIUM == "medium"
+        assert NiveauAlerte.HIGH == "high"
+        assert NiveauAlerte.CRITICAL == "critical"
+
+    def test_niveau_count(self):
+        from app.utils.tags import NiveauAlerte
+        assert len(NiveauAlerte) == 5
+
+    def test_niveau_from_string(self):
+        from app.utils.tags import NiveauAlerte
+        assert NiveauAlerte("critical") == NiveauAlerte.CRITICAL
+        assert NiveauAlerte("info") == NiveauAlerte.INFO

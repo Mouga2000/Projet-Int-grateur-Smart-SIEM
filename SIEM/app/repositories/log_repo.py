@@ -6,7 +6,6 @@ from datetime import datetime
 from typing import List, Optional
 
 from elasticsearch import AsyncElasticsearch
-from elasticsearch.exceptions import ConnectionError as ESConnectionError
 from elasticsearch.exceptions import NotFoundError
 
 from app.core.config import settings
@@ -103,6 +102,63 @@ class LogRepository:
             "pages": max(1, (total + size - 1) // size),
         }
 
+    async def search_by_date_range(
+        self, date_from: datetime, date_to: datetime, size: int = 10000
+    ) -> dict:
+        """Recherche tous les logs dans une plage de dates (pour archivage)."""
+        query = {
+            "range": {
+                "timestamp": {
+                    "gte": date_from.isoformat(),
+                    "lte": date_to.isoformat(),
+                }
+            }
+        }
+        # Utiliser un scroll pour récupérer tous les logs
+        response = await self.es.search(
+            index=f"{self.index_prefix}-*",
+            body={
+                "query": query,
+                "size": size,
+                "sort": [{"timestamp": {"order": "asc"}}],
+            },
+            scroll="2m",
+        )
+
+        hits = response["hits"]["hits"]
+        total = response["hits"]["total"]["value"]
+
+        items = []
+        for hit in hits:
+            doc = hit["_source"]
+            doc["id"] = hit["_id"]
+            items.append(doc)
+
+        # Si plus de résultats que size, continuer avec le scroll
+        scroll_id = response.get("_scroll_id")
+        while len(items) < total and scroll_id:
+            scroll_response = await self.es.scroll(scroll_id=scroll_id, scroll="2m")
+            scroll_hits = scroll_response["hits"]["hits"]
+            if not scroll_hits:
+                break
+            for hit in scroll_hits:
+                doc = hit["_source"]
+                doc["id"] = hit["_id"]
+                items.append(doc)
+            scroll_id = scroll_response.get("_scroll_id")
+
+        # Nettoyer le scroll
+        if scroll_id:
+            try:
+                await self.es.clear_scroll(scroll_id=scroll_id)
+            except Exception:
+                pass
+
+        return {
+            "items": items,
+            "total": total,
+        }
+
     async def count(self, query: dict = None) -> int:
         """Compte les logs correspondant à une requête."""
         if query is None:
@@ -116,7 +172,6 @@ class LogRepository:
 
     async def delete_older_than(self, days: int) -> int:
         """Supprime les logs plus vieux que N jours via delete_by_query."""
-        # On cible les index datés pour le delete
         response = await self.es.delete_by_query(
             index=f"{self.index_prefix}-*",
             body={
