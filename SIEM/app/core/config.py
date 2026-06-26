@@ -69,8 +69,10 @@
 # Utilisation : from app.core.config import settings
 
 
-from pydantic_settings import BaseSettings
 from typing import Optional
+
+from pydantic_settings import BaseSettings
+
 
 class Settings(BaseSettings):
     # JWT
@@ -81,7 +83,9 @@ class Settings(BaseSettings):
 
     # PostgreSQL (données structurées : utilisateurs, règles, audits…)
     DATABASE_URL: str = "postgresql+asyncpg://postgres:0901@localhost:5432/SmartSiem"
-    DATABASE_SYNC_URL: str = "postgresql+psycopg2://postgres:0901@localhost:5432/SmartSiem"
+    DATABASE_SYNC_URL: str = (
+        "postgresql+psycopg2://postgres:0901@localhost:5432/SmartSiem"
+    )
 
     # Elasticsearch (logs, alertes — données volumineuses)
     ELASTICSEARCH_HOST: str = "localhost"
@@ -89,10 +93,21 @@ class Settings(BaseSettings):
     ELASTICSEARCH_SCHEME: str = "http"
     ELASTICSEARCH_INDEX_LOGS: str = "logs"
 
+    # Redis / Celery
+    REDIS_HOST: str = "localhost"
+    REDIS_PORT: int = 6379
+    CELERY_BROKER_URL: str = "redis://localhost:6379/0"
+    CELERY_RESULT_BACKEND: str = "redis://localhost:6379/0"
+
     # Agent externe (clé API partagée pour l'ingestion automatique)
     AGENT_API_KEY: str = "siem-agent-key-2026"
 
+    # --- Politique de rétention des données ---
+    LOG_RETENTION_DAYS: int = 90  # 30, 90, 180 ou 365 jours
+    AUDIT_RETENTION_DAYS: int = 365  # 1 an pour les audits
+
     class Config:
         env_file = ".env"
+
 
 settings = Settings()

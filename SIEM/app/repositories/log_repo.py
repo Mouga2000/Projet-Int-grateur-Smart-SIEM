@@ -2,10 +2,13 @@
 # -------------------------------
 # Repository pour Log — index ES "logs-YYYY-MM-DD"
 
-from elasticsearch import AsyncElasticsearch
-from elasticsearch.exceptions import NotFoundError, ConnectionError as ESConnectionError
 from datetime import datetime
-from typing import Optional, List
+from typing import List, Optional
+
+from elasticsearch import AsyncElasticsearch
+from elasticsearch.exceptions import ConnectionError as ESConnectionError
+from elasticsearch.exceptions import NotFoundError
+
 from app.core.config import settings
 
 
@@ -113,7 +116,6 @@ class LogRepository:
 
     async def delete_older_than(self, days: int) -> int:
         """Supprime les logs plus vieux que N jours via delete_by_query."""
-        cutoff = datetime.now().isoformat()
         # On cible les index datés pour le delete
         response = await self.es.delete_by_query(
             index=f"{self.index_prefix}-*",
