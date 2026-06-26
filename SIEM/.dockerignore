@@ -1,24 +1,23 @@
 # ============================================================
 # Smart SIEM - .dockerignore
 # ============================================================
-# À compléter au fur et à mesure du développement
-# Liste les fichiers/dossiers exclus du contexte de build Docker
-#
-# Exemples :
-#   .git/
-#   .gitignore
-#   venv/
-#   __pycache__/
-#   *.pyc
-#   .env
-#   *.log
-#   *.db
-#   .vscode/
-#   .idea/
-#   .DS_Store
-#   .dockerignore
-#   docker-compose*.yml
-#   README*.md
-#   node_modules/
-#   data/
-#   models/*.joblib
+# Fichiers exclus du contexte de build Docker
+
+.git/
+.gitignore
+venv/
+__pycache__/
+*.pyc
+.env
+*.log
+.vscode/
+.idea/
+.DS_Store
+.dockerignore
+docker-compose*.yml
+README*.md
+Dockerfile
+Dockerfile.*
+tests/
+data/
+.claude/

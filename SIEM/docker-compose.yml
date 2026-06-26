@@ -1,23 +1,25 @@
 # ============================================================
 # Smart SIEM - docker-compose.yml
 # ============================================================
-# Services Docker :
-#   kibana : Visualisation Elasticsearch (port 5601)
-#
-# Note : Elasticsearch est deja lance sur Docker Desktop (port 9200).
-#        Kibana se connecte via host.docker.internal.
+# Seul l'API est dockerisée.
+# PostgreSQL, Elasticsearch et Kibana tournent en local (hôte).
+# L'API accède aux services hôte via host.docker.internal.
 
 services:
-  kibana:
-    image: docker.elastic.co/kibana/kibana:8.11.0
-    container_name: siem-kibana
-    environment:
-      - ELASTICSEARCH_HOSTS=http://host.docker.internal:9200
-    ports:
-      - "5601:5601"
-    networks:
-      - siem-network
 
-networks:
-  siem-network:
-    driver: bridge
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: siem-api
+    env_file: .env
+    environment:
+      # Surcharge pour que le conteneur accède aux services sur la machine hôte
+      - ELASTICSEARCH_HOST=host.docker.internal
+      - DATABASE_URL=postgresql+asyncpg://postgres:0901@host.docker.internal:5432/SmartSiem
+      - DATABASE_SYNC_URL=postgresql+psycopg2://postgres:0901@host.docker.internal:5432/SmartSiem
+    ports:
+      - "8000:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped

@@ -37,15 +37,15 @@ Projet académique dans le cadre du cursus **UCAC ICAM — X3 PROJET INTÉGRATEU
 
 ## Stack technique
 
-| Composant           | Technologie                              | Rôle                                      |
-|---------------------|------------------------------------------|-------------------------------------------|
-| API                 | FastAPI (Python 3.12+)                   | Serveur HTTP REST (Uvicorn)               |
-| Base de données     | PostgreSQL 17 + SQLAlchemy 2.0 async     | Utilisateurs, règles, audits, incidents   |
-| Moteur de recherche | Elasticsearch 8.x                        | Logs, alertes, recherche plein texte      |
-| Cache & queue       | Redis + Celery                           | Cache, files d'attente, tâches asynchrones |
-| Authentification    | JWT + MFA (TOTP)                         | Sessions sécurisées et multi-facteurs      |
-| Migrations          | Alembic                                  | Évolution du schéma PostgreSQL             |
-| Tests               | pytest + pytest-asyncio + httpx          | 104 tests unitaires                        |
+| Composant           | Technologie                          | Rôle                                       |
+| ------------------- | ------------------------------------ | ------------------------------------------- |
+| API                 | FastAPI (Python 3.12+)               | Serveur HTTP REST (Uvicorn)                 |
+| Base de données    | PostgreSQL 17 + SQLAlchemy 2.0 async | Utilisateurs, règles, audits, incidents    |
+| Moteur de recherche | Elasticsearch 8.x                    | Logs, alertes, recherche plein texte        |
+| Cache & queue       | Redis + Celery                       | Cache, files d'attente, tâches asynchrones |
+| Authentification    | JWT + MFA (TOTP)                     | Sessions sécurisées et multi-facteurs     |
+| Migrations          | Alembic                              | Évolution du schéma PostgreSQL            |
+| Tests               | pytest + pytest-asyncio + httpx      | 104 tests unitaires                         |
 
 > **Architecture duale :** PostgreSQL stocke les données structurées (utilisateurs, règles, audits). Elasticsearch stocke les logs et les alertes (données volumineuses, recherche plein texte).
 
@@ -169,32 +169,33 @@ SIEM/
 
 #### 🔐 Authentification & Utilisateurs
 
-| Endpoint | Méthode | Description | Auth |
-|---|---|---|---|
-| `POST /api/v1/auth/login` | POST | Connexion (username/password + MFA optionnelle) | Public |
-| `POST /api/v1/auth/logout` | POST | Déconnexion | Token |
-| `GET  /api/v1/auth/mfa/status` | GET | Voir si la MFA est activée | Token |
-| `POST /api/v1/auth/mfa/setup` | POST | Générer le secret TOTP + QR code | Token |
-| `POST /api/v1/auth/mfa/verify` | POST | Activer la MFA après vérification du code | Token |
-| `POST /api/v1/auth/mfa/disable` | POST | Désactiver la MFA (avec confirmation mot de passe) | Token |
-| `GET  /api/v1/users/` | GET | Liste des utilisateurs | Admin |
-| `POST /api/v1/users/` | POST | Créer un utilisateur | Admin |
-| `PUT  /api/v1/users/{username}/role` | PUT | Modifier le rôle | Admin |
-| `PUT  /api/v1/users/{username}/perimeter` | PUT | Modifier le périmètre | Admin |
-| `POST /api/v1/users/setup` | POST | Bootstrap premier admin | Public |
-| `GET  /api/v1/users/me` | GET | Profil de l'utilisateur connecté | Token |
+| Endpoint                                    | Méthode | Description                                         | Auth   |
+| ------------------------------------------- | -------- | --------------------------------------------------- | ------ |
+| `POST /api/v1/auth/login`                 | POST     | Connexion (username/password + MFA optionnelle)     | Public |
+| `POST /api/v1/auth/logout`                | POST     | Déconnexion                                        | Token  |
+| `GET  /api/v1/auth/mfa/status`            | GET      | Voir si la MFA est activée                         | Token  |
+| `POST /api/v1/auth/mfa/setup`             | POST     | Générer le secret TOTP + QR code                  | Token  |
+| `POST /api/v1/auth/mfa/verify`            | POST     | Activer la MFA après vérification du code         | Token  |
+| `POST /api/v1/auth/mfa/disable`           | POST     | Désactiver la MFA (avec confirmation mot de passe) | Token  |
+| `GET  /api/v1/users/`                     | GET      | Liste des utilisateurs                              | Admin  |
+| `POST /api/v1/users/`                     | POST     | Créer un utilisateur                               | Admin  |
+| `PUT  /api/v1/users/{username}/role`      | PUT      | Modifier le rôle                                   | Admin  |
+| `PUT  /api/v1/users/{username}/perimeter` | PUT      | Modifier le périmètre                             | Admin  |
+| `POST /api/v1/users/setup`                | POST     | Bootstrap premier admin                             | Public |
+| `GET  /api/v1/users/me`                   | GET      | Profil de l'utilisateur connecté                   | Token  |
 
 #### 📥 Logs
 
-| Endpoint | Méthode | Description | Auth |
-|---|---|---|---|
-| `POST /api/v1/logs/ingest` | POST | Ingérer un log (format universel, normalisation + tagging + ES) | Public |
-| `GET  /api/v1/logs/` | GET | Liste paginée des logs | Token |
-| `POST /api/v1/logs/search` | POST | Recherche avancée (filtres, dates, sources) | Token |
-| `GET  /api/v1/logs/{id}` | GET | Détail d'un log par ID ES | Token |
-| `DELETE /api/v1/logs/{id}` | DELETE | Supprimer un log | Token |
+| Endpoint                     | Méthode | Description                                                      | Auth   |
+| ---------------------------- | -------- | ---------------------------------------------------------------- | ------ |
+| `POST /api/v1/logs/ingest` | POST     | Ingérer un log (format universel, normalisation + tagging + ES) | Public |
+| `GET  /api/v1/logs/`<br /> | GET      | Liste paginée des logs                                          | Token  |
+| `POST /api/v1/logs/search` | POST     | Recherche avancée (filtres, dates, sources)                     | Token  |
+| `GET  /api/v1/logs/{id}`   | GET      | Détail d'un log par ID ES                                       | Token  |
+| `DELETE /api/v1/logs/{id}` | DELETE   | Supprimer un log                                                 | Token  |
 
 **Fonctionnalités :**
+
 - Hash bcrypt des mots de passe
 - Tokens JWT (access + refresh)
 - MFA TOTP avec QR code (optionnelle, activable par utilisateur)
@@ -208,15 +209,15 @@ SIEM/
 
 ### ⏳ En cours / À faire
 
-| Module | Priorité | Description |
-|---|---|---|
-| **Alertes** | Haute | CRUD + workflow (acquittement, escalade) |
-| **Règles de corrélation** | Haute | Moteur de détection sur les logs |
-| **Playbooks SOAR** | Moyenne | Automatisation des réponses |
-| **Rapports** | Moyenne | Dashboard stats + génération PDF/CSV |
-| **UEBA** | Basse | Analyse comportementale (ML) |
-| **Tasks Celery** | Basse | Tâches asynchrones |
-| **Tests API** | Haute | Tests des endpoints avec httpx |
+| Module                            | Priorité | Description                              |
+| --------------------------------- | --------- | ---------------------------------------- |
+| **Alertes**                 | Haute     | CRUD + workflow (acquittement, escalade) |
+| **Règles de corrélation** | Haute     | Moteur de détection sur les logs        |
+| **Playbooks SOAR**          | Moyenne   | Automatisation des réponses             |
+| **Rapports**                | Moyenne   | Dashboard stats + génération PDF/CSV   |
+| **UEBA**                    | Basse     | Analyse comportementale (ML)             |
+| **Tasks Celery**            | Basse     | Tâches asynchrones                      |
+| **Tests API**               | Haute     | Tests des endpoints avec httpx           |
 
 ## Installation
 
@@ -244,26 +245,34 @@ git checkout SIEM
 ### Étapes
 
 # 2. Créer et activer l'environnement virtuel
+
 python -m venv venv
 .\venv\Scripts\Activate    # Windows
 
 # 3. Installer les dépendances
+
 pip install -r requirements.txt
 
 # 4. Configurer les variables d'environnement dans .env
-#    SECRET_KEY, DATABASE_URL, ELASTICSEARCH_HOST, etc.
+
+# SECRET_KEY, DATABASE_URL, ELASTICSEARCH_HOST, etc.
 
 # 5. Démarrer les services
-#    PostgreSQL : s'assurer que le service tourne et que la base SmartSiem existe
-#    Elasticsearch : docker run -d --name es -p 9200:9200 -e "discovery.type=single-node" -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+
+# PostgreSQL : s'assurer que le service tourne et que la base SmartSiem existe
+
+# Elasticsearch : docker run -d --name es -p 9200:9200 -e "discovery.type=single-node" -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:8.11.0
 
 # 6. Lancer l'API (les tables sont créées automatiquement)
+
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 # 7. Créer le premier administrateur (bootstrap)
-curl -X POST http://localhost:8000/api/v1/users/setup \
-  -H "Content-Type: application/json" \
+
+curl -X POST http://localhost:8000/api/v1/users/setup 
+  -H "Content-Type: application/json" 
   -d '{"username": "admin", "email": "admin@siem.local", "password": "admin123!", "role": "lecteur", "perimeter": []}'
+
 ```
 
 > Les tables PostgreSQL sont créées **automatiquement** au démarrage via `init_db()` dans `app/core/database.py`.
@@ -301,13 +310,13 @@ pytest app/tests/test_utils_tags.py -v
 
 ### Couverture des tests
 
-| Module | Tests | Couverture |
-|---|---|---|
-| Normalisation (auto_tag, extract, normalize) | 44 | ✅ Toutes les règles, formats agent, cas limites |
-| Sécurité (hash, JWT, MFA) | 18 | ✅ Hash, tokens, TOTP |
-| Schémas (validation Pydantic) | 17 | ✅ UserCreate, LogCreate, search |
-| Utilitaires (Role, Perimeter) | 17 | ✅ 5 rôles, 4 périmètres, permissions |
-| **Total** | **104** | ✅ |
+| Module                                       | Tests         | Couverture                                        |
+| -------------------------------------------- | ------------- | ------------------------------------------------- |
+| Normalisation (auto_tag, extract, normalize) | 44            | ✅ Toutes les règles, formats agent, cas limites |
+| Sécurité (hash, JWT, MFA)                  | 18            | ✅ Hash, tokens, TOTP                             |
+| Schémas (validation Pydantic)               | 17            | ✅ UserCreate, LogCreate, search                  |
+| Utilitaires (Role, Perimeter)                | 17            | ✅ 5 rôles, 4 périmètres, permissions          |
+| **Total**                              | **104** | ✅                                                |
 
 ## Déploiement
 

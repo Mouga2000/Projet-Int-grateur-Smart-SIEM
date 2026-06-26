@@ -1,26 +1,42 @@
 # ============================================================
 # Smart SIEM - Dockerfile
 # ============================================================
-# À compléter au fur et à mesure du développement
-# Construire l'image Docker du backend
-#
-# Étapes recommandées :
-#   1. Choisir une image de base (ex: python:3.12-slim)
-#   2. Définir les variables d'environnement Python
-#   3. Installer les dépendances système nécessaires
-#   4. Définir le répertoire de travail (WORKDIR)
-#   5. Copier requirements.txt et installer les dépendances
-#   6. Copier le code de l'application
-#   7. Créer un utilisateur non-root (bonne pratique de sécurité)
-#   8. Exposer le port (ex: 8000)
-#   9. Définir la commande de démarrage (CMD)
-#   10. Ajouter un HEALTHCHECK si nécessaire
-#
-# Structure multi-stage recommandée :
-#   - Stage 1 : builder (installation des dépendances)
-#   - Stage 2 : final (image légère avec seulement le runtime)
-#
-# Décommenter et compléter quand prêt :
-# FROM python:3.12-slim AS builder
-# ...
-# FROM python:3.12-slim AS final
+# Image Docker pour l'API FastAPI
+
+FROM python:3.12-slim
+
+LABEL maintainer="Smart SIEM Team" \
+      description="Smart SIEM - Backend API"
+
+# Variables d'environnement Python
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+# Dépendances système
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Répertoire de travail
+WORKDIR /app
+
+# Copier et installer les dépendances Python
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copier le code source
+COPY app/ ./app/
+
+# Créer un utilisateur non-root (sécurité)
+RUN useradd -m -u 1000 siem && chown -R siem:siem /app
+USER siem
+
+# Port exposé
+EXPOSE 8000
+
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD curl -f http://localhost:8000/health || exit 1
+
+# Commande de démarrage
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

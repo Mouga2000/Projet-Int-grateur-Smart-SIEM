@@ -1,6 +1,6 @@
 # app/utils/tags.py
 # -------------------------------
-# Énumérations : rôles, périmètres, criticité, types de logs
+# Énumérations : rôles, périmètres, statuts, niveaux, criticité
 
 from enum import Enum
 from typing import List
@@ -96,7 +96,32 @@ class Perimeter(str, Enum):
 
 
 # =============================================================================
-# 4. CONSTANTES ANNEXES (commentaires-guides)
+# 4. STATUTS INCIDENT
+# =============================================================================
+
+class StatutIncident(str, Enum):
+    """Statut d'un incident de sécurité."""
+    OUVERTE = "ouverte"
+    EN_COURS = "en_cours"
+    RESOLUE = "resolue"
+    CLOTUREE = "cloturee"
+
+
+# =============================================================================
+# 5. NIVEAUX D'ALERTE
+# =============================================================================
+
+class NiveauAlerte(str, Enum):
+    """Niveau de sévérité d'une alerte."""
+    INFO = "info"
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    CRITICAL = "critical"
+
+
+# =============================================================================
+# 6. CONSTANTES ANNEXES (commentaires-guides)
 # =============================================================================
 
 # CRITICITY_TAGS = {

@@ -2,8 +2,9 @@
 # -------------------------------
 # Modèles SQLAlchemy pour PostgreSQL (données structurées)
 #
-# PostgreSQL stocke : utilisateurs, règles, playbooks, incidents, audits, notifications
-# Elasticsearch conserve : logs, alertes (données volumineuses / non structurées)
+# PostgreSQL stocke : utilisateurs, règles, playbooks, alertes, incidents, audits,
+# notifications, profils UEBA
+# Elasticsearch conserve : logs (données volumineuses / non structurées)
 
 from sqlalchemy import (
     Column, Integer, String, Boolean, DateTime, JSON, Text, ForeignKey, Enum as SAEnum,
@@ -119,24 +120,66 @@ class Incident(Base, TimestampMixin):
     __tablename__ = "incidents"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    title = Column(String(255), nullable=False)
-    description = Column(Text, nullable=True)
-    status = Column(String(30), default="new", nullable=False)
-    # new, investigating, contained, eradicated, recovered, closed
-    severity = Column(String(20), default="medium", nullable=False)
+    cree_le = Column("cree_le", DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+    statut = Column("statut", String(20), default="ouverte", nullable=False)
+    # ouverte, en_cours, resolue, cloturee
+    assigne_a = Column("assigne_a", Integer, ForeignKey("users.id"), nullable=True)
     alert_ids = Column(JSON, default=list, nullable=False)
     rule_ids = Column(JSON, default=list, nullable=False)
     mitre_attack_ids = Column(JSON, default=list, nullable=False)
-    affected_assets = Column(JSON, default=list, nullable=False)
-    assigned_to = Column(Integer, ForeignKey("users.id"), nullable=True)
-    closed_at = Column(DateTime(timezone=True), nullable=True)
-    resolution_notes = Column(Text, nullable=True)
+    notes_resolution = Column("notes_resolution", Text, nullable=True)
     timeline = Column(JSON, default=list, nullable=False)
+    closed_at = Column(DateTime(timezone=True), nullable=True)
 
-    assignee = relationship("User", foreign_keys=[assigned_to])
+    assignee = relationship("User", foreign_keys=[assigne_a])
 
     def __repr__(self):
-        return f"<Incident #{self.id} {self.title} [{self.status}]>"
+        return f"<Incident #{self.id} [{self.statut}]>"
+
+
+# =============================================================================
+# ALERTE
+# =============================================================================
+
+class Alert(Base, TimestampMixin):
+    """Alerte de sécurité déclenchée par une règle de corrélation."""
+    __tablename__ = "alertes"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    cree_le = Column("cree_le", DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+    regle_id = Column("regle_id", Integer, ForeignKey("rules.id"), nullable=True)
+    niveau = Column(String(20), default="medium", nullable=False)
+    titre = Column(String(255), nullable=False)
+    description = Column(Text, nullable=True)
+    mitre = Column(JSON, default=dict, nullable=True)
+    source_ip = Column(String(45), nullable=True)
+    host = Column(String(255), nullable=True)
+    statut = Column(String(20), default="ouverte", nullable=False)
+    score_confiance = Column("score_confiance", Integer, default=50, nullable=False)
+
+    regle = relationship("Rule", foreign_keys=[regle_id])
+
+    def __repr__(self):
+        return f"<Alert #{self.id} {self.titre} [{self.niveau}]>"
+
+
+# =============================================================================
+# PROFIL UEBA (analyse comportementale)
+# =============================================================================
+
+class ProfilUEBA(Base, TimestampMixin):
+    """Profil comportemental d'une entité (utilisateur, machine)."""
+    __tablename__ = "profils_ueba"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    entity_id = Column(String(100), nullable=False, index=True)
+    entity_type = Column(String(50), nullable=False)  # user, host, process
+    baseline = Column(JSON, default=dict, nullable=False)
+    risk_score = Column("risk_score", Integer, default=0, nullable=False)
+    last_updated = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+
+    def __repr__(self):
+        return f"<ProfilUEBA {self.entity_id} ({self.entity_type}) score={self.risk_score}>"
 
 
 # =============================================================================
