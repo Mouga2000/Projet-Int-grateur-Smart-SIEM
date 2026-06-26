@@ -606,3 +606,96 @@
 2026-06-25 12:05:35 | CRITICAL | Connexion à la base de données
 2026-06-25 12:05:38 | WARNING | Accès refusé
 2026-06-25 12:05:42 | ERROR | Téléchargement terminé
+2026-06-26 00:32:35 | CRITICAL | Processus powershell.exe lancé
+2026-06-26 00:32:37 | ERROR | Fichier supprimé
+2026-06-26 00:32:41 | INFO | Fichier supprimé
+2026-06-26 00:32:43 | INFO | Port 22 ouvert
+2026-06-26 00:32:47 | CRITICAL | Port 3389 ouvert
+2026-06-26 00:32:49 | INFO | Échec d'authentification
+2026-06-26 00:32:52 | INFO | Connexion à la base de données
+2026-06-26 00:32:57 | CRITICAL | Tentative SSH échouée
+2026-06-26 00:33:02 | CRITICAL | Connexion RDP
+2026-06-26 00:33:06 | CRITICAL | Processus powershell.exe lancé
+2026-06-26 00:33:09 | WARNING | Processus python.exe lancé
+2026-06-26 00:33:11 | CRITICAL | Port 22 ouvert
+2026-06-26 00:33:14 | ERROR | Utilisateur admin connecté
+2026-06-26 00:33:17 | WARNING | Connexion VPN établie
+2026-06-26 00:33:20 | INFO | Processus python.exe lancé
+2026-06-26 00:33:24 | WARNING | Connexion VPN établie
+2026-06-26 00:33:26 | INFO | Connexion VPN établie
+2026-06-26 00:33:29 | ERROR | Téléchargement terminé
+2026-06-26 00:33:32 | WARNING | Service Apache arrêté
+2026-06-26 00:33:37 | WARNING | Port 3389 ouvert
+2026-06-26 00:33:42 | WARNING | Service Apache démarré
+2026-06-26 00:33:47 | WARNING | Tentative SSH échouée
+2026-06-26 00:33:51 | ERROR | Adresse IP bloquée
+2026-06-26 00:33:54 | ERROR | Tentative SSH échouée
+2026-06-26 00:33:57 | CRITICAL | Port 3389 ouvert
+2026-06-26 00:34:01 | CRITICAL | Téléchargement terminé
+2026-06-26 00:34:06 | ERROR | Connexion VPN établie
+2026-06-26 00:34:08 | INFO | Port 3389 ouvert
+2026-06-26 00:34:10 | WARNING | Port 3389 ouvert
+2026-06-26 00:34:14 | ERROR | Fichier supprimé
+2026-06-26 00:34:18 | WARNING | Connexion RDP
+2026-06-26 00:34:22 | CRITICAL | Échec d'authentification
+2026-06-26 00:34:25 | ERROR | Service Apache démarré
+2026-06-26 00:34:27 | ERROR | Téléchargement terminé
+2026-06-26 00:34:29 | ERROR | Firewall activé
+2026-06-26 00:34:32 | WARNING | Fichier supprimé
+2026-06-26 00:34:35 | CRITICAL | Connexion RDP
+2026-06-26 00:34:39 | WARNING | Connexion RDP
+2026-06-26 00:34:41 | INFO | Port 3389 ouvert
+2026-06-26 00:34:45 | CRITICAL | Firewall désactivé
+2026-06-26 00:34:47 | ERROR | Fichier modifié
+2026-06-26 00:34:50 | CRITICAL | Nouvelle session utilisateur
+2026-06-26 00:34:52 | CRITICAL | Firewall activé
+2026-06-26 00:34:55 | CRITICAL | Port 3389 ouvert
+2026-06-26 00:34:57 | CRITICAL | Accès refusé
+2026-06-26 00:35:01 | CRITICAL | Connexion à la base de données
+2026-06-26 00:35:05 | WARNING | Fichier modifié
+2026-06-26 00:35:08 | ERROR | Firewall activé
+2026-06-26 00:35:10 | WARNING | Connexion à la base de données
+2026-06-26 00:35:12 | WARNING | Tentative SSH échouée
+2026-06-26 00:35:14 | WARNING | Utilisateur admin connecté
+2026-06-26 00:35:17 | INFO | Firewall activé
+2026-06-26 00:35:19 | ERROR | Firewall désactivé
+2026-06-26 00:35:22 | INFO | Téléchargement terminé
+2026-06-26 00:35:26 | ERROR | Connexion à la base de données
+2026-06-26 00:35:31 | CRITICAL | Adresse IP bloquée
+2026-06-26 00:35:34 | ERROR | Processus python.exe lancé
+2026-06-26 00:35:36 | WARNING | Processus python.exe lancé
+2026-06-26 00:35:40 | CRITICAL | Nouvelle session utilisateur
+2026-06-26 00:35:43 | CRITICAL | Fichier supprimé
+2026-06-26 00:35:45 | ERROR | Tentative SSH échouée
+2026-06-26 00:35:50 | WARNING | Utilisateur admin connecté
+2026-06-26 00:35:52 | INFO | Nouvelle session utilisateur
+2026-06-26 00:35:56 | WARNING | Téléchargement terminé
+2026-06-26 00:35:59 | ERROR | Échec d'authentification
+2026-06-26 00:36:04 | ERROR | Port 22 ouvert
+2026-06-26 00:36:09 | CRITICAL | Service Apache démarré
+2026-06-26 00:36:11 | CRITICAL | Connexion à la base de données
+2026-06-26 00:36:14 | WARNING | Service Apache démarré
+2026-06-26 00:36:17 | ERROR | Processus powershell.exe lancé
+2026-06-26 00:36:22 | CRITICAL | Processus powershell.exe lancé
+2026-06-26 00:36:24 | CRITICAL | Processus python.exe lancé
+2026-06-26 00:36:27 | CRITICAL | Processus powershell.exe lancé
+2026-06-26 00:36:32 | CRITICAL | Connexion RDP
+2026-06-26 00:36:35 | CRITICAL | Adresse IP bloquée
+2026-06-26 00:36:38 | CRITICAL | Échec d'authentification
+2026-06-26 00:36:43 | INFO | Adresse IP bloquée
+2026-06-26 00:36:47 | WARNING | Port 3389 ouvert
+2026-06-26 00:36:51 | WARNING | Échec d'authentification
+2026-06-26 00:36:53 | WARNING | Connexion VPN établie
+2026-06-26 00:36:55 | CRITICAL | Processus powershell.exe lancé
+2026-06-26 00:37:00 | CRITICAL | Firewall désactivé
+2026-06-26 00:37:05 | INFO | Échec d'authentification
+2026-06-26 00:37:08 | CRITICAL | Adresse IP bloquée
+2026-06-26 00:37:13 | WARNING | Connexion RDP
+2026-06-26 00:37:15 | CRITICAL | Nouvelle session utilisateur
+2026-06-26 00:37:17 | WARNING | Port 3389 ouvert
+2026-06-26 00:37:19 | ERROR | Fichier modifié
+2026-06-26 00:37:21 | CRITICAL | Accès refusé
+2026-06-26 00:37:24 | ERROR | Service Apache démarré
+2026-06-26 00:37:28 | INFO | Port 3389 ouvert
+2026-06-26 00:37:33 | WARNING | Port 3389 ouvert
+2026-06-26 00:37:36 | CRITICAL | Port 22 ouvert

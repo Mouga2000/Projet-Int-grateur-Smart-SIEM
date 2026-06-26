@@ -138,13 +138,15 @@ from collectors.memory import MemoryCollector
 from collectors.process import ProcessCollector
 from collectors.network import NetworkCollector
 from collectors.services import ServicesCollector
+from collectors.filesystem import FilesystemCollector
 
+from collectors.manager import CollectorManager
 
 
 log =  AgentLogger()
 logger = log.get_logger()
 
-url_event = "/api/events"
+url_event = "/api/events"   #"/api/v1/logs/ingest" 
 
 
 
@@ -157,12 +159,20 @@ class SmartAgent:
         self.client = CommunicationClient()
         self.heartbeat = HeartbeatService()
         self.logs_collector = LogsCollector()
-        self.configure_tasks()
+        self.collector_manager = CollectorManager(
+            self.scheduler,
+            self.client
+        )
+
         self.cpu_collector = CPUCollector()
         self.memory_collector = MemoryCollector()
         self.process_collector = ProcessCollector()
         self.network_collector = NetworkCollector()
         self.services_collector = ServicesCollector()
+        self.filesystem_collector = FilesystemCollector()
+
+        self.configure_tasks()
+        
 
 
 
@@ -171,138 +181,48 @@ class SmartAgent:
         Enregistre toutes les tâches périodiques.
         """
 
-        self.scheduler.register(
-            ScheduledTask(
-                name="Heartbeat",
+        self.collector_manager.register(
+            "CPU",
+            CPUCollector(),
+            10
 
-                interval=30,
-                callback=self.heartbeat.send
-            )
         )
 
-        self.scheduler.register(
-            ScheduledTask(
-                name="LogsCollector",
+        self.collector_manager.register(
+            "Memory",
+            MemoryCollector(),
+            10
 
-                interval=5,
-                callback=self.collect_logs
-            )
         )
 
-        self.scheduler.register(
-            ScheduledTask(
-                name="CPUCollector",
+        self.collector_manager.register(
+            "Logs",
+            LogsCollector(),
+            5
 
-                interval=10,
-                callback=self.collect_cpu
-            )
         )
 
-        self.scheduler.register(
-            ScheduledTask(
-                name="MemoryCollector",
+        self.collector_manager.register(
+            "Network",
+            NetworkCollector(),
+            30
 
-                interval=10,
-                callback=self.collect_memory
-            )
-        )
-        """
-        self.scheduler.register(
-            ScheduledTask(
-                name="ProcessCollector",
-
-                interval=15,
-                callback=self.collect_processes
-            )
         )
 
-        self.scheduler.register(
-            ScheduledTask(
-                name="NetworkCollector",
+        self.collector_manager.register(
+            "Services",
+            ServicesCollector(),
+            60
 
-                interval=30,
-                callback=self.collect_network
-            )
         )
-        """
-        self.scheduler.register(
-            ScheduledTask(
-                name="ServicesCollector",
 
-                interval=15,        #60 normal
-                callback=self.collect_services
-            )
+        self.collector_manager.register(
+            "Filesystem",
+            FilesystemCollector(),
+            60
         )
 
         
-
-
-    def collect_logs(self):
-        """Collecte puis envoie les événements."""
-        events = self.logs_collector.collect()
-
-        for event in events:
-            self.client.post(
-                url_event,
-                #"/api/v1/logs/ingest",
-                event.to_dict()
-            )
-            
-
-    def collect_cpu(self):
-        events = self.cpu_collector.collect()
-        
-        for event in events:
-            self.client.post(
-
-                url_event,
-                #"/api/v1/logs/ingest",
-                event.to_dict()
-            )
-
-
-
-    def collect_memory(self):
-        events = self.memory_collector.collect()
-
-        for event in events:
-            self.client.post(
-                url_event,
-                event.to_dict()
-            )
-
-
-    def collect_processes(self):
-        events = self.process_collector.collect()
-
-        for event in events:
-            self.client.post(
-                url_event,
-                event.to_dict()
-            )
-
-    
-    def collect_network(self):
-        events = self.network_collector.collect()
-
-        for event in events:
-            self.client.post(
-                url_event,
-                event.to_dict()
-            )
-
-
-    def collect_services(self):
-        events = self.services_collector.collect()
-
-        for event in events:
-            self.client.post(
-                url_event,
-                event.to_dict()
-            )
-
-
-
 
 
     def start(self):
@@ -316,10 +236,10 @@ class SmartAgent:
 
 
 
-    def shutdown(agent):
-        logger.info("Signal d'arrêt reçu.")
-        agent.stop()
-        sys.exit(0)
+def shutdown(agent):
+    logger.info("Signal d'arrêt reçu.")
+    agent.stop()
+    sys.exit(0)
 
 
 

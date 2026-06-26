@@ -11,7 +11,7 @@ server:
 
   protocol: http
 
-  host: 192.168.1.198         #169.254.170.76       
+  host: 192.168.1.198   #169.254.170.76                     
 
   port: 8000
 
@@ -57,7 +57,7 @@ collectors:
 
   network: true
 
-  filesystem: false
+  filesystem: true
 
   services: true
 
@@ -85,32 +85,32 @@ cpu:
 
   interval: 10
 
-  alert_threshold: 90
+  alert_threshold: 300
 
 
 memory:
 
   interval: 10
 
-  alert_threshold: 90
+  alert_threshold: 300
 
 
 process:
   interval: 15
 
-  top_processes: 20
+  top_processes: 300
 
 
 network:
   interval: 30
 
-  max_connections: 50
+  max_connections: 300
 
 
 services:
   interval: 60
 
-  max_services: 100
+  max_services: 300
 
   monitor_only_critical: true
 
@@ -131,6 +131,29 @@ services:
       - mysql.service
       - docker.service
       - filebeat.service
+
+
+filesystem:
+  interval: 60
+
+  watch:
+    windows:
+      - C:\Users
+      - C:\ProgramData
+
+    linux:
+      - /home
+      - /etc
+      - /var/log
+
+  ignore:
+      - __pycache__
+      - node_modules
+      - .git
+      - temp
+
+  disk_usage_threshold: 300
+
 
 
 

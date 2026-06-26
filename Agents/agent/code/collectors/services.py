@@ -171,7 +171,7 @@ class ServicesCollector:
 
                 
 
-            except Exceptionas as e:
+            except Exception as e:
                 self.logger.error(e)
                 continue
 
