@@ -345,3 +345,55 @@ class Archive(Base, TimestampMixin):
 
     def __repr__(self):
         return f"<Archive #{self.id} [{self.date_from.date()} → {self.date_to.date()}] ({self.log_count} logs)>"
+
+
+# =============================================================================
+# INVESTIGATION (regroupement de logs suspects pour enquete croisee)
+# =============================================================================
+
+
+class InvestigationLog(Base, TimestampMixin):
+    """Lien entre une investigation et un log, avec note d'analyse."""
+
+    __tablename__ = "investigation_logs"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    investigation_id = Column(Integer, ForeignKey("investigations.id"), nullable=False)
+    log_id = Column(String(100), nullable=False, index=True)
+    log_index = Column(String(100), nullable=True)
+    analyst_note = Column(Text, nullable=True)
+    analyst_verdict = Column(String(20), default="suspect")
+    added_by = Column(Integer, ForeignKey("users.id"), nullable=True)
+
+    investigation = relationship("Investigation", foreign_keys=[investigation_id])
+
+    def __repr__(self):
+        return (
+            f"<InvestigationLog #{self.id} log={self.log_id} [{self.analyst_verdict}]>"
+        )
+
+
+class Investigation(Base, TimestampMixin):
+    """Regroupement de logs suspects pour investigation croisee."""
+
+    __tablename__ = "investigations"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String(255), nullable=False)
+    description = Column(Text, nullable=True)
+    status = Column(String(20), default="ouverte", nullable=False)
+    severity = Column(String(20), default="medium", nullable=False)
+    tags = Column(JSON, default=list, nullable=False)
+    log_ids = Column(JSON, default=list, nullable=False)
+    mitre_tactic = Column(String(100), nullable=True)
+    mitre_technique = Column(String(100), nullable=True)
+    created_by = Column(Integer, ForeignKey("users.id"), nullable=True)
+    assigned_to = Column(Integer, ForeignKey("users.id"), nullable=True)
+    closed_at = Column(DateTime(timezone=True), nullable=True)
+    resolution_notes = Column(Text, nullable=True)
+
+    assignee = relationship("User", foreign_keys=[assigned_to])
+    creator = relationship("User", foreign_keys=[created_by])
+
+    def __repr__(self):
+        return f"<Investigation #{self.id} '{self.title}' [{self.status}]>"
