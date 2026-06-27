@@ -137,6 +137,56 @@ async def search_logs(
     return result
 
 
+@router.get("/timeline")
+async def get_timeline(
+    interval: str = Query(
+        default="1h",
+        regex="^(10s|30s|1m|5m|15m|30m|1h|6h|12h|1d|1w|1M)$",
+        description="Intervalle de l'histogramme (10s, 1m, 1h, 1d, 1w, 1M)",
+    ),
+    date_from: Optional[datetime] = Query(
+        default=None, description="Debut de la plage horaire"
+    ),
+    date_to: Optional[datetime] = Query(
+        default=None, description="Fin de la plage horaire"
+    ),
+    severities: Optional[str] = Query(
+        default=None,
+        description="Filtrer par severites (separes par des virgules : critical,error,warning)",
+    ),
+    current_user: dict = Depends(get_current_user),
+    es=Depends(get_es),
+):
+    """
+    Retourne une serie temporelle pour alimenter un graphique chronologique.
+
+    Utilise l'aggregation date_histogram d'Elasticsearch pour grouper
+    les logs par intervalles (10s, 1m, 1h, 1d, ...) sans charger tous les documents.
+
+    Exemple de reponse :
+    {
+        "timeline": [
+            {"timestamp": "2026-06-27T10:00:00.000Z", "count": 42},
+            {"timestamp": "2026-06-27T11:00:00.000Z", "count": 15},
+            ...
+        ],
+        "total": 1250,
+        "interval": "1h",
+        "bucket_count": 24
+    }
+    """
+    repo = LogRepository(es)
+
+    severity_list = severities.split(",") if severities else None
+
+    return await repo.search_timeline(
+        interval=interval,
+        date_from=date_from,
+        date_to=date_to,
+        severity_filter=severity_list,
+    )
+
+
 @router.get("/{log_id}", response_model=LogResponse)
 async def get_log(
     log_id: str,
