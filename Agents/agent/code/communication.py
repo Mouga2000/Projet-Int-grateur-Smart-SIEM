@@ -52,8 +52,8 @@ class CommunicationClient:
 
 
 
-    def post(self, endpoint: str, payload: dict) -> bool:
-
+    def post(self, payload: dict) -> bool:
+        endpoint = "/api/events"
         url = self.base_url + endpoint
 
         try:
@@ -80,3 +80,16 @@ class CommunicationClient:
             return False
 
 
+
+
+    def ping(self):
+        try:
+            response = requests.get(
+                self.base_url +
+                "/api/v1/ping",
+                timeout=3
+            )
+            return response.status_code == 200
+
+        except:
+            return False

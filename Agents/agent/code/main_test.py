@@ -120,8 +120,6 @@ for event in events:
 
 """
 Point d'entrée du Smart Agent.
-
-Auteur : Nehemie Mouga
 """
 
 import signal
@@ -141,12 +139,17 @@ from collectors.services import ServicesCollector
 from collectors.filesystem import FilesystemCollector
 
 from collectors.manager import CollectorManager
+from actions.manager import ActionManager
 
+from storage.migrations import MigrationManager
+
+
+MigrationManager().migrate()
 
 log =  AgentLogger()
 logger = log.get_logger()
 
-url_event = "/api/events"   #"/api/v1/logs/ingest" 
+#url_event = "/api/events"   #"/api/v1/logs/ingest" 
 
 
 
@@ -164,14 +167,9 @@ class SmartAgent:
             self.client
         )
 
-        self.cpu_collector = CPUCollector()
-        self.memory_collector = MemoryCollector()
-        self.process_collector = ProcessCollector()
-        self.network_collector = NetworkCollector()
-        self.services_collector = ServicesCollector()
-        self.filesystem_collector = FilesystemCollector()
-
         self.configure_tasks()
+
+        self.action_manager = ActionManager()
         
 
 

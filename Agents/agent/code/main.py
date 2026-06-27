@@ -25,3 +25,12 @@ async def heartbeat(data: dict):
     return {
         "status": "received"
     }
+
+
+
+@app.get("/api/v1/ping")
+async def ping ():
+    print("=" * 50)
+    print("[PING] Un client vérifie la disponibilité du serveur SIEM.")
+    print("=" * 50)
+    return {"status": "ok"}

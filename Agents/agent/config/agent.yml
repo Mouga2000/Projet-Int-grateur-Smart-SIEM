@@ -15,6 +15,16 @@ server:
 
   port: 8000
 
+  api:
+
+    heartbeat: "/api/v1/heartbeat"
+
+    events: "/api/v1/events"
+
+    commands: "/api/v1/agents/{agent_id}/commands"
+
+    command_result: "/api/v1/commands/{command_id}/result"
+
   timeout: 10
 
   verify_ssl: false
@@ -156,5 +166,16 @@ filesystem:
 
 
 
+sync:  #pour la syncronisation des logs local avec le serveur après retablissement de la connexion
+
+  enabled: true
+
+  interval: 15
+
+  batch_size: 100
+
+  max_retry: 5
+
+  delete_after_sync: true
 
 

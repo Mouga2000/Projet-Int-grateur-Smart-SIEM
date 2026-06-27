@@ -4,6 +4,7 @@ Gestionnaire des collecteurs.
 """
 
 from scheduler import ScheduledTask
+from storage.repositories.manager import QueueManager
 
 
 class CollectorManager:
@@ -12,7 +13,7 @@ class CollectorManager:
         self.scheduler = scheduler
         self.client = client
         self.collectors = []
-        self.url_event = "/api/events"
+        self.queue = QueueManager()
 
 
     def register( self, name, collector, interval):
@@ -34,10 +35,12 @@ class CollectorManager:
         events = collector.collect()
 
         for event in events:
-
+            """
             self.client.post(
                 self.url_event,
                 event.to_dict()
-            )
+            )"""
+
+            self.queue.publish(event)
 
 
