@@ -1,0 +1,42 @@
+# ============================================================
+# Smart SIEM - Dependances Python (requirements.txt)
+# ============================================================
+
+# --- Framework Web ---
+fastapi==0.138.0
+uvicorn[standard]==0.49.0
+python-multipart==0.0.32
+
+# --- Authentification ---
+python-jose[cryptography]==3.5.0   # JWT
+passlib[bcrypt]==1.7.4              # Hachage de mots de passe (obsolete, utilise bcrypt direct)
+bcrypt==5.0.0
+pyotp==2.10.0                       # MFA TOTP
+qrcode[pil]==8.2                    # QR codes pour la MFA
+pillow==12.2.0                      # Necessaire pour qrcode[pil]
+
+# --- PostgreSQL ---
+sqlalchemy==2.0.36
+asyncpg==0.31.0
+psycopg2-binary==2.9.12
+alembic==1.18.4
+
+# --- Elasticsearch (logs) ---
+elasticsearch==8.19.3
+
+# --- Validation ---
+pydantic==2.13.4
+pydantic-settings==2.0.3
+email-validator==2.3.0              # Validation des emails (EmailStr)
+
+# --- Archivage & chiffrement ---
+cryptography==44.0.0              # Signatures RSA, hashs, clés
+
+# --- Utilitaires ---
+python-dotenv==1.2.2
+
+# --- Tests ---
+pytest==9.1.1
+pytest-asyncio==1.4.0
+pytest-cov==7.1.0
+httpx==0.28.1
