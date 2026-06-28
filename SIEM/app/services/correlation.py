@@ -35,6 +35,8 @@
 # ----------------------------------------------------------
 from typing import Dict, List
 
+from app.core.redis import get_redis
+
 
 # ----------------------------------------------------------
 # Déclaration de la classe CorrelationEngine.
@@ -44,7 +46,6 @@ from typing import Dict, List
 # C'est elle qui décide si un événement est dangereux.
 # ----------------------------------------------------------
 class CorrelationEngine:
-
     """
     ======================================================
     Documentation de la classe.
@@ -63,7 +64,6 @@ class CorrelationEngine:
     ======================================================
     """
 
-
     # ------------------------------------------------------
     # Constructeur de la classe.
     #
@@ -80,20 +80,15 @@ class CorrelationEngine:
     # ------------------------------------------------------
     def __init__(
         self,
-
         # Repository contenant toutes les règles
         # de corrélation.
         rule_repository,
-
         # Repository chargé des alertes.
         alert_repository,
-
         # Repository Elasticsearch.
         elastic_repository,
-
         # Client Redis.
         redis_client,
-
         # Service SOAR.
         # Il est facultatif.
         soar_service=None,
@@ -115,7 +110,6 @@ class CorrelationEngine:
         # Sauvegarde du service SOAR.
         self.soar = soar_service
 
-
     # ------------------------------------------------------
     # Fonction principale du moteur.
     #
@@ -126,7 +120,6 @@ class CorrelationEngine:
     # est asynchrone.
     # ------------------------------------------------------
     async def evaluate_event(self, normalized_log: Dict):
-
         """
         Point d'entrée principal du moteur.
 
@@ -143,91 +136,67 @@ class CorrelationEngine:
         # --------------------------------------------------
         rules = await self.rule_repository.get_enabled_rules()
 
-
         # --------------------------------------------------
         # Parcours de toutes les règles.
         #
         # Chaque règle est testée indépendamment.
         # --------------------------------------------------
         for rule in rules:
-
-
             # ------------------------------------------------
             # Au départ aucune menace n'est détectée.
             # ------------------------------------------------
             detected = False
-
 
             # ------------------------------------------------
             # Vérifie si la règle concerne
             # un seul événement.
             # ------------------------------------------------
             if rule["type"] == "single_event":
-
                 # Exécution du test.
                 detected = await self.check_single_event_rule(
-
                     # La règle courante.
                     rule,
-
                     # Le log reçu.
                     normalized_log,
                 )
-
 
             # ------------------------------------------------
             # Vérifie si la règle est une règle de seuil.
             # ------------------------------------------------
             elif rule["type"] == "threshold":
-
                 detected = await self.check_threshold_rule(
-
                     rule,
-
                     normalized_log,
                 )
-
 
             # ------------------------------------------------
             # Vérifie une corrélation
             # entre plusieurs événements.
             # ------------------------------------------------
             elif rule["type"] == "correlation":
-
                 detected = await self.check_correlation_rule(
-
                     rule,
-
                     normalized_log,
                 )
-
 
             # ------------------------------------------------
             # Vérifie une séquence d'événements.
             # ------------------------------------------------
             elif rule["type"] == "sequence":
-
                 detected = await self.check_sequence_rule(
-
                     rule,
-
                     normalized_log,
                 )
-
 
             # ------------------------------------------------
             # Si une menace est détectée,
             # on crée une alerte.
             # ------------------------------------------------
             if detected:
-
                 await self.create_alert(
-
                     rule,
-
                     normalized_log,
                 )
-
 
     # ------------------------------------------------------
     # Vérification d'une règle simple.
@@ -235,17 +204,12 @@ class CorrelationEngine:
     # Une seule condition suffit.
     # ------------------------------------------------------
     async def check_single_event_rule(
-
         self,
-
         # La règle.
         rule: Dict,
-
         # Le log.
         log: Dict,
-
     ) -> bool:
-
         """
         Vérifie une règle portant
         sur un seul événement.
@@ -263,7 +227,6 @@ class CorrelationEngine:
         # --------------------------------------------------
         condition = rule["condition"]
 
-
         # --------------------------------------------------
         # Comparaison entre
         # la valeur du log
@@ -277,219 +240,158 @@ class CorrelationEngine:
         #
         # False
         # --------------------------------------------------
-        return (
-
-            log.get(condition["field"])
-
-            ==
-
-            condition["value"]
-
-        )
-
+        return log.get(condition["field"]) == condition["value"]
 
     # ------------------------------------------------------
     # Vérification d'une règle de seuil.
     # ------------------------------------------------------
-    async def check_threshold_rule(
-
-        self,
-
-        rule: Dict,
-
-        log: Dict,
-
-    ) -> bool:
-
+    async def check_threshold_rule(self, rule: Dict, log: Dict) -> bool:
         """
-        Détection par seuil.
+        Regle de seuil : X evenements en Y secondes (via Redis).
 
-        Exemple :
-
-        5 échecs de connexion
-
-        en moins de 60 secondes.
+        Exemple de regle :
+        {
+            "type": "threshold",
+            "condition": {
+                "field": "severity",
+                "value": "critical",
+                "group_by": "source_ip"
+            },
+            "threshold": { "count": 5, "window_seconds": 60 }
+        }
         """
+        condition = rule.get("condition", {})
+        threshold_config = rule.get("threshold", {})
 
-        # --------------------------------------------------
-        # Ici Redis est utilisé.
-        #
-        # Redis incrémente un compteur.
-        #
-        # Exemple :
-        #
-        # login_failed:192.168.1.10
-        #
-        # Valeur :
-        #
-        # 1
-        #
-        # puis
-        #
-        # 2
-        #
-        # puis
-        #
-        # 3
-        # --------------------------------------------------
+        count_target = threshold_config.get("count", 5)
+        window = threshold_config.get("window_seconds", 60)
 
+        # Cle Redis : threshold:severity:critical:192.168.1.10
+        field = condition.get("field", "severity")
+        value = log.get(field, "unknown")
+        group_by = condition.get("group_by")
+        group_value = log.get(group_by, "global") if group_by else "global"
+        redis_key = f"threshold:{rule['id']}:{field}:{value}:{group_value}"
 
-        # --------------------------------------------------
-        # Redis ajoute également un TTL.
-        #
-        # Exemple :
-        #
-        # 60 secondes.
-        #
-        # Après 60 secondes,
-        # le compteur disparaît automatiquement.
-        # --------------------------------------------------
+        # Incrementer le compteur Redis avec TTL
+        redis = await get_redis()
+        count = await redis.incr(redis_key)
 
+        if count == 1:
+            await redis.expire(redis_key, window)
 
-        # --------------------------------------------------
-        # Ensuite le moteur lit
-        # la valeur actuelle du compteur.
-        # --------------------------------------------------
-
-
-        # --------------------------------------------------
-        # Si le seuil est atteint,
-        #
-        # True
-        #
-        # Sinon
-        #
-        # False
-        # --------------------------------------------------
-        pass
-
+        return count >= count_target
 
     # ------------------------------------------------------
     # Corrélation entre plusieurs sources.
     # ------------------------------------------------------
-    async def check_correlation_rule(
-
-        self,
-
-        rule: Dict,
-
-        log: Dict,
-
-    ) -> bool:
-
+    async def check_correlation_rule(self, rule: Dict, log: Dict) -> bool:
         """
-        Corrélation entre plusieurs sources.
+        Correlation multi-sources : recherche des evenements lies dans ES.
 
-        Exemple :
-
-        Firewall
-
-              +
-
-        Active Directory
-
-              +
-
-        Endpoint
+        Exemple de regle :
+        {
+            "type": "correlation",
+            "sources": ["firewall", "active_directory"],
+            "condition": {
+                "link_by": "source_ip",
+                "window_minutes": 5
+            }
+        }
         """
+        condition = rule.get("condition", {})
+        link_by = condition.get("link_by", "source_ip")
+        window_minutes = condition.get("window_minutes", 5)
 
-        # --------------------------------------------------
-        # Elasticsearch est interrogé.
-        #
-        # Il recherche tous les événements liés
-        # à cette adresse IP,
-        # cet utilisateur
-        # ou cette machine.
-        # --------------------------------------------------
+        link_value = log.get(link_by)
+        if not link_value:
+            return False
 
+        # Chercher dans ES des evenements relies dans la fenetre temporelle
+        from datetime import datetime, timedelta, timezone
 
-        # --------------------------------------------------
-        # Ensuite les événements sont comparés.
-        #
-        # Si la combinaison correspond
-        # à la règle,
-        #
-        # True
-        #
-        # Sinon
-        #
-        # False
-        # --------------------------------------------------
-        pass
+        date_from = (
+            datetime.now(timezone.utc) - timedelta(minutes=window_minutes)
+        ).isoformat()
 
+        es_query = {
+            "bool": {
+                "must": [
+                    {"term": {link_by: link_value}},
+                    {"range": {"timestamp": {"gte": date_from}}},
+                ]
+            }
+        }
+
+        response = await self.elastic_repository.search(query=es_query, size=100)
+        return response["total"] >= condition.get("min_events", 2)
 
     # ------------------------------------------------------
     # Vérification d'une séquence.
     # ------------------------------------------------------
-    async def check_sequence_rule(
-
-        self,
-
-        rule: Dict,
-
-        log: Dict,
-
-    ) -> bool:
-
+    async def check_sequence_rule(self, rule: Dict, log: Dict) -> bool:
         """
-        Détection de séquences.
+        Regle sequentielle : detection de pattern en N etapes.
 
-        Exemple :
-
-        Login Failed
-
-        →
-
-        Login Success
-
-        →
-
-        Exécution PowerShell
+        Exemple de regle :
+        {
+            "type": "sequence",
+            "steps": [
+                {"log_type": "auth", "severity": "critical"},
+                {"log_type": "reseau", "severity": "warning"},
+                {"log_type": "systeme", "severity": "info"},
+            ],
+            "window_seconds": 300,
+            "group_by": "source_ip"
+        }
         """
+        steps = rule.get("steps", [])
+        if not steps:
+            return False
 
-        # --------------------------------------------------
-        # Redis mémorise
-        # l'étape atteinte.
-        #
-        # Exemple :
-        #
-        # Étape 1
-        #
-        # puis
-        #
-        # Étape 2
-        #
-        # puis
-        #
-        # Étape 3
-        # --------------------------------------------------
+        window = rule.get("window_seconds", 300)
+        group_by = rule.get("group_by", "source_ip")
+        group_value = log.get(group_by, "global")
 
+        redis = await get_redis()
+        step_key = f"sequence:{rule['id']}:{group_value}:step"
 
-        # --------------------------------------------------
-        # Lorsque toutes les étapes
-        # sont réalisées
-        # dans le bon ordre,
-        #
-        # True
-        #
-        # est retourné.
-        # --------------------------------------------------
-        pass
+        # Verifier si la fenetre est encore ouverte
+        current_step_str = await redis.get(step_key)
+        if current_step_str is None:
+            current_step = 0
+        else:
+            ttl = await redis.ttl(step_key)
+            if ttl < 0:
+                await redis.delete(step_key)
+                return False
+            current_step = int(current_step_str)
 
+        # Verifier si le log correspond a l'etape attendue
+        expected_step = steps[current_step]
+        match = all(log.get(k) == v for k, v in expected_step.items())
+        if not match:
+            return False
+
+        current_step += 1
+
+        if current_step >= len(steps):
+            # Toutes les etapes completees -> sequence detectee !
+            await redis.delete(step_key)
+            return True
+
+        # Sauvegarder la progression
+        await redis.setex(step_key, window, str(current_step))
+        return False
 
     # ------------------------------------------------------
     # Création d'une alerte.
     # ------------------------------------------------------
     async def create_alert(
-
         self,
-
         rule: Dict,
-
         log: Dict,
-
     ):
-
         """
         Génère une alerte.
 
@@ -508,35 +410,25 @@ class CorrelationEngine:
         # représentant l'alerte.
         # --------------------------------------------------
         alert = {
-
             # Identifiant de la règle.
             "rule_id": rule["id"],
-
             # Nom de la règle.
             "rule_name": rule["name"],
-
             # Niveau de gravité.
             "severity": rule["severity"],
-
             # Adresse IP source.
             "source_ip": log.get("source_ip"),
-
             # Type d'événement.
             "event_type": log.get("event_type"),
-
             # Date et heure.
             "timestamp": log.get("timestamp"),
-
             # Description de la menace.
             "description": rule["description"],
-
             # Tactique MITRE ATT&CK.
             "mitre_tactic": rule.get("mitre_tactic"),
-
             # Technique MITRE ATT&CK.
             "mitre_technique": rule.get("mitre_technique"),
         }
-
 
         # --------------------------------------------------
         # Sauvegarde de l'alerte
@@ -547,26 +439,20 @@ class CorrelationEngine:
         # --------------------------------------------------
         alert_id = await self.alert_repository.create(alert)
 
-
         # --------------------------------------------------
         # Vérifie si un SOAR est configuré.
         # --------------------------------------------------
         if self.soar:
-
             # Déclenche automatiquement
             # le playbook SOAR.
             await self.soar.execute_playbook(
-
                 # Identifiant de l'alerte.
                 alert_id,
-
                 # Règle ayant déclenché l'alerte.
                 rule,
-
                 # Log responsable de l'alerte.
                 log,
             )
-
 
         # --------------------------------------------------
         # Retourne l'identifiant

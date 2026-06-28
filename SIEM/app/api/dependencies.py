@@ -27,20 +27,22 @@
 #       pass
 
 
+from typing import List
+
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.core.database import get_db
 from app.core.security import decode_token
 from app.repositories.user_repo import UserRepository
-from app.core.database import get_db
-from sqlalchemy.ext.asyncio import AsyncSession
-from app.utils.tags import Role
-from typing import List
+from app.utils.tags import Perimeter, Role
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 
+
 async def get_current_user(
-    token: str = Depends(oauth2_scheme),
-    db: AsyncSession = Depends(get_db)
+    token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_db)
 ) -> dict:
     """
     Récupère l'utilisateur actuel à partir du token JWT (PostgreSQL).
@@ -52,8 +54,7 @@ async def get_current_user(
 
         if not username:
             raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Token invalide"
+                status_code=status.HTTP_401_UNAUTHORIZED, detail="Token invalide"
             )
 
         # 2. Récupérer l'utilisateur dans PostgreSQL
@@ -63,43 +64,39 @@ async def get_current_user(
         if not user:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Utilisateur non trouvé"
+                detail="Utilisateur non trouvé",
             )
 
         if not user.get("is_active", True):
             raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="Compte désactivé"
+                status_code=status.HTTP_403_FORBIDDEN, detail="Compte désactivé"
             )
 
         return user
 
     except ValueError as e:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=str(e)
-        )
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(e))
     except Exception:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token invalide ou expiré"
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Token invalide ou expiré"
         )
 
+
 async def get_current_active_user(
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
 ) -> dict:
     """
     Vérifie que l'utilisateur est actif
     """
     if not current_user.get("is_active", True):
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Compte désactivé"
+            status_code=status.HTTP_403_FORBIDDEN, detail="Compte désactivé"
         )
     return current_user
 
+
 async def get_current_user_permissions(
-    current_user: dict = Depends(get_current_active_user)
+    current_user: dict = Depends(get_current_active_user),
 ) -> List[str]:
     """
     Récupère les permissions de l'utilisateur en fonction de son rôle
@@ -107,12 +104,14 @@ async def get_current_user_permissions(
     role = Role(current_user.get("role", "lecteur"))
     return role.get_permissions()
 
+
 def require_permissions(required_permissions: List[str]):
     """
     Décorateur/factory pour vérifier les permissions
     """
+
     async def permission_checker(
-        user_permissions: List[str] = Depends(get_current_user_permissions)
+        user_permissions: List[str] = Depends(get_current_user_permissions),
     ):
         # Vérifier si l'utilisateur a les permissions requises
         if "*" in user_permissions:  # Administrateur
@@ -122,11 +121,12 @@ def require_permissions(required_permissions: List[str]):
             if perm not in user_permissions:
                 raise HTTPException(
                     status_code=status.HTTP_403_FORBIDDEN,
-                    detail=f"Permission insuffisante. Requis: {', '.join(required_permissions)}"
+                    detail=f"Permission insuffisante. Requis: {', '.join(required_permissions)}",
                 )
         return True
 
     return permission_checker
+
 
 def require_role(allowed_roles: List[Role]):
     """
@@ -134,15 +134,58 @@ def require_role(allowed_roles: List[Role]):
 
     Utilisation : require_role([Role.ADMINISTRATEUR])
     """
-    async def role_checker(
-        current_user: dict = Depends(get_current_active_user)
-    ):
+
+    async def role_checker(current_user: dict = Depends(get_current_active_user)):
         user_role = current_user.get("role")
         if user_role not in allowed_roles:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail=f"Rôle insuffisant. Rôle requis: {', '.join(allowed_roles)}"
+                detail=f"Rôle insuffisant. Rôle requis: {', '.join(allowed_roles)}",
             )
         return current_user
 
     return role_checker
+
+
+def require_perimeter(allowed_perimeters: List[str]):
+    """
+    Verifie que l'utilisateur a le perimetre requis.
+
+    Utilisation : require_perimeter(["equipe", "service"])
+    """
+
+    async def perimeter_checker(current_user: dict = Depends(get_current_active_user)):
+        user_role = current_user.get("role")
+        # L'administrateur voit tout, pas de restriction
+        if user_role == Role.ADMINISTRATEUR:
+            return current_user
+
+        user_perimeter = current_user.get("perimeter", [])
+        # Si l'utilisateur n'a pas de perimetre defini, il voit tout
+        if not user_perimeter:
+            return current_user
+
+        # Verifier si le perimetre utilisateur intersecte les perimetres autorises
+        if not any(p in user_perimeter for p in allowed_perimeters):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=f"Perimetre insuffisant. Requis: {', '.join(allowed_perimeters)}",
+            )
+        return current_user
+
+    return perimeter_checker
+
+
+def get_current_user_perimeter(
+    current_user: dict = Depends(get_current_active_user),
+) -> List[str]:
+    """
+    Retourne la liste des perimetres de l'utilisateur connecte.
+    Utilisee dans les endpoints pour filtrer les donnees par perimetre.
+    """
+    user_role = current_user.get("role")
+    # L'administrateur a tous les perimetres
+    if user_role == Role.ADMINISTRATEUR:
+        return [p.value for p in Perimeter]
+
+    return current_user.get("perimeter", [])

@@ -3,11 +3,14 @@
 # Endpoints /api/v1/logs — Gestion des logs
 
 from datetime import datetime
+from typing import Optional
 
 from elasticsearch import ConnectionError as ESConnectionError
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.dependencies import get_current_user
+from app.core.database import get_db
 from app.core.elasticsearch import get_es
 from app.repositories.log_repo import LogRepository
 from app.schemas.log_schemas import LogListResponse, LogResponse, LogSearchRequest
@@ -20,12 +23,13 @@ router = APIRouter(prefix="/logs", tags=["Logs"])
 async def ingest_log(
     request: Request,
     es=Depends(get_es),
+    db: AsyncSession = Depends(get_db),
 ):
     """
-    Point d'entrée universel — accepte tout JSON, quel que soit le format.
+    Point d'entree universel -- accepte tout JSON, quel que soit le format.
+    Apres normalisation et indexation, le log est evalue par le moteur de correlation.
     """
     raw_data = await request.json()
-    import json
 
     try:
         normalized = await NormalizationService.normalize(raw_data)
@@ -34,13 +38,36 @@ async def ingest_log(
         print(f"RAW -> NORMALIZED ({datetime.now().strftime('%H:%M:%S')})")
         print(f"{'=' * 60}")
         print("RAW:")
+        import json
+
         print(json.dumps(raw_data, indent=2, ensure_ascii=False, default=str)[:500])
         print(f"\n{'-' * 40}")
         print("NORMALIZED (stocke dans ES) :")
         print(json.dumps(normalized, indent=2, ensure_ascii=False, default=str))
         print(f"{'=' * 60}\n")
+
         repo = LogRepository(es)
         result = await repo.ingest(normalized)
+
+        # --- CORRELATION : evaluer le log contre toutes les regles ---
+        try:
+            from app.repositories.alert_repo import AlertRepository
+            from app.repositories.rule_repo import RuleRepository
+            from app.services.correlation import CorrelationEngine
+
+            rule_repo = RuleRepository(db)
+            alert_repo = AlertRepository(db)
+            engine = CorrelationEngine(
+                rule_repository=rule_repo,
+                alert_repository=alert_repo,
+                elastic_repository=repo,
+                redis_client=None,
+            )
+            alerts_created = await engine.evaluate_event(normalized)
+            if alerts_created:
+                print(f"[CORRELATION] {alerts_created} alerte(s) creee(s)")
+        except Exception as e:
+            print(f"[CORRELATION] Erreur : {e}")
 
         return LogResponse(
             id=result["id"],
@@ -130,6 +157,28 @@ async def search_logs(
         if search.date_to:
             range_filter["lte"] = search.date_to.isoformat()
         must_clauses.append({"range": {"timestamp": range_filter}})
+
+    # Filtre automatique par perimetre de l'utilisateur
+    user_perimeter = current_user.get("perimeter", [])
+    user_role = current_user.get("role")
+    if user_perimeter and user_role != "administrateur":
+        # Si l'utilisateur a un perimetre "equipe", on filtre les logs par host/type
+        # qui correspondent a ce perimetre
+        perimeter_filters = []
+        for p in user_perimeter:
+            if p == "equipe":
+                perimeter_filters.append({"term": {"tags": "equipe"}})
+            elif p == "service":
+                perimeter_filters.append({"term": {"tags": "service"}})
+            elif p == "filiale":
+                perimeter_filters.append({"term": {"tags": "filiale"}})
+            elif p == "environnement":
+                perimeter_filters.append({"term": {"tags": "environnement"}})
+
+        if perimeter_filters:
+            must_clauses.append(
+                {"bool": {"should": perimeter_filters, "minimum_should_match": 1}}
+            )
 
     es_query = {"bool": {"must": must_clauses}} if must_clauses else {"match_all": {}}
 

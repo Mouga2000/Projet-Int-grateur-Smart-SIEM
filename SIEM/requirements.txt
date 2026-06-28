@@ -34,6 +34,7 @@ cryptography==44.0.0              # Signatures RSA, hashs, clés
 
 # --- Utilitaires ---
 python-dotenv==1.2.2
+redis[hiredis]==5.2.0             # Cache, compteurs de seuil, broker Celery
 
 # --- Tests ---
 pytest==9.1.1

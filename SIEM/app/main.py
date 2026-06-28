@@ -37,10 +37,13 @@
 #
 # Point d'entrée uvicorn : uvicorn app.main:app --reload
 
-from fastapi import FastAPI
 from contextlib import asynccontextmanager
+
+from fastapi import FastAPI
+
 from app.api.v1.router import api_router
-from app.core.database import init_db, close_db
+from app.core.database import close_db, init_db
+from app.core.redis import close_redis, get_redis
 
 
 @asynccontextmanager
@@ -48,9 +51,11 @@ async def lifespan(app: FastAPI):
     """Gère le cycle de vie de l'application."""
     # Au démarrage : créer les tables PostgreSQL si elles n'existent pas
     await init_db()
+    await get_redis()  # Initialiser Redis
     yield
     # À l'arrêt : fermer les connexions
     await close_db()
+    await close_redis()
 
 
 app = FastAPI(
@@ -66,9 +71,11 @@ app = FastAPI(
 # Inclure les routeurs
 app.include_router(api_router, prefix="/api/v1")
 
+
 @app.get("/")
 async def root():
     return {"message": "Smart SIEM API is running"}
+
 
 @app.get("/health")
 async def health():
