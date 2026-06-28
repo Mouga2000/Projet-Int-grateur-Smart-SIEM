@@ -23,18 +23,17 @@ class Database:
 
         self.connection = None
 
+
     def connect(self):
-
         if self.connection is None:
-
             self.connection = sqlite3.connect(
                 self.database_path,
                 check_same_thread=False
             )
 
             self.connection.row_factory = sqlite3.Row
-
         return self.connection
+
 
 
     def cursor(self):

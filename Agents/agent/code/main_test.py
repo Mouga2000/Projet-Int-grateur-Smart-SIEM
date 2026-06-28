@@ -126,6 +126,7 @@ import signal
 import sys
 import time
 
+from config import Config
 from logger import AgentLogger
 from scheduler import Scheduler, ScheduledTask
 from heartbeat import HeartbeatService
@@ -142,6 +143,10 @@ from collectors.manager import CollectorManager
 from actions.manager import ActionManager
 
 from storage.migrations import MigrationManager
+
+from synchronisation.manager import TransferManager
+
+
 
 
 MigrationManager().migrate()
@@ -166,6 +171,8 @@ class SmartAgent:
             self.scheduler,
             self.client
         )
+
+        self.transfer_manager = TransferManager()
 
         self.configure_tasks()
 
@@ -220,6 +227,17 @@ class SmartAgent:
             60
         )
 
+        interval = Config().get(
+            "sync",
+            "interval"
+        )
+        self.scheduler.register(
+            ScheduledTask(
+                name="Transfer",
+                interval=interval,
+                callback=self.transfer_manager.run
+            )
+        )
         
 
 

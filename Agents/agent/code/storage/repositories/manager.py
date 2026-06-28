@@ -14,9 +14,7 @@ class QueueManager:
 
     def __init__(self):
         self.network = NetworkManager()
-
         self.repository = EventRepository()
-
         self.client = CommunicationClient()
         
         self.logs = AgentLogger().get_logger()

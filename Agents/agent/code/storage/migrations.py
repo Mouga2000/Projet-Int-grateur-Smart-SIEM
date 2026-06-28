@@ -84,7 +84,6 @@ class MigrationManager:
     def create_events_table(self):
 
         try:
-
             self.cursor.execute("""
                 CREATE TABLE IF NOT EXISTS events(
 
@@ -108,7 +107,6 @@ class MigrationManager:
 
                     last_sync_at TIMESTAMP NULL
                 )
-
             """)
 
             self.connection.commit()

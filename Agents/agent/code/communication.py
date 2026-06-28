@@ -57,7 +57,6 @@ class CommunicationClient:
         url = self.base_url + endpoint
 
         try:
-
             response = requests.post(
                 url=url,
                 json=payload,
@@ -68,9 +67,7 @@ class CommunicationClient:
 
             response.raise_for_status()
 
-            self.logger.info(
-                f"POST {endpoint} -> {response.status_code}"
-            )
+            self.logger.info( f"POST {endpoint} -> {response.status_code}")
 
             return True
 

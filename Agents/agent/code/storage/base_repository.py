@@ -13,6 +13,6 @@ class BaseRepository(ABC):
         self.database = Database()
         self.connection = self.database.connect()
 
-    @property
-    def cursor(self):
-        return self.connection.cursor()
+        self.cursor = self.connection.cursor()
+
+    

@@ -12240,3 +12240,2338 @@ sqlite3.InterfaceError: bad parameter or other API misuse
 2026-06-27 18:43:14,226 | INFO     | Task stopped.
 2026-06-27 18:43:14,226 | INFO     | Task stopped.
 2026-06-27 18:43:14,226 | INFO     | Task stopped.
+2026-06-28 09:15:18,471 | INFO     | Migration existante
+2026-06-28 09:15:18,484 | INFO     | Initialisation du Smart Agent...
+2026-06-28 09:15:18,596 | INFO     | Tâche enregistrée : CPU
+2026-06-28 09:15:18,606 | INFO     | Tâche enregistrée : Memory
+2026-06-28 09:15:18,617 | INFO     | Tâche enregistrée : Logs
+2026-06-28 09:15:18,627 | INFO     | Tâche enregistrée : Network
+2026-06-28 09:15:18,693 | INFO     | Tâche enregistrée : Services
+2026-06-28 09:15:18,704 | INFO     | Tâche enregistrée : Filesystem
+2026-06-28 09:16:09,650 | INFO     | Migration existante
+2026-06-28 09:16:09,655 | INFO     | Initialisation du Smart Agent...
+2026-06-28 09:16:09,764 | INFO     | Tâche enregistrée : CPU
+2026-06-28 09:16:09,774 | INFO     | Tâche enregistrée : Memory
+2026-06-28 09:16:09,784 | INFO     | Tâche enregistrée : Logs
+2026-06-28 09:16:09,794 | INFO     | Tâche enregistrée : Network
+2026-06-28 09:16:09,842 | INFO     | Tâche enregistrée : Services
+2026-06-28 09:16:09,852 | INFO     | Tâche enregistrée : Filesystem
+2026-06-28 09:16:09,858 | INFO     | Tâche enregistrée : Transfer
+2026-06-28 09:16:09,858 | INFO     | Démarrage du Smart Agent...
+2026-06-28 09:16:09,858 | INFO     | Démarrage du scheduler...
+2026-06-28 09:16:09,864 | INFO     | Task started.
+2026-06-28 09:16:09,870 | INFO     | Task started.
+2026-06-28 09:16:09,875 | INFO     | Task started.
+2026-06-28 09:16:10,804 | INFO     | Task started.
+2026-06-28 09:16:10,805 | INFO     | Task started.
+2026-06-28 09:16:10,805 | INFO     | Scheduler démarré.
+2026-06-28 09:16:10,805 | INFO     | RAM : 65.6%
+2026-06-28 09:16:10,810 | INFO     | Task started.
+2026-06-28 09:16:10,883 | INFO     | Task started.
+2026-06-28 09:16:10,893 | INFO     | CPU : 14.6%
+2026-06-28 09:16:10,894 | INFO     | 2 partitions collectées
+2026-06-28 09:16:11,083 | ERROR    | [WinError 2] Le fichier spécifié est introuvable: '(originated from QueryServiceConfig2W)'
+2026-06-28 09:16:11,104 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:16:11,155 | INFO     | 4 services collectés
+2026-06-28 09:16:11,170 | INFO     | 148 connexions réseau collectées
+2026-06-28 09:16:13,057 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:13,057 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:13,058 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:13,184 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:13,200 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:13,235 | ERROR    | bad parameter or other API misuse
+Traceback (most recent call last):
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\scheduler.py", line 87, in run
+    self.callback()
+    ~~~~~~~~~~~~~^^
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\collectors\manager.py", line 28, in <lambda>
+    callback=lambda c=collector:self.execute(c)
+                                ~~~~~~~~~~~~^^^
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\collectors\manager.py", line 44, in execute
+    self.queue.publish(event)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\storage\repositories\manager.py", line 32, in publish
+    self.repository.save(event)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\storage\repositories\event_repository.py", line 12, in save
+    self.cursor.execute(
+    ~~~~~~~~~~~~~~~~~~~^
+        """ INSERT INTO events(collector, event_type, payload ) VALUES(?, ?, ?) """,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        )
+        ^
+    )
+    ^
+sqlite3.InterfaceError: bad parameter or other API misuse
+2026-06-28 09:16:15,353 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:15,353 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:16,101 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:16:17,582 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:19,694 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:21,112 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:16:23,336 | INFO     | RAM : 65.3%
+2026-06-28 09:16:24,234 | INFO     | CPU : 11.6%
+2026-06-28 09:16:25,383 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:26,116 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:16:26,276 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:31,121 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:16:35,544 | INFO     | RAM : 65.4%
+2026-06-28 09:16:36,123 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:16:37,374 | INFO     | CPU : 13.0%
+2026-06-28 09:16:37,596 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:39,401 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:41,134 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:16:43,259 | INFO     | 153 connexions réseau collectées
+2026-06-28 09:16:45,299 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:46,134 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:16:47,481 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:47,748 | INFO     | RAM : 65.5%
+2026-06-28 09:16:49,633 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:49,795 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:50,535 | INFO     | CPU : 5.6%
+2026-06-28 09:16:51,145 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:16:51,784 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:52,551 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:53,933 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:56,098 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:56,153 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:16:58,234 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:16:59,885 | INFO     | RAM : 65.4%
+2026-06-28 09:17:00,430 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:17:01,167 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:17:01,943 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:17:02,549 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:17:03,672 | INFO     | CPU : 5.1%
+2026-06-28 09:17:04,668 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:17:05,701 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:17:06,173 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:17:06,847 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:17:09,000 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:17:11,133 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:17:11,183 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:17:12,035 | INFO     | RAM : 65.4%
+2026-06-28 09:17:13,278 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:17:14,078 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:17:15,448 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:17:15,482 | INFO     | 2 partitions collectées
+2026-06-28 09:17:16,199 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:17:16,790 | INFO     | CPU : 7.4%
+2026-06-28 09:17:17,531 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:17:17,562 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:17:18,843 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:17:19,664 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:17:19,794 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:17:20,083 | ERROR    | [WinError 2] Le fichier spécifié est introuvable: '(originated from QueryServiceConfig2W)'
+2026-06-28 09:17:20,157 | INFO     | 4 services collectés
+2026-06-28 09:17:20,722 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:20,754 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:20,785 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:20,817 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,044 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,077 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,109 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,142 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,173 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,204 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:17:21,206 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,238 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,268 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,301 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,333 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,365 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,399 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,431 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,465 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,504 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,543 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,575 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,608 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,639 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,672 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,704 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,736 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,769 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,799 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,832 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,865 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,898 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,930 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,962 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:21,995 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,027 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,058 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,090 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,122 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,155 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,187 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,219 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,251 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,283 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,316 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,347 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,379 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,412 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,445 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,478 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,510 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,542 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,575 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,606 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,638 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,670 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,690 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,719 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,751 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,784 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,817 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,850 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,881 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,912 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,945 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:22,977 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,011 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,043 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,073 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,106 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,138 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,170 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,201 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,234 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,266 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,299 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,333 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,363 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,396 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,429 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,461 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,493 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,526 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,559 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,592 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,624 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,656 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,687 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,717 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,751 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,783 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,816 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,850 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,882 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,915 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,947 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,970 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:23,993 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,025 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,057 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,091 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,123 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,154 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,186 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,202 | INFO     | RAM : 65.9%
+2026-06-28 09:17:24,217 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,218 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,250 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,283 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,315 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,347 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,380 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,401 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,429 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,462 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,494 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,526 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,557 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,590 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,623 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,656 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,688 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,719 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,751 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,782 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,814 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,847 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,881 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,914 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,946 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:24,978 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:25,011 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:25,042 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:25,073 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:25,106 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:25,139 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:25,171 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:25,203 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:25,235 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:25,258 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:25,285 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:25,332 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:25,364 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:26,206 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:17:29,972 | INFO     | CPU : 5.3%
+2026-06-28 09:17:30,015 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:31,218 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:17:34,233 | INFO     | RAM : 65.9%
+2026-06-28 09:17:34,283 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:36,224 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:17:41,020 | INFO     | CPU : 12.0%
+2026-06-28 09:17:41,061 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:41,237 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:17:44,286 | INFO     | RAM : 66.0%
+2026-06-28 09:17:44,318 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:46,244 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:17:51,249 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:17:52,075 | INFO     | CPU : 9.1%
+2026-06-28 09:17:52,135 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:54,329 | INFO     | RAM : 66.0%
+2026-06-28 09:17:54,362 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:55,408 | INFO     | 300 connexions réseau collectées
+2026-06-28 09:17:55,423 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:55,456 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:55,486 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:55,522 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:55,555 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:55,576 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:55,605 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:55,638 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:55,671 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:55,706 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:55,740 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:55,773 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:55,805 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:55,838 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:55,873 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:55,906 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:55,938 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:55,970 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:55,986 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,018 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,051 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,085 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,118 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,131 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,142 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,152 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,182 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,198 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,211 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,250 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:17:56,252 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,284 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,319 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,352 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,385 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,419 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,472 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,532 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,554 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,598 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,635 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,657 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,702 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,736 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,772 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,804 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,835 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,868 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,901 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,935 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:56,968 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,001 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,034 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,065 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,097 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,129 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,162 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,195 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,227 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,267 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,289 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,298 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,323 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,330 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,340 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,348 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,374 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,405 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,410 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,414 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,421 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,426 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,468 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,509 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,539 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,574 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,591 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,610 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,649 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,669 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,678 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,702 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,722 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,728 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,737 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,747 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,758 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,767 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,777 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,787 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,794 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,831 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,861 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,875 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,885 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,892 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,947 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,960 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,988 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:57,994 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,002 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,009 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,016 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,024 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,048 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,055 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,060 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,100 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,131 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,148 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,157 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,193 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,232 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,248 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,264 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,280 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,312 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,349 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,368 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,396 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,429 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,444 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,451 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,463 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,492 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,497 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,524 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,541 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,562 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,571 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,622 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,630 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,667 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,690 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,711 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,728 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,778 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,810 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,851 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,888 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,919 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,952 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:58,983 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,022 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,051 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,090 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,120 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,151 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,185 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,218 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,244 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,283 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,314 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,349 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,379 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,408 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,436 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,467 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,488 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,518 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,551 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,584 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,616 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,651 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,681 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,710 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,739 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,769 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,804 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,837 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,870 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,904 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,923 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,954 | INFO     | POST /api/events -> 200
+2026-06-28 09:17:59,973 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,004 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,037 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,070 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,103 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,138 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,186 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,217 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,250 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,282 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,315 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,346 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,377 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,396 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,410 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,442 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,471 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,510 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,537 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,573 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,604 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,637 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,668 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,701 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,734 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,768 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,800 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,836 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,868 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,901 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,907 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,949 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:00,981 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,016 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,052 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,085 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,105 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,135 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,169 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,203 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,235 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,250 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:18:01,268 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,301 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,333 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,352 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,397 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,429 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,462 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,496 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,527 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,559 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,592 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,624 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,657 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,689 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,721 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,737 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,769 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,801 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,835 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,868 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,900 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,932 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,963 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:01,995 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,028 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,061 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,094 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,125 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,157 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,189 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,221 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,253 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,285 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,318 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,349 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,385 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,418 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,426 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,447 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,458 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,487 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,518 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,545 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,625 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,631 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,657 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,662 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,669 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,674 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,687 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,693 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,698 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,719 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,736 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,742 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,747 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,755 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,760 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,769 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,785 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,791 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,796 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,802 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,808 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,813 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,821 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,826 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,830 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,837 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,843 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,848 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,854 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,860 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,868 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,875 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,895 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,905 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,911 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,916 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,940 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,945 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,953 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,959 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,964 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,973 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:02,989 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:03,140 | INFO     | CPU : 34.8%
+2026-06-28 09:18:03,168 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:04,367 | INFO     | RAM : 66.8%
+2026-06-28 09:18:04,401 | INFO     | POST /api/events -> 200
+2026-06-28 09:18:06,264 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:18:11,265 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:18:14,186 | INFO     | CPU : 11.0%
+2026-06-28 09:18:14,412 | INFO     | RAM : 66.3%
+2026-06-28 09:18:16,221 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:18:16,269 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:18:16,463 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:18:19,817 | INFO     | 2 partitions collectées
+2026-06-28 09:18:21,071 | ERROR    | [WinError 2] Le fichier spécifié est introuvable: '(originated from QueryServiceConfig2W)'
+2026-06-28 09:18:21,141 | INFO     | 4 services collectés
+2026-06-28 09:18:21,276 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:18:21,840 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:18:23,154 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:18:23,962 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:18:26,283 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:18:26,543 | INFO     | RAM : 66.0%
+2026-06-28 09:18:27,059 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:18:27,380 | INFO     | CPU : 2.5%
+2026-06-28 09:18:28,578 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:18:29,235 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:18:29,428 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-06-28 09:18:30,585 | INFO     | Signal d'arrêt reçu.
+2026-06-28 09:18:30,586 | INFO     | Arrêt du Smart Agent...
+2026-06-28 09:18:30,588 | INFO     | Arrêt du scheduler...
+2026-06-28 09:18:30,588 | INFO     | Scheduler arrêté.
+2026-06-28 09:18:30,589 | INFO     | Task stopped.
+2026-06-28 09:18:30,589 | INFO     | Task stopped.
+2026-06-28 09:18:30,589 | INFO     | Task stopped.
+2026-06-28 09:18:30,589 | INFO     | Task stopped.
+2026-06-28 09:18:30,589 | INFO     | Task stopped.
+2026-06-28 09:18:30,589 | INFO     | Task stopped.
+2026-06-28 09:19:08,806 | INFO     | Migration existante
+2026-06-28 09:19:08,811 | INFO     | Initialisation du Smart Agent...
+2026-06-28 09:19:08,920 | INFO     | Tâche enregistrée : CPU
+2026-06-28 09:19:08,930 | INFO     | Tâche enregistrée : Memory
+2026-06-28 09:19:08,941 | INFO     | Tâche enregistrée : Logs
+2026-06-28 09:19:08,951 | INFO     | Tâche enregistrée : Network
+2026-06-28 09:19:08,997 | INFO     | Tâche enregistrée : Services
+2026-06-28 09:19:09,007 | INFO     | Tâche enregistrée : Filesystem
+2026-06-28 09:19:09,012 | INFO     | Tâche enregistrée : Transfer
+2026-06-28 09:19:09,012 | INFO     | Démarrage du Smart Agent...
+2026-06-28 09:19:09,013 | INFO     | Démarrage du scheduler...
+2026-06-28 09:19:09,018 | INFO     | Task started.
+2026-06-28 09:19:09,023 | INFO     | Task started.
+2026-06-28 09:19:09,387 | INFO     | Task started.
+2026-06-28 09:19:09,388 | INFO     | RAM : 65.7%
+2026-06-28 09:19:09,393 | INFO     | Task started.
+2026-06-28 09:19:09,403 | INFO     | Task started.
+2026-06-28 09:19:09,411 | INFO     | Task started.
+2026-06-28 09:19:09,411 | INFO     | Scheduler démarré.
+2026-06-28 09:19:09,489 | INFO     | Task started.
+2026-06-28 09:19:09,571 | INFO     | 2 partitions collectées
+2026-06-28 09:19:09,649 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:19:09,667 | ERROR    | [WinError 2] Le fichier spécifié est introuvable: '(originated from QueryServiceConfig2W)'
+2026-06-28 09:19:09,712 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:09,728 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:09,740 | INFO     | 4 services collectés
+2026-06-28 09:19:09,748 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:09,761 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:09,761 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:09,766 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:09,772 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:09,786 | INFO     | 300 connexions réseau collectées
+2026-06-28 09:19:09,808 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:09,840 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:09,873 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:09,905 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:09,938 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:09,969 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,001 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,020 | INFO     | CPU : 15.1%
+2026-06-28 09:19:10,034 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,049 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,066 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,099 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,131 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,163 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,196 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,228 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,260 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,293 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,325 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,358 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,391 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,423 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,455 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,487 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,507 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,533 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,565 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,581 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,613 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,646 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,678 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,711 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,745 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,776 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,808 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,840 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,872 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,904 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,936 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:10,969 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:11,001 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:11,032 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:11,064 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:11,097 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:11,133 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:11,162 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:11,194 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:11,228 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:11,260 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:11,292 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:11,322 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:11,355 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:11,387 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:11,420 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:11,470 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:11,520 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:12,405 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:12,438 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:12,470 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:12,502 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:12,535 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:12,567 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:12,599 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:12,631 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:12,663 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:12,696 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:12,730 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:12,763 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:12,795 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:12,828 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:12,860 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:12,892 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:12,923 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:12,955 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:12,987 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,019 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,052 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,084 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,116 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,149 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,181 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,214 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,246 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,279 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,312 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,344 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,376 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,409 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,440 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,471 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,504 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,535 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,569 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,601 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,634 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,666 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,698 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,729 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,761 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,793 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,826 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,858 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,891 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,923 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:13,956 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,002 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,034 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,067 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,100 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,133 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,167 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,217 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,262 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,295 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,328 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,361 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,393 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,425 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,456 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,488 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,520 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,552 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,584 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,618 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,651 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,665 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:19:14,682 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,698 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,731 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,764 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,795 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,828 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,861 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,893 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,926 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,958 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:14,989 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,022 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,054 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,085 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,118 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,150 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,182 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,216 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,249 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,281 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,314 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,346 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,377 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,410 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,443 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,476 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,508 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,539 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,571 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,603 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,635 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,668 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,700 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,732 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,766 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,798 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,830 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,863 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,895 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,927 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,959 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:15,993 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,025 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,056 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,087 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,120 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,152 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,184 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,217 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,249 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,282 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,315 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,347 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,379 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,412 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,443 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,476 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,509 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,542 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,574 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,606 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,639 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,671 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,701 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,734 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,767 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,801 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,851 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,880 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,912 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,946 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:16,977 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,010 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,043 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,075 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,107 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,139 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,172 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,205 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,251 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,284 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,316 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,349 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,382 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,414 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,446 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,477 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,496 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,505 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,525 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,556 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,588 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,621 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,670 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,701 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,734 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,766 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,795 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,827 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,860 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,893 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,925 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,957 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:17,989 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,021 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,052 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,084 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,116 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,149 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,182 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,232 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,281 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,329 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,360 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,392 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,425 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,458 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,489 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,521 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,552 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,585 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,617 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,650 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,666 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,699 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,731 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,764 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,797 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,829 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,861 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,893 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,926 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,958 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:18,990 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,022 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,054 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,087 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,119 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,150 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,182 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,216 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,249 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,282 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,314 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,346 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,379 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,411 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,442 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,473 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,505 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,538 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,571 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,602 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,635 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,666 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:19:19,668 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,699 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,731 | INFO     | RAM : 65.5%
+2026-06-28 09:19:19,732 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,747 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,748 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,779 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,812 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,844 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,877 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,910 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,942 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:19,972 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:20,005 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:20,037 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:20,069 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:20,102 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:20,133 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:20,166 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:20,199 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:20,232 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:20,263 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:20,296 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:20,330 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:20,363 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:21,052 | INFO     | CPU : 3.9%
+2026-06-28 09:19:21,091 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:24,672 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:19:29,669 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:19:29,751 | INFO     | RAM : 65.4%
+2026-06-28 09:19:29,782 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:32,093 | INFO     | CPU : 2.2%
+2026-06-28 09:19:32,129 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:34,670 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:19:39,674 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:19:39,786 | INFO     | RAM : 65.3%
+2026-06-28 09:19:39,819 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:43,132 | INFO     | CPU : 4.5%
+2026-06-28 09:19:43,166 | INFO     | POST /api/events -> 200
+2026-06-28 09:19:44,688 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:19:49,265 | INFO     | Signal d'arrêt reçu.
+2026-06-28 09:19:49,265 | INFO     | Arrêt du Smart Agent...
+2026-06-28 09:19:49,266 | INFO     | Arrêt du scheduler...
+2026-06-28 09:19:49,266 | INFO     | Scheduler arrêté.
+2026-06-28 09:19:49,266 | INFO     | Task stopped.
+2026-06-28 09:19:49,266 | INFO     | Task stopped.
+2026-06-28 09:19:49,266 | INFO     | Task stopped.
+2026-06-28 09:19:49,266 | INFO     | Task stopped.
+2026-06-28 09:19:49,266 | INFO     | Task stopped.
+2026-06-28 09:19:49,266 | INFO     | Task stopped.
+2026-06-28 09:19:49,266 | INFO     | Task stopped.
+2026-06-28 09:33:14,161 | INFO     | Migration existante
+2026-06-28 09:33:14,166 | INFO     | Initialisation du Smart Agent...
+2026-06-28 09:33:14,276 | INFO     | Tâche enregistrée : CPU
+2026-06-28 09:33:14,286 | INFO     | Tâche enregistrée : Memory
+2026-06-28 09:33:14,297 | INFO     | Tâche enregistrée : Logs
+2026-06-28 09:33:14,307 | INFO     | Tâche enregistrée : Network
+2026-06-28 09:33:14,353 | INFO     | Tâche enregistrée : Services
+2026-06-28 09:33:14,364 | INFO     | Tâche enregistrée : Filesystem
+2026-06-28 09:33:14,369 | INFO     | Tâche enregistrée : Transfer
+2026-06-28 09:33:14,369 | INFO     | Démarrage du Smart Agent...
+2026-06-28 09:33:14,369 | INFO     | Démarrage du scheduler...
+2026-06-28 09:33:14,375 | INFO     | Task started.
+2026-06-28 09:33:14,381 | INFO     | Task started.
+2026-06-28 09:33:14,386 | INFO     | Task started.
+2026-06-28 09:33:14,763 | INFO     | Task started.
+2026-06-28 09:33:14,764 | INFO     | Scheduler démarré.
+2026-06-28 09:33:14,766 | INFO     | RAM : 66.0%
+2026-06-28 09:33:14,777 | INFO     | Task started.
+2026-06-28 09:33:14,778 | INFO     | Task started.
+2026-06-28 09:33:14,784 | INFO     | Task started.
+2026-06-28 09:33:14,788 | INFO     | 2 partitions collectées
+2026-06-28 09:33:14,995 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:33:15,033 | ERROR    | [WinError 2] Le fichier spécifié est introuvable: '(originated from QueryServiceConfig2W)'
+2026-06-28 09:33:15,055 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:15,107 | INFO     | 4 services collectés
+2026-06-28 09:33:15,107 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:15,118 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:15,119 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:15,128 | INFO     | 156 connexions réseau collectées
+2026-06-28 09:33:15,378 | INFO     | CPU : 15.7%
+2026-06-28 09:33:16,645 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:16,646 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:16,648 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:16,669 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:16,673 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:16,686 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:16,702 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:16,735 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:16,767 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:16,800 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:16,832 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:16,864 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:16,946 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:16,978 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,010 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,042 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,074 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,106 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,152 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,185 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,218 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,251 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,284 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,316 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,348 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,381 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,411 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,443 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,475 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,507 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,539 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,571 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,602 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,635 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,667 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,699 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,732 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,764 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,796 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:17,829 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:19,996 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:33:25,102 | INFO     | RAM : 66.3%
+2026-06-28 09:33:27,651 | INFO     | CPU : 8.1%
+2026-06-28 09:33:47,598 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:47,600 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:47,604 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:47,637 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:47,669 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:47,703 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:47,734 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:47,767 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:47,800 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:47,830 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:47,862 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:47,895 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:47,927 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:47,958 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:47,991 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,023 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,055 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,088 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,120 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,152 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,185 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,218 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,251 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,283 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,316 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,348 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,379 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,410 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,444 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,475 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,507 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,540 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,572 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,603 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,636 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,668 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,699 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,731 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,763 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,770 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,798 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,827 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,858 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,875 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,905 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,937 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:48,968 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:49,000 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:49,018 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:49,048 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:49,079 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:49,095 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:49,127 | INFO     | POST /api/events -> 200
+2026-06-28 09:33:49,148 | INFO     | Signal d'arrêt reçu.
+2026-06-28 09:33:49,148 | INFO     | Arrêt du Smart Agent...
+2026-06-28 09:33:49,149 | INFO     | Arrêt du scheduler...
+2026-06-28 09:33:49,149 | INFO     | Scheduler arrêté.
+2026-06-28 09:33:49,149 | INFO     | Task stopped.
+2026-06-28 09:33:49,149 | INFO     | Task stopped.
+2026-06-28 09:33:49,149 | INFO     | Task stopped.
+2026-06-28 09:33:49,149 | INFO     | Task stopped.
+2026-06-28 09:33:49,149 | INFO     | Task stopped.
+2026-06-28 09:40:19,064 | INFO     | Migration existante
+2026-06-28 09:40:19,069 | INFO     | Initialisation du Smart Agent...
+2026-06-28 09:40:19,179 | INFO     | Tâche enregistrée : CPU
+2026-06-28 09:40:19,189 | INFO     | Tâche enregistrée : Memory
+2026-06-28 09:40:19,199 | INFO     | Tâche enregistrée : Logs
+2026-06-28 09:40:19,210 | INFO     | Tâche enregistrée : Network
+2026-06-28 09:40:19,255 | INFO     | Tâche enregistrée : Services
+2026-06-28 09:40:19,265 | INFO     | Tâche enregistrée : Filesystem
+2026-06-28 09:40:19,270 | INFO     | Tâche enregistrée : Transfer
+2026-06-28 09:40:19,270 | INFO     | Démarrage du Smart Agent...
+2026-06-28 09:40:19,270 | INFO     | Démarrage du scheduler...
+2026-06-28 09:40:19,276 | INFO     | Task started.
+2026-06-28 09:40:19,282 | INFO     | Task started.
+2026-06-28 09:40:19,288 | INFO     | Task started.
+2026-06-28 09:40:19,665 | INFO     | Task started.
+2026-06-28 09:40:19,672 | INFO     | Task started.
+2026-06-28 09:40:19,673 | INFO     | RAM : 67.1%
+2026-06-28 09:40:19,673 | INFO     | Scheduler démarré.
+2026-06-28 09:40:19,680 | INFO     | Task started.
+2026-06-28 09:40:19,688 | INFO     | Task started.
+2026-06-28 09:40:19,762 | INFO     | 2 partitions collectées
+2026-06-28 09:40:19,888 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:40:19,946 | ERROR    | [WinError 2] Le fichier spécifié est introuvable: '(originated from QueryServiceConfig2W)'
+2026-06-28 09:40:19,983 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,019 | INFO     | 4 services collectés
+2026-06-28 09:40:20,022 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,032 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,033 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,042 | INFO     | 158 connexions réseau collectées
+2026-06-28 09:40:20,049 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,051 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,067 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,082 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,097 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,113 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,144 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,177 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,210 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,241 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,273 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,278 | INFO     | CPU : 14.6%
+2026-06-28 09:40:20,290 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,306 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,306 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,338 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,371 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,405 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,439 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,470 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,503 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,536 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,566 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,597 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,630 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,663 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,694 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,727 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,759 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,790 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,823 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,855 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,888 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,921 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,954 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:20,987 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,019 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,052 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,082 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,113 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,145 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,177 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,209 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,243 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,276 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,308 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,340 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,371 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,404 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,437 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,469 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,502 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,535 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,567 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,599 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,629 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,662 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,694 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,727 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,761 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,792 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,823 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,856 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,888 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,920 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,952 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:21,986 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,020 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,052 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,084 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,116 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,146 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,178 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,209 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,241 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,274 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,305 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,338 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,369 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,402 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,435 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,468 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,499 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,532 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,564 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,596 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,627 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,658 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,691 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,722 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,753 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,786 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,817 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,850 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,882 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,915 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,946 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:22,977 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,009 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,042 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,075 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,108 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,139 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,155 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,188 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,220 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,252 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,285 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,318 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,351 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,382 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,416 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,448 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,481 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,511 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,542 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,576 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,608 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,641 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,674 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,706 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,739 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,787 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,819 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,851 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,884 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,916 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,948 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:23,980 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,012 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,044 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,076 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,108 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,140 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,173 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,194 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,221 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,253 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,286 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,319 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,349 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,381 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,413 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,445 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,478 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,510 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,543 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,575 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,606 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,638 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,671 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,704 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,738 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,770 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,802 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,833 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,864 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,896 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,911 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:40:24,928 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,962 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:24,993 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:25,026 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:25,059 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:29,914 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 09:40:30,016 | INFO     | RAM : 67.1%
+2026-06-28 09:40:30,278 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:31,310 | INFO     | CPU : 5.9%
+2026-06-28 09:40:31,339 | INFO     | POST /api/events -> 200
+2026-06-28 09:40:33,011 | INFO     | Signal d'arrêt reçu.
+2026-06-28 09:40:33,011 | INFO     | Arrêt du Smart Agent...
+2026-06-28 09:40:33,013 | INFO     | Arrêt du scheduler...
+2026-06-28 09:40:33,014 | INFO     | Scheduler arrêté.
+2026-06-28 09:40:33,014 | INFO     | Task stopped.
+2026-06-28 09:40:33,015 | INFO     | Task stopped.
+2026-06-28 09:40:33,015 | INFO     | Task stopped.
+2026-06-28 09:40:33,015 | INFO     | Task stopped.
+2026-06-28 09:40:33,015 | INFO     | Task stopped.
+2026-06-28 09:40:33,015 | INFO     | Task stopped.
+2026-06-28 09:40:33,016 | INFO     | Task stopped.
+2026-06-28 10:01:27,283 | INFO     | Migration existante
+2026-06-28 10:01:27,288 | INFO     | Initialisation du Smart Agent...
+2026-06-28 10:01:27,397 | INFO     | Tâche enregistrée : CPU
+2026-06-28 10:01:27,407 | INFO     | Tâche enregistrée : Memory
+2026-06-28 10:01:27,417 | INFO     | Tâche enregistrée : Logs
+2026-06-28 10:01:27,428 | INFO     | Tâche enregistrée : Network
+2026-06-28 10:01:27,477 | INFO     | Tâche enregistrée : Services
+2026-06-28 10:01:27,488 | INFO     | Tâche enregistrée : Filesystem
+2026-06-28 10:01:27,493 | INFO     | Tâche enregistrée : Transfer
+2026-06-28 10:01:27,494 | INFO     | Démarrage du Smart Agent...
+2026-06-28 10:01:27,494 | INFO     | Démarrage du scheduler...
+2026-06-28 10:01:27,500 | INFO     | Task started.
+2026-06-28 10:01:27,506 | INFO     | Task started.
+2026-06-28 10:01:27,511 | INFO     | Task started.
+2026-06-28 10:01:27,516 | INFO     | Task started.
+2026-06-28 10:01:27,522 | INFO     | Task started.
+2026-06-28 10:01:27,522 | INFO     | Scheduler démarré.
+2026-06-28 10:01:27,909 | INFO     | Task started.
+2026-06-28 10:01:27,914 | INFO     | Task started.
+2026-06-28 10:01:27,914 | INFO     | RAM : 67.8%
+2026-06-28 10:01:27,994 | INFO     | 2 partitions collectées
+2026-06-28 10:01:28,029 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 10:01:28,183 | ERROR    | [WinError 2] Le fichier spécifié est introuvable: '(originated from QueryServiceConfig2W)'
+2026-06-28 10:01:28,205 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,258 | INFO     | 4 services collectés
+2026-06-28 10:01:28,259 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,264 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,271 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,273 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,283 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,287 | INFO     | 160 connexions réseau collectées
+2026-06-28 10:01:28,302 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,315 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,347 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,366 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,396 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,429 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,462 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,494 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,501 | INFO     | CPU : 19.0%
+2026-06-28 10:01:28,527 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,530 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,558 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,590 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,623 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,655 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,688 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,720 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,751 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,784 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,817 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,847 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,880 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,914 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,946 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,967 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:28,995 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,027 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,059 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,090 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,122 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,154 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,187 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,219 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,251 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,283 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,316 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,349 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,379 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,412 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,443 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,476 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,509 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,542 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,576 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,608 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,641 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,671 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,703 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,735 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,768 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,800 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,833 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,863 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,896 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,929 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,960 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:29,992 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,023 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,055 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,087 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,119 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,152 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,170 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,199 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,231 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,263 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,296 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,327 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,360 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,392 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,425 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,456 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,488 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,520 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,551 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,558 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,598 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,607 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,630 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,662 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,693 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,725 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,759 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,788 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,820 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,853 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,884 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,917 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,948 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,969 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:30,996 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:31,030 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:31,078 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:31,110 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:31,156 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:31,187 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:31,219 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:31,252 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:31,283 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:31,316 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:31,349 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:31,382 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:31,415 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:31,447 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:31,496 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:31,543 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:32,564 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:32,596 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:32,628 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:32,661 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:32,693 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:32,727 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:32,759 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:32,789 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:32,822 | INFO     | POST /api/events -> 200
+2026-06-28 10:01:32,841 | INFO     | Signal d'arrêt reçu.
+2026-06-28 10:01:32,841 | INFO     | Arrêt du Smart Agent...
+2026-06-28 10:01:32,842 | INFO     | Arrêt du scheduler...
+2026-06-28 10:01:32,842 | INFO     | Scheduler arrêté.
+2026-06-28 10:01:32,842 | INFO     | Task stopped.
+2026-06-28 10:01:32,842 | INFO     | Task stopped.
+2026-06-28 10:01:32,842 | INFO     | Task stopped.
+2026-06-28 10:01:32,842 | INFO     | Task stopped.
+2026-06-28 10:01:32,842 | INFO     | Task stopped.
+2026-06-28 10:29:02,370 | INFO     | Migration existante
+2026-06-28 10:29:02,376 | INFO     | Initialisation du Smart Agent...
+2026-06-28 10:29:02,498 | INFO     | Tâche enregistrée : CPU
+2026-06-28 10:29:02,508 | INFO     | Tâche enregistrée : Memory
+2026-06-28 10:29:02,518 | INFO     | Tâche enregistrée : Logs
+2026-06-28 10:29:02,529 | INFO     | Tâche enregistrée : Network
+2026-06-28 10:29:02,579 | INFO     | Tâche enregistrée : Services
+2026-06-28 10:29:02,589 | INFO     | Tâche enregistrée : Filesystem
+2026-06-28 10:29:02,595 | INFO     | Tâche enregistrée : Transfer
+2026-06-28 10:29:02,595 | INFO     | Démarrage du Smart Agent...
+2026-06-28 10:29:02,595 | INFO     | Démarrage du scheduler...
+2026-06-28 10:29:02,601 | INFO     | Task started.
+2026-06-28 10:29:02,607 | INFO     | Task started.
+2026-06-28 10:29:02,613 | INFO     | Task started.
+2026-06-28 10:29:02,999 | INFO     | Task started.
+2026-06-28 10:29:03,004 | INFO     | Task started.
+2026-06-28 10:29:03,006 | INFO     | RAM : 68.8%
+2026-06-28 10:29:03,076 | INFO     | Scheduler démarré.
+2026-06-28 10:29:03,082 | INFO     | Task started.
+2026-06-28 10:29:03,163 | INFO     | Task started.
+2026-06-28 10:29:03,175 | INFO     | 2 partitions collectées
+2026-06-28 10:29:03,266 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 10:29:03,268 | ERROR    | [WinError 2] Le fichier spécifié est introuvable: '(originated from QueryServiceConfig2W)'
+2026-06-28 10:29:03,346 | INFO     | 4 services collectés
+2026-06-28 10:29:03,347 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,348 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,350 | INFO     | 100 événements en attente de synchronisation.
+2026-06-28 10:29:03,351 | ERROR    | 'sqlite3.Row' object has no attribute 'id'
+Traceback (most recent call last):
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\scheduler.py", line 87, in run
+    self.callback()
+    ~~~~~~~~~~~~~^^
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\synchronisation\manager.py", line 17, in run
+    self.event_sync.run()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\synchronisation\events_syndro.py", line 44, in run
+    ids = [event.id for event in batch]                 # Préparation de la liste des IDs
+           ^^^^^^^^
+AttributeError: 'sqlite3.Row' object has no attribute 'id'
+2026-06-28 10:29:03,366 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,368 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,372 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,376 | INFO     | 174 connexions réseau collectées
+2026-06-28 10:29:03,383 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,398 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,415 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,417 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,445 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,476 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,509 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,543 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,575 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,603 | INFO     | CPU : 16.7%
+2026-06-28 10:29:03,607 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,629 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,641 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,656 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,688 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,719 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,752 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,784 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,817 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,849 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,881 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,913 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,945 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:03,978 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,009 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,041 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,074 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,108 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,140 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,172 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,205 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,221 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,252 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,285 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,316 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,347 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,380 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,411 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,443 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,476 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,508 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,540 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,572 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,604 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,637 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,670 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,702 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,734 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,766 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,798 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,830 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,862 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,894 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,926 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,959 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:04,991 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,023 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,056 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,088 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,120 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,153 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,184 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,216 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,248 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,280 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,312 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,344 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,375 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,408 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,439 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,472 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,505 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,527 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,572 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,604 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,633 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,666 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,697 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,729 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,745 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,776 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,809 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,841 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,874 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,906 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,939 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:05,972 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,005 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,037 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,069 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,101 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,133 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,165 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,196 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,228 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,261 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,293 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,326 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,359 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,391 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,423 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,455 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,471 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,503 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,535 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,567 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,600 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,633 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,665 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,697 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,730 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,763 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,793 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,825 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,857 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,875 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,905 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,937 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:06,970 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,003 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,036 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,067 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,099 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,131 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,163 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,195 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,228 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,259 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,291 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,323 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,355 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,387 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,419 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,452 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,484 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,516 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,548 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,580 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,611 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,644 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,676 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,707 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,740 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,773 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,806 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,839 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,854 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,886 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:07,918 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:08,258 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 10:29:08,551 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:08,583 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:08,615 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:08,647 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:08,678 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:08,710 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:08,742 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:08,776 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:08,808 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:08,841 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:08,874 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:08,905 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:08,937 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:08,969 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:09,002 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:09,034 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:09,067 | INFO     | POST /api/events -> 200
+2026-06-28 10:29:09,076 | INFO     | Signal d'arrêt reçu.
+2026-06-28 10:29:09,076 | INFO     | Arrêt du Smart Agent...
+2026-06-28 10:29:09,077 | INFO     | Arrêt du scheduler...
+2026-06-28 10:29:09,077 | INFO     | Scheduler arrêté.
+2026-06-28 10:29:09,077 | INFO     | Task stopped.
+2026-06-28 10:29:09,077 | INFO     | Task stopped.
+2026-06-28 10:29:09,077 | INFO     | Task stopped.
+2026-06-28 10:29:09,077 | INFO     | Task stopped.
+2026-06-28 10:29:09,077 | INFO     | Task stopped.
+2026-06-28 10:29:09,078 | INFO     | Task stopped.
+2026-06-28 10:41:16,715 | INFO     | Migration existante
+2026-06-28 10:41:16,720 | INFO     | Initialisation du Smart Agent...
+2026-06-28 10:41:16,831 | INFO     | Tâche enregistrée : CPU
+2026-06-28 10:41:16,841 | INFO     | Tâche enregistrée : Memory
+2026-06-28 10:41:16,851 | INFO     | Tâche enregistrée : Logs
+2026-06-28 10:41:16,862 | INFO     | Tâche enregistrée : Network
+2026-06-28 10:41:16,911 | INFO     | Tâche enregistrée : Services
+2026-06-28 10:41:16,922 | INFO     | Tâche enregistrée : Filesystem
+2026-06-28 10:41:16,928 | INFO     | Tâche enregistrée : Transfer
+2026-06-28 10:41:16,928 | INFO     | Démarrage du Smart Agent...
+2026-06-28 10:41:16,928 | INFO     | Démarrage du scheduler...
+2026-06-28 10:41:16,934 | INFO     | Task started.
+2026-06-28 10:41:16,939 | INFO     | Task started.
+2026-06-28 10:41:17,314 | INFO     | Task started.
+2026-06-28 10:41:17,320 | INFO     | Task started.
+2026-06-28 10:41:17,321 | INFO     | RAM : 69.0%
+2026-06-28 10:41:17,326 | INFO     | Task started.
+2026-06-28 10:41:17,330 | INFO     | Scheduler démarré.
+2026-06-28 10:41:17,351 | INFO     | Task started.
+2026-06-28 10:41:17,356 | INFO     | Task started.
+2026-06-28 10:41:17,446 | INFO     | 2 partitions collectées
+2026-06-28 10:41:17,541 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 10:41:17,600 | ERROR    | [WinError 2] Le fichier spécifié est introuvable: '(originated from QueryServiceConfig2W)'
+2026-06-28 10:41:17,622 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,667 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,675 | INFO     | 4 services collectés
+2026-06-28 10:41:17,678 | INFO     | 100 événements en attente de synchronisation.
+2026-06-28 10:41:17,681 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,699 | INFO     | 162 connexions réseau collectées
+2026-06-28 10:41:17,700 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,717 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,720 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,735 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,748 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,751 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,780 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,797 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,800 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,813 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,816 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,830 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,830 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,846 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,847 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,862 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,863 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,865 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,879 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,881 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,894 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,898 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,911 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,912 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,927 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,928 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,935 | INFO     | CPU : 15.1%
+2026-06-28 10:41:17,944 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,944 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,961 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,962 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,964 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,967 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,969 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,977 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,980 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,993 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:17,996 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,009 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,013 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,025 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,026 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,042 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,042 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,058 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,058 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,061 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,075 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,077 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,091 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,093 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,107 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,110 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,123 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,123 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,126 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,140 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,155 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,155 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,171 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,172 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,187 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,188 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,203 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,203 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,219 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,220 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,222 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,237 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,238 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,252 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,255 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,269 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,271 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,284 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,302 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,304 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,317 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,333 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,336 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,337 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,364 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,367 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,378 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,395 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,399 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,409 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,427 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,430 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,442 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,459 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,461 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,482 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,484 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,498 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,500 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,514 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,518 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,529 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,533 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,547 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,549 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,563 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,566 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,578 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,582 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,595 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,597 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,610 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,614 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,627 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,627 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,643 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,643 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,660 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,675 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,676 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,678 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,692 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,694 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,709 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,712 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,724 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,727 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,740 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,743 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,756 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,756 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,759 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,773 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,774 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,789 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,804 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,805 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,808 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,821 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,822 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,837 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,853 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,853 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,869 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,869 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,885 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,886 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,901 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,902 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,905 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,918 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,933 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,934 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,949 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,950 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,966 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,969 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,981 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,997 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:18,997 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,014 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,017 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,031 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,033 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,034 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,046 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,046 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,063 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,078 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,079 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,094 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,098 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,111 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,111 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,127 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,127 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,159 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,192 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,210 | INFO     | 100 événements synchronisés.
+2026-06-28 10:41:19,224 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,257 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,290 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,324 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,356 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,386 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,419 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:19,451 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:20,188 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:20,220 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:20,254 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:20,284 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:20,317 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:20,350 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:20,380 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:20,413 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:20,446 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:20,477 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:20,509 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:20,542 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:20,576 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:20,608 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:20,641 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:20,674 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:20,706 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:20,738 | INFO     | Signal d'arrêt reçu.
+2026-06-28 10:41:20,738 | INFO     | POST /api/events -> 200
+2026-06-28 10:41:20,739 | INFO     | Arrêt du Smart Agent...
+2026-06-28 10:41:20,740 | INFO     | Arrêt du scheduler...
+2026-06-28 10:41:20,740 | INFO     | Scheduler arrêté.
+2026-06-28 10:41:20,741 | INFO     | Task stopped.
+2026-06-28 10:41:20,741 | INFO     | Task stopped.
+2026-06-28 10:41:20,741 | INFO     | Task stopped.
+2026-06-28 10:41:20,741 | INFO     | Task stopped.
+2026-06-28 10:41:20,741 | INFO     | Task stopped.
+2026-06-28 10:41:20,741 | INFO     | Task stopped.
+2026-06-28 10:42:27,127 | INFO     | Migration existante
+2026-06-28 10:42:27,133 | INFO     | Initialisation du Smart Agent...
+2026-06-28 10:42:27,246 | INFO     | Tâche enregistrée : CPU
+2026-06-28 10:42:27,256 | INFO     | Tâche enregistrée : Memory
+2026-06-28 10:42:27,266 | INFO     | Tâche enregistrée : Logs
+2026-06-28 10:42:27,277 | INFO     | Tâche enregistrée : Network
+2026-06-28 10:42:27,326 | INFO     | Tâche enregistrée : Services
+2026-06-28 10:42:27,336 | INFO     | Tâche enregistrée : Filesystem
+2026-06-28 10:42:27,341 | INFO     | Tâche enregistrée : Transfer
+2026-06-28 10:42:27,341 | INFO     | Démarrage du Smart Agent...
+2026-06-28 10:42:27,341 | INFO     | Démarrage du scheduler...
+2026-06-28 10:42:27,348 | INFO     | Task started.
+2026-06-28 10:42:27,354 | INFO     | Task started.
+2026-06-28 10:42:27,359 | INFO     | Task started.
+2026-06-28 10:42:27,371 | INFO     | Task started.
+2026-06-28 10:42:27,372 | INFO     | Task started.
+2026-06-28 10:42:27,740 | INFO     | Scheduler démarré.
+2026-06-28 10:42:27,763 | INFO     | Task started.
+2026-06-28 10:42:27,763 | INFO     | RAM : 69.0%
+2026-06-28 10:42:27,778 | INFO     | Task started.
+2026-06-28 10:42:27,959 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 10:42:27,959 | INFO     | 2 partitions collectées
+2026-06-28 10:42:27,994 | ERROR    | [WinError 2] Le fichier spécifié est introuvable: '(originated from QueryServiceConfig2W)'
+2026-06-28 10:42:28,068 | INFO     | 4 services collectés
+2026-06-28 10:42:28,074 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,074 | INFO     | 29 événements en attente de synchronisation.
+2026-06-28 10:42:28,076 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,078 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,083 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,085 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,095 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,107 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,120 | INFO     | 300 connexions réseau collectées
+2026-06-28 10:42:28,156 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,188 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,220 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,252 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,284 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,316 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,348 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,350 | INFO     | CPU : 15.5%
+2026-06-28 10:42:28,367 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,371 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,413 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,446 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,477 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,509 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,542 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,575 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,607 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,639 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,672 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,713 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,749 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,781 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,814 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,848 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,884 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,914 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,947 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:28,980 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,012 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,031 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,060 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,092 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,124 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,157 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,190 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,224 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,266 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,297 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,330 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,365 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,399 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,432 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,466 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,499 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,533 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,564 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,597 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,631 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,664 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,698 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,731 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,765 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,798 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,831 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,881 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,914 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,948 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,950 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,967 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,970 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,981 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:29,998 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,015 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,032 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,034 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,049 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,052 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,070 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,072 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,074 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,115 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,116 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,121 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,122 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,123 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,126 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,131 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,131 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,134 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,147 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,151 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,165 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,167 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,181 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,184 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,197 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,212 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,213 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,216 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,229 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,244 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,245 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,262 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,277 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,278 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,294 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,310 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,311 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,314 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,343 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,345 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,359 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,359 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,379 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,401 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,437 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,463 | INFO     | 29 événements synchronisés.
+2026-06-28 10:42:30,467 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,497 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,531 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,563 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,596 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,628 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,661 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,694 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,728 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,761 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,793 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,825 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,858 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,890 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,920 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,953 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:30,984 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,018 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,050 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,082 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,115 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,147 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,178 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,210 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,243 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,277 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,293 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,324 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,357 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,390 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,421 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,453 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,484 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,516 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,548 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,581 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,614 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,647 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,679 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,712 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,742 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,774 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,807 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,840 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,873 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,904 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,935 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,967 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:31,999 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,031 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,063 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,096 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,130 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,163 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,195 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,227 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,249 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,276 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,307 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,339 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,371 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,404 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,436 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,468 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,498 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,530 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,563 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,595 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,628 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,661 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,695 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,728 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,760 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,783 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,808 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,838 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,870 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,903 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,936 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:32,950 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 10:42:32,968 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,000 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,032 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,065 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,097 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,128 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,161 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,194 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,226 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,259 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,291 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,324 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,355 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,387 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,419 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,452 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,485 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,517 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,549 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,581 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,613 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,644 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,677 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,710 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,743 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,775 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,808 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,840 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,873 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,903 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,934 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,966 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:33,999 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,032 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,064 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,096 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,129 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,162 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,192 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,225 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,258 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,291 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,325 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,357 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,388 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,420 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,453 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,484 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,516 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,549 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,582 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,615 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,647 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,680 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,712 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,743 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,775 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,807 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,840 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,874 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,907 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,939 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:34,971 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,002 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,032 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,064 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,097 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,130 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,164 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,196 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,245 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,292 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,323 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,356 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,388 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,420 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,453 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,485 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,517 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,547 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,580 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,613 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,646 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,679 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,711 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,744 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,777 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,807 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,839 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,871 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,904 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,937 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:35,969 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,001 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,033 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,065 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,112 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,144 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,177 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,210 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,244 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,276 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,309 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,341 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,372 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,404 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,437 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,469 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,500 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,533 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,566 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,598 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,631 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,661 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,694 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,727 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,760 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,792 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,824 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,857 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,892 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,922 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,954 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:36,986 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,018 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,050 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,082 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,116 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,162 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,195 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,227 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,260 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,293 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,325 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,358 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,390 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,423 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,454 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,486 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,518 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,550 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,583 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,617 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,648 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,681 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,729 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:37,954 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 10:42:38,082 | INFO     | RAM : 68.8%
+2026-06-28 10:42:38,115 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:39,373 | INFO     | CPU : 3.7%
+2026-06-28 10:42:39,410 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:42,955 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 10:42:47,966 | INFO     | 0 nouveaux événements collectés.
+2026-06-28 10:42:48,127 | INFO     | RAM : 68.6%
+2026-06-28 10:42:48,161 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:50,420 | INFO     | CPU : 2.6%
+2026-06-28 10:42:50,445 | INFO     | POST /api/events -> 200
+2026-06-28 10:42:52,495 | INFO     | Signal d'arrêt reçu.
+2026-06-28 10:42:52,496 | INFO     | Arrêt du Smart Agent...
+2026-06-28 10:42:52,498 | INFO     | Arrêt du scheduler...
+2026-06-28 10:42:52,499 | INFO     | Scheduler arrêté.
+2026-06-28 10:42:52,499 | INFO     | Task stopped.
+2026-06-28 10:42:52,499 | INFO     | Task stopped.
+2026-06-28 10:42:52,500 | INFO     | Task stopped.
+2026-06-28 10:42:52,500 | INFO     | Task stopped.
+2026-06-28 10:42:52,500 | INFO     | Task stopped.
+2026-06-28 10:42:52,500 | INFO     | Task stopped.
+2026-06-28 10:42:52,500 | INFO     | Task stopped.
