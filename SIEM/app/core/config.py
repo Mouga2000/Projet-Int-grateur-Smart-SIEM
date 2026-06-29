@@ -111,6 +111,18 @@ class Settings(BaseSettings):
     ARCHIVE_DIR: str = "data/archives"
     ARCHIVE_AFTER_DAYS: int = 90  # Âge minimum des logs pour être archivés
 
+    # --- Agents SOAR ---
+    AGENT_DEFAULT_PORT: int = 9000
+    AGENT_TIMEOUT_SECONDS: int = 15
+
+    # --- Notifications ---
+    SMTP_HOST: Optional[str] = None
+    SMTP_PORT: Optional[int] = 587
+    SMTP_USER: Optional[str] = None
+    SMTP_PASSWORD: Optional[str] = None
+    SMTP_FROM: str = "siem@smart-siem.local"
+    SLACK_WEBHOOK_URL: Optional[str] = None
+
     class Config:
         env_file = ".env"
 

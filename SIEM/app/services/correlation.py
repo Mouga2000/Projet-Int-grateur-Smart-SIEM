@@ -33,7 +33,7 @@
 #     règle3
 # ]
 # ----------------------------------------------------------
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from app.core.redis import get_redis
 
@@ -92,6 +92,10 @@ class CorrelationEngine:
         # Service SOAR.
         # Il est facultatif.
         soar_service=None,
+        # Repository utilisateur.
+        # Permet d'envoyer les notifications
+        # aux bons destinataires.
+        user_repository=None,
     ):
 
         # Sauvegarde du repository des règles
@@ -109,6 +113,9 @@ class CorrelationEngine:
 
         # Sauvegarde du service SOAR.
         self.soar = soar_service
+
+        # Sauvegarde du repository utilisateur.
+        self.user_repository = user_repository
 
     # ------------------------------------------------------
     # Fonction principale du moteur.
@@ -273,14 +280,18 @@ class CorrelationEngine:
         group_value = log.get(group_by, "global") if group_by else "global"
         redis_key = f"threshold:{rule['id']}:{field}:{value}:{group_value}"
 
-        # Incrementer le compteur Redis avec TTL
-        redis = await get_redis()
-        count = await redis.incr(redis_key)
+        try:
+            # Incrementer le compteur Redis avec TTL
+            redis = await get_redis()
+            count = await redis.incr(redis_key)
 
-        if count == 1:
-            await redis.expire(redis_key, window)
+            if count == 1:
+                await redis.expire(redis_key, window)
 
-        return count >= count_target
+            return count >= count_target
+        except Exception as e:
+            print(f"[THRESHOLD] Redis indisponible, regle ignoree : {e}")
+            return False
 
     # ------------------------------------------------------
     # Corrélation entre plusieurs sources.
@@ -353,36 +364,72 @@ class CorrelationEngine:
         group_by = rule.get("group_by", "source_ip")
         group_value = log.get(group_by, "global")
 
-        redis = await get_redis()
-        step_key = f"sequence:{rule['id']}:{group_value}:step"
+        try:
+            redis = await get_redis()
+            step_key = f"sequence:{rule['id']}:{group_value}:step"
 
-        # Verifier si la fenetre est encore ouverte
-        current_step_str = await redis.get(step_key)
-        if current_step_str is None:
-            current_step = 0
-        else:
-            ttl = await redis.ttl(step_key)
-            if ttl < 0:
-                await redis.delete(step_key)
+            # Verifier si la fenetre est encore ouverte
+            current_step_str = await redis.get(step_key)
+            if current_step_str is None:
+                current_step = 0
+            else:
+                ttl = await redis.ttl(step_key)
+                if ttl < 0:
+                    await redis.delete(step_key)
+                    return False
+                current_step = int(current_step_str)
+
+            # Verifier si le log correspond a l'etape attendue
+            expected_step = steps[current_step]
+            match = all(log.get(k) == v for k, v in expected_step.items())
+            if not match:
                 return False
-            current_step = int(current_step_str)
 
-        # Verifier si le log correspond a l'etape attendue
-        expected_step = steps[current_step]
-        match = all(log.get(k) == v for k, v in expected_step.items())
-        if not match:
+            current_step += 1
+
+            if current_step >= len(steps):
+                # Toutes les etapes completees -> sequence detectee !
+                await redis.delete(step_key)
+                return True
+
+            # Sauvegarder la progression
+            await redis.setex(step_key, window, str(current_step))
+            return False
+        except Exception as e:
+            print(f"[SEQUENCE] Redis indisponible, regle ignoree : {e}")
             return False
 
-        current_step += 1
+    # ------------------------------------------------------
+    # Récupération des destinataires des notifications.
+    #
+    # Retourne :
+    # - la liste des IDs des analystes (notification in-app)
+    # - la liste des emails des admins (notification email)
+    # ------------------------------------------------------
+    async def _get_notification_recipients(self):
+        """
+        Interroge la base pour trouver les utilisateurs
+        devant recevoir les notifications d'alerte.
+        """
+        analyst_ids: List[int] = []
+        admin_emails: List[str] = []
 
-        if current_step >= len(steps):
-            # Toutes les etapes completees -> sequence detectee !
-            await redis.delete(step_key)
-            return True
+        if not self.user_repository:
+            return analyst_ids, admin_emails
 
-        # Sauvegarder la progression
-        await redis.setex(step_key, window, str(current_step))
-        return False
+        try:
+            users = await self.user_repository.list_users(limit=500)
+
+            for user in users:
+                role = user.get("role", "")
+                if role in ("analyste", "rssi", "administrateur"):
+                    analyst_ids.append(user["id"])
+                if role == "administrateur" and user.get("email"):
+                    admin_emails.append(user["email"])
+        except Exception as e:
+            print(f"[NOTIFICATION] Erreur recuperation destinataires : {e}")
+
+        return analyst_ids, admin_emails
 
     # ------------------------------------------------------
     # Création d'une alerte.
@@ -439,20 +486,51 @@ class CorrelationEngine:
         # --------------------------------------------------
         alert_id = await self.alert_repository.create(alert)
 
+        # Notification multi-canal
+        try:
+            from app.services.notification_service import NotificationService
+
+            analyst_ids, admin_emails = await self._get_notification_recipients()
+
+            NotificationService.notify_alert_created(
+                alert,
+                analyst_user_ids=analyst_ids,
+                admin_emails=admin_emails,
+            )
+        except Exception as e:
+            print(f"[NOTIFICATION] Erreur : {e}")
+
+        # Declenchement SOAR automatique
+        try:
+            if self.soar:
+                playbooks = await self.rule_repository.get_by_type("playbook_trigger")
+                # Si la regle a un playbook_id dans ses actions
+                pb_id = rule.get("actions", {}).get("playbook_id")
+                if pb_id:
+                    context = {
+                        "source_ip": log.get("source_ip"),
+                        "host": log.get("host"),
+                        "user": log.get("decoded", {}).get("user"),
+                        "agent_ip": log.get("host"),
+                    }
+                    await self.soar.execute_playbook(pb_id, context)
+        except Exception as e:
+            print(f"[SOAR] Erreur declenchement automatique : {e}")
+
         # --------------------------------------------------
         # Vérifie si un SOAR est configuré.
         # --------------------------------------------------
-        if self.soar:
-            # Déclenche automatiquement
-            # le playbook SOAR.
-            await self.soar.execute_playbook(
-                # Identifiant de l'alerte.
-                alert_id,
-                # Règle ayant déclenché l'alerte.
-                rule,
-                # Log responsable de l'alerte.
-                log,
-            )
+        # if self.soar:
+        #     # Déclenche automatiquement
+        #     # le playbook SOAR.
+        #     await self.soar.execute_playbook(
+        #         # Identifiant de l'alerte.
+        #         alert_id,
+        #         # Règle ayant déclenché l'alerte.
+        #         rule,
+        #         # Log responsable de l'alerte.
+        #         log,
+        #     )
 
         # --------------------------------------------------
         # Retourne l'identifiant

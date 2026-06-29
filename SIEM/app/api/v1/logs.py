@@ -53,15 +53,18 @@ async def ingest_log(
         try:
             from app.repositories.alert_repo import AlertRepository
             from app.repositories.rule_repo import RuleRepository
+            from app.repositories.user_repo import UserRepository
             from app.services.correlation import CorrelationEngine
 
             rule_repo = RuleRepository(db)
             alert_repo = AlertRepository(db)
+            user_repo = UserRepository(db)
             engine = CorrelationEngine(
                 rule_repository=rule_repo,
                 alert_repository=alert_repo,
                 elastic_repository=repo,
                 redis_client=None,
+                user_repository=user_repo,
             )
             alerts_created = await engine.evaluate_event(normalized)
             if alerts_created:

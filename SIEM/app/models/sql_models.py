@@ -300,6 +300,28 @@ class Notification(Base, TimestampMixin):
 
 
 # =============================================================================
+# AGENT (machine distante avec agent SIEM)
+# =============================================================================
+
+
+class Agent(Base, TimestampMixin):
+    """Agent SIEM deploye sur une machine distante pour les actions SOAR."""
+
+    __tablename__ = "agents"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    hostname = Column(String(255), unique=True, nullable=False, index=True)
+    ip_address = Column(String(45), nullable=False)
+    agent_port = Column(Integer, default=9000, nullable=False)
+    operating_system = Column(String(50), nullable=True)
+    is_active = Column(Boolean, default=True, nullable=False)
+    last_seen = Column(DateTime(timezone=True), nullable=True)
+
+    def __repr__(self):
+        return f"<Agent {self.hostname} ({self.ip_address}:{self.agent_port})>"
+
+
+# =============================================================================
 # ARCHIVE (logs archivés avec certification d'intégrité)
 # =============================================================================
 
