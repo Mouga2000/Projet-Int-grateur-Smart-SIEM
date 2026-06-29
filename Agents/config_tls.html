@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide TLS Simplifié • Smart SIEM UCAC-ICAM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600&display=swap');
+        
+        body { 
+            font-family: 'Inter', system_ui, sans-serif; 
+            background-color: #f8fafc;
+        }
+        .title-font { 
+            font-family: 'Space Grotesk', sans-serif; 
+        }
+
+        .hero-bg {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e0e7ff 100%);
+        }
+
+        .step-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .step-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.15);
+        }
+
+        .terminal {
+            background: #f8fafc;
+            border-left: 5px solid #3b82f6;
+            color: #1e2937;
+        }
+
+        .content-container {
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .code-bg {
+            background-color: #f1f5f9;
+        }
+    </style>
+</head>
+<body class="text-zinc-800">
+
+    <!-- HEADER -->
+    <header class="border-b border-slate-200 bg-white sticky top-0 z-50 shadow-sm">
+        <div class="content-container px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-11 h-11 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg text-white">
+                    🔐
+                </div>
+                <div>
+                    <h1 class="title-font text-3xl font-semibold tracking-tight text-slate-900">Smart<span class="text-blue-600">SIEM</span></h1>
+                    <p class="text-xs text-slate-500 -mt-1">Guide Configuration TLS</p>
+                </div>
+            </div>
+            <button onclick="window.scrollTo({top: document.getElementById('etapes').offsetTop - 80, behavior: 'smooth'})"
+                    class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white transition-colors rounded-2xl text-sm font-medium">
+                Aller aux étapes
+            </button>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero-bg py-28">
+        <div class="content-container px-6 text-center">
+            <h1 class="title-font text-6xl md:text-7xl font-bold tracking-tighter mb-6 leading-none text-slate-900">
+                Guide TLS<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Expliqué Simplement</span>
+            </h1>
+            <p class="text-2xl text-slate-600 max-w-3xl mx-auto">
+                Un guide clair et accessible, même si vous ne maîtrisez pas le chiffrement.
+            </p>
+        </div>
+    </section>
+
+    <!-- INTRODUCTION -->
+    <section class="py-20 bg-white">
+        <div class="content-container px-6">
+            <div class="bg-slate-50 border border-slate-200 rounded-3xl p-12">
+                <h2 class="text-4xl font-semibold mb-10 text-center text-slate-900">Qu’allez-vous réaliser ?</h2>
+                <div class="grid md:grid-cols-3 gap-10">
+                    <div class="text-center">
+                        <div class="w-20 h-20 mx-auto bg-purple-100 text-purple-600 rounded-3xl flex items-center justify-center text-5xl mb-6">🏛️</div>
+                        <h4 class="font-semibold text-xl text-slate-800">Autorité de Certification</h4>
+                        <p class="text-slate-600 mt-3">Votre propre autorité de confiance interne</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-20 h-20 mx-auto bg-blue-100 text-blue-600 rounded-3xl flex items-center justify-center text-5xl mb-6">📜</div>
+                        <h4 class="font-semibold text-xl text-slate-800">Certificat Serveur</h4>
+                        <p class="text-slate-600 mt-3">Identité sécurisée pour votre serveur SIEM</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-20 h-20 mx-auto bg-emerald-100 text-emerald-600 rounded-3xl flex items-center justify-center text-5xl mb-6">🔒</div>
+                        <h4 class="font-semibold text-xl text-slate-800">Connexions Sécurisées</h4>
+                        <p class="text-slate-600 mt-3">HTTPS entre agents et serveur</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRÉREQUIS -->
+    <section class="content-container px-6 py-16">
+        <div class="bg-white border border-slate-200 shadow-sm rounded-3xl p-10">
+            <h3 class="font-semibold text-amber-600 mb-6 text-xl flex items-center gap-3">
+                <span class="text-2xl">ℹ️</span> Prérequis
+            </h3>
+            <div class="grid md:grid-cols-3 gap-6 text-slate-700">
+                <div class="flex gap-4">
+                    <span class="text-2xl">1️⃣</span>
+                    <div>Ouvrez un terminal (Git Bash sur Windows ou Terminal sur Ubuntu)</div>
+                </div>
+                <div class="flex gap-4">
+                    <span class="text-2xl">2️⃣</span>
+                    <div>Assurez-vous qu’OpenSSL est installé</div>
+                </div>
+                <div class="flex gap-4">
+                    <span class="text-2xl">3️⃣</span>
+                    <div>Ne partagez jamais vos fichiers <code class="bg-slate-100 px-2 py-1 rounded">.key</code></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ÉTAPES -->
+    <section id="etapes" class="content-container px-6 pb-24">
+        <h2 class="text-4xl title-font font-semibold text-center mb-16 text-slate-900">Les Étapes Détaillées</h2>
+
+        <div class="space-y-12">
+
+            <!-- Step 1 -->
+            <div class="step-card bg-white border border-slate-200 rounded-3xl p-10 md:p-12">
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="w-14 h-14 bg-blue-600 text-white rounded-2xl flex items-center justify-center text-3xl font-bold flex-shrink-0">1</div>
+                    <div class="flex-1">
+                        <h3 class="text-3xl font-semibold mb-4 text-slate-900">1. Préparation du dossier</h3>
+                        <p class="text-slate-600 text-lg">Créez un dossier dédié pour organiser tous les certificats.</p>
+                        <div class="mt-8 terminal rounded-3xl p-8 md:p-10 border border-slate-200">
+                            <pre class="text-emerald-700 text-lg font-medium"><code>mkdir siem-certs
+cd siem-certs</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step-card bg-white border border-slate-200 rounded-3xl p-10 md:p-12">
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="w-14 h-14 bg-purple-600 text-white rounded-2xl flex items-center justify-center text-3xl font-bold flex-shrink-0">2</div>
+                    <div class="flex-1">
+                        <h3 class="text-3xl font-semibold mb-4 text-slate-900">2. Création de l’Autorité de Certification (CA)</h3>
+                        <p class="text-slate-600 text-lg">Cette étape crée la racine de confiance de votre infrastructure.</p>
+                        <div class="mt-8 terminal rounded-3xl p-8 md:p-10 border border-slate-200">
+                            <pre class="text-emerald-700"><code>openssl genrsa -out ca-root.key 4096
+
+openssl req -x509 -new -nodes -key ca-root.key -sha256 -days 3650 \
+  -out ca-root.crt -subj "/CN=Smart-SIEM-Root-CA/O=UCAC-ICAM/OU=Promo2028"</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step-card bg-white border border-slate-200 rounded-3xl p-10 md:p-12">
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="w-14 h-14 bg-amber-600 text-white rounded-2xl flex items-center justify-center text-3xl font-bold flex-shrink-0">3</div>
+                    <div class="flex-1">
+                        <h3 class="text-3xl font-semibold mb-4 text-slate-900">3. Création du fichier de configuration (v3.ext)</h3>
+                        <p class="text-slate-600 text-lg">Ce fichier définit les noms et adresses IP autorisés.</p>
+                        <div class="mt-8 terminal rounded-3xl p-8 md:p-10 border border-slate-200">
+                            <pre class="text-sky-700"><code>authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = localhost
+DNS.2 = siem_serveur_ucac-icam
+IP.1 = 127.0.0.1
+IP.2 = 192.168.1.100
+IP.3 = 192.168.1.150</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="step-card bg-white border border-slate-200 rounded-3xl p-10 md:p-12">
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="w-14 h-14 bg-rose-600 text-white rounded-2xl flex items-center justify-center text-3xl font-bold flex-shrink-0">4</div>
+                    <div class="flex-1">
+                        <h3 class="text-3xl font-semibold mb-4 text-slate-900">4. Génération du certificat du serveur</h3>
+                        <div class="mt-8 terminal rounded-3xl p-8 md:p-10 border border-slate-200">
+                            <pre class="text-emerald-700"><code>openssl genrsa -out siem-server.key 2048
+
+openssl req -new -key siem-server.key -out siem-server.csr -subj "/CN=siem_serveur_ucac-icam"
+
+openssl x509 -req -in siem-server.csr -CA ca-root.crt -CAkey ca-root.key \
+  -CAcreateserial -out siem-server.crt -days 730 -sha256 -extfile v3.ext</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DÉPLOIEMENT -->
+    <section class="bg-white py-20 border-t border-slate-100">
+        <div class="content-container px-6">
+            <h2 class="text-4xl title-font font-semibold text-center mb-16 text-slate-900">Déploiement des fichiers</h2>
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="bg-white border border-emerald-200 rounded-3xl p-10 shadow-sm">
+                    <h3 class="text-2xl font-semibold mb-8 text-emerald-700">Smart Agents</h3>
+                    <p class="text-lg text-slate-700">Copiez <strong>ca-root.crt</strong> dans le dossier <code class="bg-slate-100 px-3 py-2 rounded-xl">Agents/agent/certs/</code></p>
+                </div>
+                <div class="bg-white border border-blue-200 rounded-3xl p-10 shadow-sm">
+                    <h3 class="text-2xl font-semibold mb-8 text-blue-700">Serveur Smart SIEM</h3>
+                    <p class="text-lg text-slate-700">Copiez <strong>siem-server.crt</strong> et <strong>siem-server.key</strong> dans le dossier de votre application.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="content-container px-6 py-16 text-center text-slate-500 border-t border-slate-200">
+        Guide conçu pour être clair et accessible • UCAC-ICAM Promo X2028
+        <p>Douala / Cameroun</p>
+        <p>Mouga Djindigam Nehemie </p>
+    </footer>
+
+    <script>
+        // Copy functionality
+        document.querySelectorAll('pre').forEach(pre => {
+            pre.style.cursor = 'pointer';
+            pre.title = "Cliquez pour copier la commande";
+            pre.addEventListener('click', () => {
+                navigator.clipboard.writeText(pre.textContent.trim());
+                const originalBg = pre.style.backgroundColor;
+                pre.style.backgroundColor = '#ecfdf5';
+                setTimeout(() => {
+                    pre.style.backgroundColor = originalBg;
+                }, 600);
+            });
+        });
+    </script>
+</body>
+</html>
