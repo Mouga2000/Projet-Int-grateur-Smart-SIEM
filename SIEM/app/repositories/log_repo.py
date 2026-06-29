@@ -68,8 +68,18 @@ class LogRepository:
         query: dict = None,
         page: int = 1,
         size: int = 50,
+        index: str = None,
     ) -> dict:
-        """Recherche des logs avec la query DSL Elasticsearch."""
+        """
+        Recherche des logs avec la query DSL Elasticsearch.
+
+        Args:
+            query: Requête Elasticsearch DSL.
+            page: Numéro de page (1-indexé).
+            size: Taille de page.
+            index: Index ES cible (défaut: logs-*).
+                   Utiliser 'logs-clue' pour les données CLUE-LDS.
+        """
         if query is None:
             query = {"match_all": {}}
 
@@ -80,8 +90,9 @@ class LogRepository:
             "sort": [{"timestamp": {"order": "desc"}}],
         }
 
+        target_index = index or f"{self.index_prefix}-*"
         response = await self.es.search(
-            index=f"{self.index_prefix}-*",
+            index=target_index,
             body=body,
         )
 

@@ -37,3 +37,6 @@ certs/
 
 # Claude (config personnelle)
 .claude/
+
+
+clue.json

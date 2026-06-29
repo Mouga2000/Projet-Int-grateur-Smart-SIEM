@@ -196,6 +196,15 @@ class CorrelationEngine:
                 )
 
             # ------------------------------------------------
+            # Vérifie une règle UEBA (score de risque).
+            # ------------------------------------------------
+            elif rule["type"] == "ueba":
+                detected = await self.check_ueba_rule(
+                    rule,
+                    normalized_log,
+                )
+
+            # ------------------------------------------------
             # Si une menace est détectée,
             # on crée une alerte.
             # ------------------------------------------------
@@ -397,6 +406,59 @@ class CorrelationEngine:
             return False
         except Exception as e:
             print(f"[SEQUENCE] Redis indisponible, regle ignoree : {e}")
+            return False
+
+    # ------------------------------------------------------
+    # Vérification d'une règle UEBA (score de risque).
+    # ------------------------------------------------------
+    async def check_ueba_rule(self, rule: Dict, log: Dict) -> bool:
+        """
+        Regle UEBA : declenche une alerte si le score de risque > seuil.
+
+        Exemple de regle :
+        {
+            "type": "ueba",
+            "condition": {
+                "entity_type": "user",
+                "risk_threshold": 70
+            },
+            "mitre_tactic": "credential_access",
+            "mitre_technique": "T1078"
+        }
+        """
+        threshold = rule.get("condition", {}).get("risk_threshold", 70)
+
+        # Extraire l'entite du log (user → raw_data.uid → IP)
+        entity_id = None
+        decoded = log.get("decoded")
+        if isinstance(decoded, dict) and decoded.get("user"):
+            entity_id = decoded["user"]
+        if not entity_id:
+            raw_data = log.get("raw_data")
+            if isinstance(raw_data, dict) and raw_data.get("uid"):
+                entity_id = raw_data["uid"]
+        entity_id = entity_id or log.get("source_ip")
+
+        if not entity_id:
+            return False
+
+        # Recuperer le profil UEBA et son score
+        try:
+            from app.core.database import async_session_factory
+            from app.services import ueba as ueba_service
+
+            async with async_session_factory() as db:
+                profile = await ueba_service.get_profile(db, entity_id)
+                if profile and profile["risk_score"] >= threshold:
+                    print(f"[UEBA] {entity_id} score={profile['risk_score']} >= {threshold} -> ALERTE")
+                    return True
+
+            return False
+        except ImportError as e:
+            print(f"[UEBA] Module ueba non disponible : {e}")
+            return False
+        except Exception as e:
+            print(f"[UEBA] Erreur : {e}")
             return False
 
     # ------------------------------------------------------

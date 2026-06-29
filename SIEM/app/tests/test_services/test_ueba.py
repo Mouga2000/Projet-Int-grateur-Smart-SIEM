@@ -1,243 +1,169 @@
 # app/tests/test_services/test_ueba.py
 # -------------------------------
-# Tests unitaires du service UEBA (User and Entity Behavior Analytics)
-#
-# Le service ueba.py est encore un stub (non implémenté).
-# Ces tests vérifient la logique comportementale attendue et pourront être
-# complétés dès que le service sera implémenté.
+# Tests unitaires du service UEBA (app/services/ueba.py)
 
 import pytest
-from datetime import datetime, timezone, timedelta
+from unittest.mock import ANY
+from app.services import ueba
 
 
-# =============================================================================
-# Tests des règles heuristiques de détection d'anomalies
-# =============================================================================
+class TestExtractFeatures:
+    """Tests de l'extraction des features comportementales (9 dimensions)."""
 
-class TestAnomalouLoginHeuristics:
-    """Vérifie les règles heuristiques pour détecter un login anormal."""
+    def test_empty_events_returns_empty_dict(self):
+        assert ueba.extract_features([]) == {}
 
-    def _is_outside_business_hours(self, hour: int) -> bool:
-        """Connexion en dehors des heures ouvrées (8h-18h)."""
-        return hour < 8 or hour >= 18
+    def test_single_event_basic(self):
+        events = [{"timestamp": "2026-06-29T10:00:00Z", "source_ip": "192.168.1.1",
+                    "log_type": "auth", "severity": "info", "decoded": {"user": "admin"}}]
+        feats = ueba.extract_features(events)
+        assert feats["mean_hour"] == 10
+        assert feats["total_events"] == 1
+        assert feats["unique_ips"] == 1
+        assert feats["unique_users"] == 1
 
-    def _is_new_ip(self, ip: str, known_ips: list) -> bool:
-        """Vérifie si l'IP est inconnue pour cet utilisateur."""
-        return ip not in known_ips
-
-    def test_login_inside_business_hours(self):
-        assert self._is_outside_business_hours(10) is False
-        assert self._is_outside_business_hours(17) is False
-
-    def test_login_outside_business_hours_night(self):
-        assert self._is_outside_business_hours(2) is True
-        assert self._is_outside_business_hours(23) is True
-
-    def test_login_at_boundaries(self):
-        assert self._is_outside_business_hours(8) is False  # Inclus
-        assert self._is_outside_business_hours(18) is True   # Exclus
-
-    def test_known_ip_not_anomalous(self):
-        known = ["192.168.1.1", "10.0.0.5"]
-        assert self._is_new_ip("192.168.1.1", known) is False
-
-    def test_unknown_ip_is_anomalous(self):
-        known = ["192.168.1.1", "10.0.0.5"]
-        assert self._is_new_ip("203.0.113.42", known) is True
-
-    def test_empty_known_ips_always_new(self):
-        assert self._is_new_ip("192.168.1.1", []) is True
-
-
-# =============================================================================
-# Tests des features comportementales (feature engineering)
-# =============================================================================
-
-class TestUserBehaviorFeatures:
-    """Vérifie l'extraction des features comportementales d'un utilisateur."""
-
-    def _build_features(self, login_logs: list) -> dict:
-        """Calcule les features de base d'un profil utilisateur."""
-        if not login_logs:
-            return {"login_count": 0, "unique_ips": 0, "avg_hour": None}
-
-        hours = [log.get("hour", 12) for log in login_logs]
-        ips = list({log.get("ip", "0.0.0.0") for log in login_logs})
-
-        return {
-            "login_count": len(login_logs),
-            "unique_ips": len(ips),
-            "avg_hour": sum(hours) / len(hours),
-            "unique_ip_list": ips,
-        }
-
-    def test_empty_logs_returns_zero_counts(self):
-        features = self._build_features([])
-        assert features["login_count"] == 0
-        assert features["unique_ips"] == 0
-
-    def test_single_login_features(self):
-        logs = [{"hour": 9, "ip": "192.168.1.1"}]
-        features = self._build_features(logs)
-        assert features["login_count"] == 1
-        assert features["avg_hour"] == 9.0
-
-    def test_multiple_logins_average_hour(self):
-        logs = [
-            {"hour": 8, "ip": "192.168.1.1"},
-            {"hour": 12, "ip": "192.168.1.1"},
-            {"hour": 16, "ip": "192.168.1.1"},
+    def test_multiple_events_compute_hour_stats(self):
+        events = [
+            {"timestamp": "2026-06-29T08:00:00Z", "source_ip": "192.168.1.1", "log_type": "auth", "severity": "info"},
+            {"timestamp": "2026-06-29T12:00:00Z", "source_ip": "192.168.1.1", "log_type": "auth", "severity": "info"},
+            {"timestamp": "2026-06-29T16:00:00Z", "source_ip": "10.0.0.5", "log_type": "reseau", "severity": "error"},
         ]
-        features = self._build_features(logs)
-        assert features["avg_hour"] == 12.0
+        feats = ueba.extract_features(events)
+        assert feats["mean_hour"] == 12.0
+        assert feats["total_events"] == 3
+        assert feats["unique_ips"] == 2
+        assert feats["unique_log_types"] == 2
+        assert feats["error_ratio"] == pytest.approx(0.333, 0.01)
+        assert feats["critical_ratio"] == 0.0
 
-    def test_deduplicated_ips(self):
-        logs = [
-            {"hour": 9, "ip": "192.168.1.1"},
-            {"hour": 10, "ip": "192.168.1.1"},
-            {"hour": 11, "ip": "10.0.0.5"},
+    def test_error_ratio_calculation(self):
+        events = [
+            {"timestamp": "2026-06-29T10:00:00Z", "source_ip": "1.2.3.4", "log_type": "auth", "severity": "error"},
+            {"timestamp": "2026-06-29T11:00:00Z", "source_ip": "1.2.3.4", "log_type": "auth", "severity": "error"},
+            {"timestamp": "2026-06-29T12:00:00Z", "source_ip": "1.2.3.4", "log_type": "auth", "severity": "info"},
         ]
-        features = self._build_features(logs)
-        assert features["unique_ips"] == 2
+        feats = ueba.extract_features(events)
+        assert feats["error_ratio"] == pytest.approx(0.667, 0.01)
+        assert feats["unique_ips"] == 1
+
+    def test_user_from_decoded(self):
+        events = [{"timestamp": "2026-06-29T10:00:00Z", "source_ip": "1.2.3.4", "log_type": "auth",
+                    "severity": "info", "decoded": {"user": "admin"}}]
+        feats = ueba.extract_features(events)
+        assert feats["unique_users"] == 1
+
+    def test_user_fallback_to_raw_data_uid(self):
+        events = [{"timestamp": "2026-06-29T10:00:00Z", "source_ip": "1.2.3.4", "log_type": "auth",
+                    "severity": "info", "raw_data": {"uid": "user123"}}]
+        feats = ueba.extract_features(events)
+        assert feats["unique_users"] == 1
+
+    def test_bytes_feature(self):
+        events = [{"timestamp": "2026-06-29T10:00:00Z", "source_ip": "1.2.3.4",
+                    "log_type": "auth", "severity": "info", "bytes": 5000}]
+        feats = ueba.extract_features(events)
+        assert feats["avg_bytes"] == 5000.0
+
+    def test_invalid_timestamp(self):
+        events = [{"timestamp": "not-a-date", "source_ip": "1.2.3.4", "log_type": "auth", "severity": "info"}]
+        feats = ueba.extract_features(events)
+        assert "mean_hour" in feats
+
+    def test_no_timestamp(self):
+        events = [{"source_ip": "1.2.3.4", "log_type": "auth", "severity": "info"}]
+        feats = ueba.extract_features(events)
+        assert feats["mean_hour"] == 12.0
+
+    def test_sample_events_capped_at_max(self):
+        many_events = [{"timestamp": "2026-06-29T10:00:00Z", "source_ip": f"10.0.0.{i}",
+                        "log_type": "auth", "severity": "info"} for i in range(100)]
+        feats = ueba.extract_features(many_events, max_events=10)
+        assert feats["total_events"] == 10
 
 
-# =============================================================================
-# Tests de la détection de mouvement latéral
-# =============================================================================
+class TestFeaturesToVector:
+    """Tests de conversion features → vecteur numérique."""
 
-class TestLateralMovementDetection:
-    """Vérifie la logique de détection de mouvements latéraux."""
+    def test_returns_ordered_list(self):
+        feats = {"mean_hour": 10.0, "std_hour": 2.0, "total_events": 5, "unique_ips": 2,
+                 "unique_users": 1, "unique_log_types": 3, "error_ratio": 0.5, "critical_ratio": 0.0, "avg_bytes": 100.0}
+        vec = ueba.features_to_vector(feats)
+        assert len(vec) == 9
+        assert vec[0] == 10.0
+        assert vec[4] == 1
 
-    def _detect_lateral_movement(self, logs: list, threshold_hosts: int = 3) -> bool:
-        """
-        Détecte un mouvement latéral si un même utilisateur
-        accède à plus de N hôtes distincts dans une fenêtre temporelle.
-        """
-        if not logs:
-            return False
-        hosts_by_user: dict = {}
-        for log in logs:
-            user = log.get("user")
-            host = log.get("host")
-            if user and host:
-                hosts_by_user.setdefault(user, set()).add(host)
+    def test_missing_features_default_to_zero(self):
+        vec = ueba.features_to_vector({})
+        assert all(v == 0.0 for v in vec)
+        assert len(vec) == 9
 
-        for user, hosts in hosts_by_user.items():
-            if len(hosts) >= threshold_hosts:
-                return True
-        return False
-
-    def test_no_logs_no_movement(self):
-        assert self._detect_lateral_movement([]) is False
-
-    def test_single_host_no_movement(self):
-        logs = [
-            {"user": "admin", "host": "server-01"},
-            {"user": "admin", "host": "server-01"},
-        ]
-        assert self._detect_lateral_movement(logs, threshold_hosts=3) is False
-
-    def test_two_hosts_below_threshold(self):
-        logs = [
-            {"user": "admin", "host": "server-01"},
-            {"user": "admin", "host": "server-02"},
-        ]
-        assert self._detect_lateral_movement(logs, threshold_hosts=3) is False
-
-    def test_three_hosts_triggers_detection(self):
-        logs = [
-            {"user": "admin", "host": "server-01"},
-            {"user": "admin", "host": "server-02"},
-            {"user": "admin", "host": "server-03"},
-        ]
-        assert self._detect_lateral_movement(logs, threshold_hosts=3) is True
-
-    def test_different_users_no_trigger(self):
-        """Chaque utilisateur accède à un seul hôte : pas de mouvement latéral."""
-        logs = [
-            {"user": "alice", "host": "server-01"},
-            {"user": "bob", "host": "server-02"},
-            {"user": "charlie", "host": "server-03"},
-        ]
-        assert self._detect_lateral_movement(logs, threshold_hosts=3) is False
-
-    def test_missing_user_field_ignored(self):
-        logs = [
-            {"host": "server-01"},  # Pas d'utilisateur
-            {"user": "admin", "host": "server-02"},
-        ]
-        assert self._detect_lateral_movement(logs, threshold_hosts=3) is False
+    def test_vector_order_matches_feature_names(self):
+        feats = {k: float(i) for i, k in enumerate(ueba.FEATURE_NAMES)}
+        vec = ueba.features_to_vector(feats)
+        for i, name in enumerate(ueba.FEATURE_NAMES):
+            assert vec[i] == float(i), f"Mismatch at {name}"
 
 
-# =============================================================================
-# Tests de la détection d'exfiltration de données
-# =============================================================================
+class TestComputeRiskScore:
+    """Tests du calcul du score de risque (0-100)."""
 
-class TestDataExfiltrationDetection:
-    """Vérifie la logique de détection d'exfiltration de données."""
+    def test_no_model_returns_zero(self, monkeypatch):
+        monkeypatch.setattr("os.path.exists", lambda _: False)
+        score = ueba.compute_risk_score({"mean_hour": 10})
+        assert score == 0
 
-    def _detect_exfiltration(
-        self, logs: list, volume_threshold_mb: int = 100
-    ) -> bool:
-        """
-        Détecte une exfiltration si le volume total de données sortantes
-        dépasse le seuil en Mo.
-        """
-        total = sum(log.get("bytes_out", 0) for log in logs) / (1024 * 1024)
-        return total > volume_threshold_mb
+    def test_scores_are_capped_at_100(self, monkeypatch):
+        import numpy as np
+        mock_model = type("MockModel", (), {"predict": lambda self, x: np.array([-1])})()
+        monkeypatch.setattr("os.path.exists", lambda _: True)
+        monkeypatch.setattr("joblib.load", lambda _: mock_model)
 
-    def test_small_volume_no_exfiltration(self):
-        logs = [{"bytes_out": 1024 * 1024 * 10}]  # 10 Mo
-        assert self._detect_exfiltration(logs, volume_threshold_mb=100) is False
+        feats = {k: 0 for k in ueba.FEATURE_NAMES}
+        feats["error_ratio"] = 0.8
+        feats["critical_ratio"] = 0.5
+        feats["unique_ips"] = 50
+        feats["avg_bytes"] = 2_000_000
+        score = ueba.compute_risk_score(feats)
+        assert 0 <= score <= 100
 
-    def test_large_volume_triggers_exfiltration(self):
-        logs = [{"bytes_out": 1024 * 1024 * 150}]  # 150 Mo
-        assert self._detect_exfiltration(logs, volume_threshold_mb=100) is True
+    def test_business_rules_add_bonus(self, monkeypatch):
+        import numpy as np
+        mock_model = type("MockModel", (), {"predict": lambda self, x: np.array([1])})()
+        monkeypatch.setattr("os.path.exists", lambda _: True)
+        monkeypatch.setattr("joblib.load", lambda _: mock_model)
 
-    def test_cumulative_volume_triggers(self):
-        logs = [
-            {"bytes_out": 1024 * 1024 * 60},  # 60 Mo
-            {"bytes_out": 1024 * 1024 * 60},  # 60 Mo → total 120 Mo
-        ]
-        assert self._detect_exfiltration(logs, volume_threshold_mb=100) is True
+        feats = {k: 0 for k in ueba.FEATURE_NAMES}
+        feats["error_ratio"] = 0.8
+        score = ueba.compute_risk_score(feats)
+        assert score == 25  # 10 base + 15 bonus erreurs
 
-    def test_empty_logs_no_exfiltration(self):
-        assert self._detect_exfiltration([]) is False
+    def test_high_bytes_adds_bonus(self, monkeypatch):
+        import numpy as np
+        mock_model = type("MockModel", (), {"predict": lambda self, x: np.array([1])})()
+        monkeypatch.setattr("os.path.exists", lambda _: True)
+        monkeypatch.setattr("joblib.load", lambda _: mock_model)
 
-    def test_missing_bytes_out_treated_as_zero(self):
-        logs = [{"host": "server-01"}]  # Pas de bytes_out
-        assert self._detect_exfiltration(logs) is False
+        feats = {k: 0 for k in ueba.FEATURE_NAMES}
+        feats["avg_bytes"] = 2_000_000
+        score = ueba.compute_risk_score(feats)
+        # 10 base + 15 (avg_bytes > 100k) + 25 (avg_bytes > 1M) = 50
+        assert score == 50
+
+    def test_model_anomaly_increases_score(self, monkeypatch):
+        import numpy as np
+        mock_model = type("MockModel", (), {"predict": lambda self, x: np.array([-1])})()
+        monkeypatch.setattr("os.path.exists", lambda _: True)
+        monkeypatch.setattr("joblib.load", lambda _: mock_model)
+
+        feats = {k: 0 for k in ueba.FEATURE_NAMES}
+        score = ueba.compute_risk_score(feats)
+        assert score == 60  # 60 base (anomalie) + 0 bonus
 
 
-# =============================================================================
-# Tests du score d'anomalie
-# =============================================================================
+class TestProfileDict:
+    """Tests de conversion ProfilUEBA → dict."""
 
-class TestAnomalyScore:
-    """Vérifie le calcul d'un score d'anomalie normalisé (0.0 - 1.0)."""
-
-    def _compute_anomaly_score(self, indicators: list) -> float:
-        """
-        Score simple : proportion d'indicateurs positifs.
-        Chaque indicateur est un bool (True = anomalie détectée).
-        """
-        if not indicators:
-            return 0.0
-        return sum(1 for i in indicators if i) / len(indicators)
-
-    def test_no_indicators_score_zero(self):
-        assert self._compute_anomaly_score([]) == 0.0
-
-    def test_all_normal_score_zero(self):
-        assert self._compute_anomaly_score([False, False, False]) == 0.0
-
-    def test_all_anomalous_score_one(self):
-        assert self._compute_anomaly_score([True, True, True]) == 1.0
-
-    def test_half_anomalous_score_half(self):
-        score = self._compute_anomaly_score([True, False, True, False])
-        assert score == 0.5
-
-    def test_score_between_zero_and_one(self):
-        score = self._compute_anomaly_score([True, False, False, True, False])
-        assert 0.0 <= score <= 1.0
+    def test_ueba_feature_names_are_complete(self):
+        assert len(ueba.FEATURE_NAMES) == 9
+        assert "mean_hour" in ueba.FEATURE_NAMES
+        assert "avg_bytes" in ueba.FEATURE_NAMES

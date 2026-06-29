@@ -88,28 +88,33 @@ SIEM/
 │   │   ├── security.py          # ✅ Hash bcrypt, JWT, MFA/TOTP avec QR code
 │   │   ├── elasticsearch.py     # ✅ Client ES singleton AsyncElasticsearch
 │   │   ├── database.py          # ✅ SQLAlchemy async + init_db() (création auto des tables)
-│   │   └── redis.py             # ⏳ Client Redis async (cache + rate limiting)
+│   │   └── redis.py             # ✅ Client Redis async (cache, compteurs seuil)
 │   │
 │   ├── api/                     # Couche API FastAPI
 │   │   ├── dependencies.py      # ✅ get_current_user, require_role, require_permissions
 │   │   ├── middleware.py        # ⏳ CORS, TrustedHost, logging, rate limiting (stub)
 │   │   └── v1/                  # Routes API version 1
-│   │       ├── router.py        # ✅ Routeur central (auth, users, logs, admin, archive, investigations)
+│   │       ├── router.py        # ✅ Routeur central (tous les modules actifs)
 │   │       ├── auth.py          # ✅ Login, logout, MFA (setup, verify, disable, status)
 │   │       ├── users.py         # ✅ CRUD users + /setup + /{username}/role + /{username}/perimeter
 │   │       ├── logs.py          # ✅ Ingest (universel), list, search, timeline, get, delete
+│   │       ├── alerts.py        # ✅ CRUD alertes + filtres (severite, statut) + stats
+│   │       ├── rules.py         # ✅ CRUD regles de correlation (threshold, sequence, correlation)
+│   │       ├── incidents.py     # ✅ CRUD incidents + statut + timeline + assignation
+│   │       ├── investigations.py# ✅ CRUD investigations + ajout logs + verdicts
+│   │       ├── notifications.py # ✅ Notifications in-app (liste, marquer lues, compteur)
+│   │       ├── playbooks.py     # ✅ CRUD playbooks SOAR + execution
+│   │       ├── mitre.py         # ✅ Endpoints MITRE ATT&CK (tactiques, techniques)
 │   │       ├── admin.py         # ✅ Purge logs/audit + GET /retention
-│   │       ├── archive.py       # ✅ Créer/lister/chaîne/vérifier/exporter archives
-│   │       ├── investigations.py# ✅ CRUD investigations + ajout logs + mise à jour statut
+│   │       ├── archive.py       # ✅ Creer/lister/chaîne/verifier/exporter archives
 │   │       ├── health.py        # ⏳ GET /health, /ready, /live (stub)
-│   │       ├── alerts.py        # ⏳ CRUD /alerts, acknowledge, escalate (stub)
-│   │       ├── playbooks.py     # ⏳ CRUD /playbooks, POST /{id}/execute (stub)
 │   │       ├── search.py        # ⏳ POST /search, GET /search/saved (stub)
 │   │       └── reports.py       # ⏳ GET /reports/dashboard, POST /reports/generate (stub)
 │   │
 │   ├── models/                  # Modèles de données
 │   │   ├── sql_models.py        # ✅ User, Rule, Playbook, Incident, Alert, ProfilUEBA,
-│   │   │                        #    AuditLog, Notification, Archive, Investigation, InvestigationLog
+│   │   │                        #    AuditLog, Notification, Archive, Investigation,
+│   │   │                        #    InvestigationLog, Agent
 │   │   ├── user.py              # ✅ Modèle User (Pydantic)
 │   │   ├── log.py               # ✅ Modèle Log (Pydantic → document ES)
 │   │   ├── alert.py             # ⏳ Alerte (Pydantic → ES)
@@ -121,50 +126,53 @@ SIEM/
 │   │
 │   ├── schemas/                 # Schémas Pydantic (validation API)
 │   │   ├── user_schemas.py      # ✅ UserCreate, UserLogin, Token, UserResponse, UserUpdateRole
-│   │   ├── log_schemas.py       # ✅ RawLog, LogCreate, LogResponse, LogSearchRequest, LogListResponse
-│   │   ├── alert_schemas.py     # ⏳ AlertUpdate, AlertResponse, PlaybookCreate…
+│   │   ├── log_schemas.py       # ✅ RawLog, LogCreate, LogResponse, LogSearchRequest,
+│   │   │                        #    LogSearchResponse, LogListResponse
+│   │   ├── alert_schemas.py     # ✅ AlertResponse, AlertUpdate, AlertListResponse
 │   │   ├── search_schemas.py    # ⏳ SearchRequest, SearchResponse
 │   │   └── report_schemas.py    # ⏳ ReportRequest, DashboardStats
 │   │
 │   ├── services/                # Logique métier
 │   │   ├── auth.py              # ✅ AuthService (authenticate avec MFA, logout, audit)
 │   │   ├── audit_service.py     # ✅ AuditService (login/logout/MFA/gestion)
-│   │   ├── normalization.py     # ✅ Pipeline : auto_tag (7 règles regex), extract_structured
+│   │   ├── normalization.py     # ✅ Pipeline : auto_tag (7 regles regex), extract_structured
 │   │   │                        #    (IP, MAC, user, port), normalize (format SIEM + Agent)
 │   │   ├── archiver.py          # ✅ ArchiverService (SHA-256, Merkle tree, chaîne, signature RSA)
-│   │   ├── correlation.py       # ⏳ Moteur de corrélation (threshold, séquence)
+│   │   ├── correlation.py       # ✅ Moteur de correlation (single_event, threshold, sequence, correlation)
+│   │   ├── soar.py              # ✅ Service SOAR (block_ip, disable_user, isolate_host, notifications)
+│   │   ├── notification_service.py# ✅ Notification multi-canal (in-app, email, Slack)
 │   │   ├── ueba.py              # ⏳ Analyse comportementale (ML)
-│   │   ├── soar.py              # ⏳ Orchestration SOAR (playbooks)
-│   │   ├── alerts.py            # ⏳ Gestion des alertes
+│   │   ├── alerts.py            # ⏳ Gestion des alertes (service)
 │   │   ├── search.py            # ⏳ Recherche Elasticsearch DSL
 │   │   └── reports.py           # ⏳ Rapports PDF/CSV
 │   │
 │   ├── repositories/            # Pattern Repository (accès données)
-│   │   ├── base.py              # ✅ CRUD générique PostgreSQL (SQLAlchemy)
+│   │   ├── base.py              # ✅ CRUD generique PostgreSQL (SQLAlchemy)
 │   │   ├── user_repo.py         # ✅ CRUD utilisateurs PostgreSQL
-│   │   ├── audit_repo.py        # ✅ Audit logs PostgreSQL + purge par âge
-│   │   ├── log_repo.py          # ✅ CRUD logs ES (ingest, bulk_ingest, search, timeline,
-│   │   │                        #    get_by_id, delete, delete_older_than, search_by_date_range)
+│   │   ├── audit_repo.py        # ✅ Audit logs PostgreSQL + purge par age
+│   │   ├── log_repo.py          # ✅ CRUD logs ES (ingest, bulk, search, timeline,
+│   │   │                        #    get, delete, delete_older_than, search_by_date_range)
 │   │   ├── archive_repo.py      # ✅ Archives PostgreSQL (create, list, get, chain, verify)
 │   │   ├── investigation_repo.py# ✅ Investigations + InvestigationLog PostgreSQL
-│   │   ├── alert_repo.py        # ⏳ Alertes (ES) — stub
-│   │   ├── rule_repo.py         # ⏳ Règles (PostgreSQL) — stub
-│   │   ├── playbook_repo.py     # ⏳ Playbooks (PostgreSQL) — stub
-│   │   └── incident_repo.py     # ⏳ Incidents (PostgreSQL) — stub
+│   │   ├── incident_repo.py     # ✅ Incidents PostgreSQL (status, timeline, assignation)
+│   │   ├── alert_repo.py        # ✅ Alertes PostgreSQL (create, search, update)
+│   │   ├── rule_repo.py         # ✅ Regles PostgreSQL (CRUD + get_enabled_rules)
+│   │   ├── playbook_repo.py     # ✅ Playbooks PostgreSQL (CRUD + increment_execution)
+│   │   └── notification_repo.py # ✅ Notifications PostgreSQL (CRUD + mark_read)
 │   │
 │   ├── tasks/                   # Tâches asynchrones Celery
-│   │   ├── celery.py            # ✅ Config Celery + Beat schedule (purge à 3h UTC)
-│   │   ├── notification_tasks.py# ✅ purge_old_logs() (ES + PG), send_email/slack (stub)
-│   │   ├── soar_tasks.py        # ⏳ Exécution playbooks, enrichissement
-│   │   ├── ueba_tasks.py        # ⏳ Entraînement ML, scoring anomalies
-│   │   └── report_tasks.py      # ⏳ Génération de rapports
+│   │   ├── celery.py            # ✅ Config Celery + Beat schedule (purge a 3h UTC)
+│   │   ├── notification_tasks.py# ✅ purge_old_logs() + send_email() + send_slack() + send_in_app()
+│   │   ├── soar_tasks.py        # ⏳ Execution playbooks, enrichissement
+│   │   ├── ueba_tasks.py        # ⏳ Entrainement ML, scoring anomalies
+│   │   └── report_tasks.py      # ⏳ Generation de rapports
 │   │
 │   ├── utils/                   # Fonctions utilitaires
 │   │   ├── tags.py              # ✅ Enum Role (5 rôles) + Enum Perimeter (4 niveaux)
 │   │   │                        #    + StatutIncident + NiveauAlerte + ROLE_PERMISSIONS_MAP
 │   │   ├── logging.py           # ⏳ Configuration Loguru
 │   │   ├── validators.py        # ⏳ Validation IP, domaine, hash…
-│   │   └── mitre.py             # ⏳ Base MITRE ATT&CK
+│   │   └── mitre.py             # ✅ Base MITRE ATT&CK (36 techniques, 14 tactiques)
 │   │
 │   └── tests/                   # Tests
 │       ├── conftest.py          # ✅ Fixtures partagées
@@ -174,20 +182,19 @@ SIEM/
 │       ├── test_services/
 │       │   ├── test_normalization.py  # ✅ 44 tests : auto_tag, extract_structured, normalize
 │       │   └── test_auth_service.py   # ✅ Tests AuthService
-│       └── test_api/
+│       ├── test_api/
 │           ├── test_auth.py     # ✅ Tests endpoints auth
-│           ├── test_logs.py     # ✅ Tests endpoints logs
-│           ├── test_alerts.py   # ✅ Tests endpoints alertes
-│           └── test_search.py   # ✅ Tests recherche
+│           └── test_logs.py     # ✅ Tests endpoints logs
 │
 ├── migrations/                  # Migrations Alembic
 │   ├── env.py                   # ✅ Configuration (import des modèles)
 │   └── versions/                # Scripts de migration
 │
 └── scripts/                     # Scripts utilitaires
-    ├── generate_dataset_ctu.py  # ⏳ Génération dataset de test
-    ├── populate_test_data.py    # ⏳ Peuplement base de démo
-    └── seed_rules.py            # ⏳ Initialisation règles de corrélation
+    ├── seed_rules.py            # ✅ Initialisation regles de correlation (7 regles MITRE)
+    ├── seed_playbooks.py        # ✅ Initialisation playbooks SOAR (3 playbooks)
+    ├── generate_dataset_ctu.py  # ⏳ Generation dataset de test
+    └── populate_test_data.py    # ⏳ Peuplement base de demo
 ```
 
 ---
@@ -260,6 +267,66 @@ SIEM/
 | `GET  /api/v1/admin/archive/{id}`               | GET     | Détail d'une archive                             | Admin |
 | `GET  /api/v1/admin/archive/{id}/export`        | GET     | Exporter les preuves pour audit réglementaire    | Admin |
 
+#### 🚨 Alertes
+
+| Endpoint                               | Méthode | Description                              | Auth         |
+| -------------------------------------- | ------- | ---------------------------------------- | ------------ |
+| `GET  /api/v1/alerts/`                 | GET     | Liste avec filtres (severite, statut)    | Token        |
+| `GET  /api/v1/alerts/stats`            | GET     | Statistiques par severite et statut      | Token        |
+| `GET  /api/v1/alerts/{id}`             | GET     | Detail d'une alerte                      | Token        |
+| `PATCH /api/v1/alerts/{id}?status=...` | PATCH   | Mettre a jour le statut                  | Analyste     |
+
+#### 📋 Incidents
+
+| Endpoint                                        | Méthode | Description                              | Auth         |
+| ----------------------------------------------- | ------- | ---------------------------------------- | ------------ |
+| `GET  /api/v1/incidents/`                       | GET     | Liste avec filtre par statut             | Token        |
+| `POST /api/v1/incidents/`                       | POST    | Creer un incident                        | Analyste     |
+| `GET  /api/v1/incidents/{id}`                   | GET     | Detail + timeline complete               | Token        |
+| `PATCH /api/v1/incidents/{id}/status`           | PATCH   | Changer le statut (journalise)           | Analyste     |
+| `POST /api/v1/incidents/{id}/alerts`            | POST    | Ajouter une alerte liee                  | Analyste     |
+| `POST /api/v1/incidents/{id}/assign`            | POST    | Assigner a un analyste                   | Analyste     |
+
+#### ⚙️ Regles de correlation
+
+| Endpoint                               | Méthode | Description                              | Auth         |
+| -------------------------------------- | ------- | ---------------------------------------- | ------------ |
+| `GET  /api/v1/rules/`                  | GET     | Lister les regles (filtre par type)      | Token        |
+| `POST /api/v1/rules/`                  | POST    | Creer une regle (single, threshold...)   | Admin        |
+| `GET  /api/v1/rules/{id}`              | GET     | Detail d'une regle                       | Token        |
+| `PATCH /api/v1/rules/{id}`             | PATCH   | Modifier une regle                       | Admin        |
+| `DELETE /api/v1/rules/{id}`            | DELETE  | Supprimer une regle                      | Admin        |
+
+#### 🔔 Notifications
+
+| Endpoint                                        | Méthode | Description                              | Auth         |
+| ----------------------------------------------- | ------- | ---------------------------------------- | ------------ |
+| `GET  /api/v1/notifications/`                   | GET     | Lister mes notifications                 | Token        |
+| `GET  /api/v1/notifications/unread-count`       | GET     | Nombre de notifications non lues         | Token        |
+| `PATCH /api/v1/notifications/{id}/read`          | PATCH   | Marquer comme lue                        | Token        |
+| `POST /api/v1/notifications/read-all`            | POST    | Tout marquer comme lu                    | Token        |
+
+#### 🤖 Playbooks SOAR
+
+| Endpoint                                        | Méthode | Description                              | Auth         |
+| ----------------------------------------------- | ------- | ---------------------------------------- | ------------ |
+| `GET  /api/v1/playbooks/`                       | GET     | Lister les playbooks                     | Token        |
+| `POST /api/v1/playbooks/`                       | POST    | Creer un playbook                        | Admin        |
+| `GET  /api/v1/playbooks/{id}`                   | GET     | Detail d'un playbook                     | Token        |
+| `PUT  /api/v1/playbooks/{id}`                   | PUT     | Modifier un playbook                     | Admin        |
+| `DELETE /api/v1/playbooks/{id}`                 | DELETE  | Supprimer un playbook                    | Admin        |
+| `POST /api/v1/playbooks/{id}/execute`           | POST    | Executer un playbook (contexte JSON)     | Analyste     |
+
+> **Actions disponibles** : `block_ip` (iptables/netsh), `disable_user` (usermod/net user), `isolate_host`, `notify_slack`, `notify_email`, `create_ticket`
+
+#### 🏴 MITRE ATT&CK
+
+| Endpoint                                        | Méthode | Description                              | Auth         |
+| ----------------------------------------------- | ------- | ---------------------------------------- | ------------ |
+| `GET  /api/v1/mitre/tactics`                    | GET     | Lister les 14 tactiques                  | Public       |
+| `GET  /api/v1/mitre/techniques`                 | GET     | Lister les 36 techniques (filtre tactic) | Token        |
+| `GET  /api/v1/mitre/techniques/{id}`            | GET     | Detail d'une technique (ex: T1110)       | Token        |
+
 ---
 
 ### 🔑 Fonctionnalités implémentées — Détail
@@ -297,6 +364,39 @@ SIEM/
 - Signature RSA 2048 bits de l'horodatage (non-répudiation)
 - 4 vérifications d'intégrité : existence fichier, SHA-256, chaîne, signature
 
+#### Correlation & Detection
+- Moteur de correlation avec 4 types : single_event, threshold (Redis), sequence (Redis), correlation (ES)
+- Fenetres temporelles configurables (ex: 5 evenements en 60 secondes)
+- Correlation inter-sources : pare-feu + AD relies par IP
+- 7 regles de correlation prechargees couvrant les scenarios MITRE ATT&CK (T1110, T1550, T1041, T1070, T1046, T1078)
+- Detection de sequences d'attaque en 3 etapes (Recon → Lateral → Exfil)
+
+#### Alertes & Incidents
+- Creation automatique d'alertes par le moteur de correlation
+- 4 niveaux de severite : info, low, medium, high, critical
+- Workflow de cycle de vie : ouverte → en_cours → resolue → classee
+- Incidents regroupant plusieurs alertes avec timeline horodatee
+- Assignation a un analyste
+- Statistiques par severite et statut
+
+#### Notifications multi-canal
+- Notifications in-app stockees en PostgreSQL
+- Envoi d'emails via SMTP (configurable)
+- Notifications Slack via webhook
+- Declenchement automatique a la creation d'alerte
+
+#### SOAR (Security Orchestration Automation Response)
+- 3 playbooks precharges : blocage IP, desactivation compte, isolation machine
+- Execution d'actions sur les machines cibles via agent distant (API HTTP)
+- Actions disponibles : block_ip, disable_user, isolate_host, notify_slack, notify_email, create_ticket
+- Mecanisme de retry en cas d'echec
+
+#### MITRE ATT&CK
+- Base de connaissances : 36 techniques et 14 tactiques
+- API de consultation (tactiques, techniques, filtrage par tactique)
+- Mapping de chaque regle de correlation vers une technique MITRE
+- Referencement dans les alertes, incidents et investigations
+
 #### Infrastructure & Données
 - Création automatique des tables PostgreSQL au démarrage (`init_db`)
 - Rotation quotidienne des index ES (`logs-YYYY-MM-DD`)
@@ -307,19 +407,15 @@ SIEM/
 
 ---
 
-### ⏳ En cours / À faire
+### ⏳ En cours / A faire
 
-| Module                        | Priorité | Description                              |
+| Module                        | Priorite | Description                              |
 | ----------------------------- | -------- | ---------------------------------------- |
-| **Middleware (CORS, logs)**    | Haute    | Activer CORSMiddleware + logging requêtes|
-| **Alertes**                   | Haute    | CRUD + workflow (acquittement, escalade) |
-| **Règles de corrélation**     | Haute    | Moteur de détection sur flux de logs     |
-| **Health Check**              | Haute    | GET /health (ES ping, DB ping)           |
-| **Playbooks SOAR**            | Moyenne  | Automatisation des réponses aux alertes  |
-| **Rapports**                  | Moyenne  | Dashboard stats + génération PDF/CSV     |
+| **Middleware (CORS, logs)**    | Haute    | Activer CORSMiddleware + logging requetes|
+| **Health Check**              | Haute    | GET /health (ES ping, DB ping, Redis)    |
+| **Rapports**                  | Moyenne  | Dashboard stats + generation PDF/CSV     |
 | **UEBA**                      | Basse    | Analyse comportementale (ML/scoring)     |
-| **Celery workers**            | Basse    | Tâches email/Slack/UEBA/rapports         |
-| **Redis client**              | Basse    | Cache + rate limiting                    |
+| **Celery workers**            | Basse    | Taches email/Slack/UEBA/rapports         |
 
 ---
 
@@ -337,6 +433,7 @@ SIEM/
 | `notifications`    | Notifications in-app / email / Slack / SMS               |
 | `archives`         | Archives certifiées (SHA-256, Merkle, chaîne, signature) |
 | `investigations`   | Investigations de sécurité (MITRE, statut, assignation)  |
+| `agents`           | Machines distantes avec agent SOAR installe              |
 | `investigation_logs`| Lien log ES ↔ investigation (note, verdict analyste)   |
 
 ---

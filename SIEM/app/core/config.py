@@ -123,6 +123,11 @@ class Settings(BaseSettings):
     SMTP_FROM: str = "siem@smart-siem.local"
     SLACK_WEBHOOK_URL: Optional[str] = None
 
+    # --- Machine Learning / UEBA ---
+    UEBA_ENABLED: bool = True
+    UEBA_MODEL_PATH: str = "models/ueba"
+    UEBA_ANOMALY_THRESHOLD: int = 70
+
     class Config:
         env_file = ".env"
 

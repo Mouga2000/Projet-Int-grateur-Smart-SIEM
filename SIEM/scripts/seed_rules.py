@@ -143,6 +143,22 @@ DEFAULT_RULES = [
         "actions": {"create_alert": True},
         "enabled": True,
     },
+    # =========================================================================
+    # UEBA : Anomalie comportementale (score de risque)
+    # Necessite le module UEBA et un modele entraine
+    # =========================================================================
+    {
+        "name": "UEBA - Anomalie comportementale",
+        "description": "Score de risque UEBA depasse le seuil (>70). Detecte les comportements anormaux par ML (Isolation Forest).",
+        "rule_type": "ueba",
+        "severity": "high",
+        "priority": 80,
+        "condition": {"entity_type": "user", "risk_threshold": 70},
+        "mitre_tactic": "credential_access",
+        "mitre_technique": "T1078",
+        "actions": {"create_alert": True},
+        "enabled": True,
+    },
 ]
 
 

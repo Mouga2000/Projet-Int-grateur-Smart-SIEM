@@ -21,3 +21,4 @@ Dockerfile.*
 tests/
 data/
 .claude/
+clue.json

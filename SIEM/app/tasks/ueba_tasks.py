@@ -1,27 +1,122 @@
 # app/tasks/ueba_tasks.py
 # -------------------------------
-# Tâches Celery pour l'analyse comportementale (UEBA)
+# Tâches Celery pour l'analyse comportementale UEBA
 #
-# Ce que tu dois mettre ici :
+# - train_anomaly_model : entraînement du modèle Isolation Forest
+# - score_single_event  : scoring temps réel après ingestion d'un log
 #
-#   from app.tasks.celery import celery_app
-#
-#   @celery_app.task(bind=True, soft_time_limit=3600)  # 1h max
-#   def train_anomaly_model(self):
-#       """Entraîne le modèle d'anomaly detection sur les données récentes."""
-#       pass
-#
-#   @celery_app.task(bind=True, soft_time_limit=60)
-#   def score_user_activity(self, user_id: int, recent_logs: list):
-#       """Calcule un score d'anomalie pour un utilisateur."""
-#       pass
-#
-#   @celery_app.task(bind=True)
-#   def detect_lateral_movement_task(self, time_window_minutes: int = 60):
-#       """Détection asynchrone des mouvements latéraux."""
-#       pass
-#
-#   @celery_app.task(bind=True)
-#   def detect_data_exfiltration_task(self, time_window_minutes: int = 60):
-#       ""Détection asynchrone d'exfiltration de données."""
-#       pass
+# Planification (Celery Beat) :
+#   train_anomaly_model → tous les lundis à 2h
+#   Utilise tout l'historique (pas de limite de jours)
+
+import asyncio
+from collections import defaultdict
+
+from app.core.database import async_session_factory
+from app.core.elasticsearch import ElasticsearchClient
+from app.repositories.log_repo import LogRepository
+from app.services import ueba as ueba_service
+from app.tasks.celery import celery_app
+
+
+@celery_app.task(bind=True, max_retries=2, soft_time_limit=3600)
+def train_anomaly_model(self, days: int = None, index: str = None):
+    """
+    Entraîne le modèle UEBA sur tout l'historique disponible.
+
+    - Par défaut (Celery Beat) : tous les logs (match_all)
+    - Pour un entraînement sur période spécifique : days=30
+    - Pour CLUE-LDS uniquement : days=3650, index='logs-clue'
+
+    Déclenchement :
+        celery -A app.tasks.celery call app.tasks.ueba_tasks.train_anomaly_model
+    """
+
+    async def _run():
+        es = ElasticsearchClient()
+        repo = LogRepository(es)
+
+        # Déterminer la requête : tout l'historique par défaut
+        if days and days > 0:
+            from datetime import datetime, timezone, timedelta
+            date_from = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat()
+            query = {"range": {"timestamp": {"gte": date_from}}}
+        else:
+            query = {"match_all": {}}
+
+        # logs-[0-9]* exclut logs-clue (donnees CLUE de 2019)
+        # tout en incluant les index dates comme logs-2026-06-29
+        target_index = index or "logs-[0-9]*"
+
+        # Utiliser scroll pour charger tous les résultats
+        raw_es = es  # ElasticsearchClient renvoie l'instance AsyncElasticsearch
+        resp = await raw_es.search(
+            index=target_index,
+            body={"query": query, "size": 5000, "sort": ["_doc"]},
+            scroll="10m",
+        )
+        scroll_id = resp["_scroll_id"]
+        hits = resp["hits"]["hits"]
+        total = resp["hits"]["total"]["value"]
+
+        # Grouper par entité
+        groups = defaultdict(list)
+        processed = 0
+
+        while hits:
+            for hit in hits:
+                e = hit["_source"]
+                entity_id = (
+                    e.get("decoded", {}).get("user")
+                    or e.get("raw_data", {}).get("uid")
+                    or e.get("source_ip", "unknown")
+                )
+                groups[entity_id].append(e)
+
+            processed += len(hits)
+            if processed % 100000 == 0:
+                print(f"[UEBA]  {processed}/{total} evenements, {len(groups)} utilisateurs")
+
+            resp = await raw_es.scroll(scroll_id=scroll_id, scroll="10m")
+            scroll_id = resp["_scroll_id"]
+            hits = resp["hits"]["hits"]
+
+        await raw_es.clear_scroll(scroll_id=scroll_id)
+
+        print(f"[UEBA] Charge : {processed}/{total} evenements, {len(groups)} utilisateurs")
+
+        if not groups:
+            return {"status": "skipped", "reason": "Aucun evenement trouve"}
+
+        # Entraîner le modèle
+        print(f"[UEBA] Entrainement Isolation Forest...")
+        async with async_session_factory() as db:
+            result = await ueba_service.train_model(dict(groups), db)
+            await db.commit()
+            result["events_analyzed"] = processed
+            result["entities_found"] = len(groups)
+            print(f"[UEBA] Resultat : {result}")
+            return result
+
+    return asyncio.run(_run())
+
+
+@celery_app.task(bind=True, max_retries=1, soft_time_limit=30)
+def score_single_event(self, event: dict):
+    """
+    Calcule le score de risque UEBA pour un événement en temps réel.
+    """
+
+    async def _run():
+        entity_id = (
+            event.get("decoded", {}).get("user")
+            or event.get("raw_data", {}).get("uid")
+            or event.get("source_ip", "unknown")
+        )
+
+        async with async_session_factory() as db:
+            score = await ueba_service.score_event(entity_id, event, db)
+            await db.commit()
+            return {"entity_id": entity_id, "risk_score": score}
+
+    return asyncio.run(_run())
