@@ -17,7 +17,7 @@ router = APIRouter(prefix="/incidents", tags=["Incidents"])
 
 @router.get("/")
 async def list_incidents(
-    statut: Optional[str] = Query(None, regex="^(ouverte|en_cours|resolue|classee)$"),
+    statut: Optional[str] = Query(None, pattern="^(ouverte|en_cours|resolue|classee)$"),
     page: int = Query(1, ge=1),
     size: int = Query(50, ge=1, le=200),
     current_user: dict = Depends(get_current_user),
@@ -59,7 +59,7 @@ async def get_incident(
 @router.patch("/{incident_id}/status")
 async def update_incident_status(
     incident_id: int,
-    statut: str = Query(..., regex="^(ouverte|en_cours|resolue|classee)$"),
+    statut: str = Query(..., pattern="^(ouverte|en_cours|resolue|classee)$"),
     notes: Optional[str] = Query(None, description="Notes de resolution"),
     current_user: dict = Depends(require_role([Role.ANALYSTE, Role.ADMINISTRATEUR])),
     db: AsyncSession = Depends(get_db),

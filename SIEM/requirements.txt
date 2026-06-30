@@ -34,6 +34,10 @@ cryptography==44.0.0              # Signatures RSA, hashs, clés
 
 # --- Utilitaires ---
 python-dotenv==1.2.2
+celery==5.5.2                      # File d'attente de taches asynchrones
+joblib==1.5.1                      # Serialisation de modeles ML (UEBA)
+numpy==2.2.5                       # Calcul numerique (UEBA)
+scikit-learn==1.6.1                # Isolation Forest (UEBA)
 redis[hiredis]==5.2.0             # Cache, compteurs de seuil, broker Celery
 
 # --- Tests ---

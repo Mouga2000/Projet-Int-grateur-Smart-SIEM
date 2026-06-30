@@ -193,7 +193,7 @@ async def search_logs(
 async def get_timeline(
     interval: str = Query(
         default="1h",
-        regex="^(10s|30s|1m|5m|15m|30m|1h|6h|12h|1d|1w|1M)$",
+        pattern="^(10s|30s|1m|5m|15m|30m|1h|6h|12h|1d|1w|1M)$",
         description="Intervalle de l'histogramme (10s, 1m, 1h, 1d, 1w, 1M)",
     ),
     date_from: Optional[datetime] = Query(

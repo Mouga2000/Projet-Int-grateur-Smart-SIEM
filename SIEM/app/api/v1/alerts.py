@@ -17,8 +17,8 @@ router = APIRouter(prefix="/alerts", tags=["Alertes"])
 
 @router.get("/")
 async def list_alerts(
-    severity: Optional[str] = Query(None, regex="^(info|low|medium|high|critical)$"),
-    status: Optional[str] = Query(None, regex="^(ouverte|en_cours|resolue|classee)$"),
+    severity: Optional[str] = Query(None, pattern="^(info|low|medium|high|critical)$"),
+    status: Optional[str] = Query(None, pattern="^(ouverte|en_cours|resolue|classee)$"),
     page: int = Query(1, ge=1),
     size: int = Query(50, ge=1, le=200),
     current_user: dict = Depends(get_current_user),
@@ -79,7 +79,7 @@ async def get_alert(
 @router.patch("/{alert_id}")
 async def update_alert(
     alert_id: int,
-    status: str = Query(..., regex="^(ouverte|en_cours|resolue|classee)$"),
+    status: str = Query(..., pattern="^(ouverte|en_cours|resolue|classee)$"),
     current_user: dict = Depends(require_role([Role.ANALYSTE, Role.ADMINISTRATEUR])),
     db: AsyncSession = Depends(get_db),
 ):

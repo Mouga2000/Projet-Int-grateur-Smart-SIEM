@@ -63,13 +63,13 @@ async def create_investigation(
 ):
     """Cree une nouvelle investigation pour regrouper des logs suspects."""
     repo = InvestigationRepository(db)
-    inv = await repo.create({**data.dict(), "created_by": current_user["id"]})
+    inv = await repo.create({**data.model_dump(), "created_by": current_user["id"]})
     return inv
 
 
 @router.get("/")
 async def list_investigations(
-    status: Optional[str] = Query(None, regex="^(ouverte|en_cours|resolue|classee)$"),
+    status: Optional[str] = Query(None, pattern="^(ouverte|en_cours|resolue|classee)$"),
     page: int = Query(1, ge=1),
     size: int = Query(50, ge=1, le=200),
     current_user: dict = Depends(get_current_user),
@@ -154,7 +154,7 @@ async def add_log_to_investigation(
 @router.patch("/{investigation_id}/status")
 async def update_investigation_status(
     investigation_id: int,
-    status: str = Query(..., regex="^(ouverte|en_cours|resolue|classee)$"),
+    status: str = Query(..., pattern="^(ouverte|en_cours|resolue|classee)$"),
     notes: Optional[str] = Query(None),
     current_user: dict = Depends(require_role([Role.ANALYSTE, Role.ADMINISTRATEUR])),
     db: AsyncSession = Depends(get_db),
