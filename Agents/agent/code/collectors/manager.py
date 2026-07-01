@@ -35,12 +35,6 @@ class CollectorManager:
         events = collector.collect()
 
         for event in events:
-            """
-            self.client.post(
-                self.url_event,
-                event.to_dict()
-            )"""
-
             self.queue.publish(event)
 
 

@@ -17,6 +17,8 @@ server:
 
   api:
 
+    ping: "/api/v1/ping"
+
     heartbeat: "/api/v1/heartbeat"
 
     events: "/api/v1/events"
@@ -24,6 +26,12 @@ server:
     commands: "/api/v1/agents/{agent_id}/commands"
 
     command_result: "/api/v1/commands/{command_id}/result"
+
+    block_ip : "/action/block-ip"
+
+    disable_user : "/action/disable-user"
+
+    isolate_host : "/action/isolate-host"
 
   timeout: 10
 
@@ -177,5 +185,31 @@ sync:  #pour la syncronisation des logs local avec le serveur après retablissem
   max_retry: 5
 
   delete_after_sync: true
+
+
+
+commands:
+
+  enabled: true
+
+  interval: 5
+
+  acknowledge: true
+
+  max_per_poll: 20
+
+
+
+tls:
+
+  enabled: false
+
+  verify_server: false
+
+  certificate: certs/agent.crt
+
+  private_key: certs/agent.key
+
+  ca_certificate: certs/ca.crt
 
 

@@ -14575,3 +14575,325 @@ AttributeError: 'sqlite3.Row' object has no attribute 'id'
 2026-06-28 10:42:52,500 | INFO     | Task stopped.
 2026-06-28 10:42:52,500 | INFO     | Task stopped.
 2026-06-28 10:42:52,500 | INFO     | Task stopped.
+2026-07-01 11:22:55,954 | INFO     | Migration existante
+2026-07-01 11:22:55,964 | INFO     | Initialisation du Smart Agent...
+2026-07-01 11:23:32,479 | INFO     | Migration existante
+2026-07-01 11:23:32,486 | INFO     | Initialisation du Smart Agent...
+2026-07-01 11:24:48,481 | INFO     | Migration existante
+2026-07-01 11:24:48,488 | INFO     | Initialisation du Smart Agent...
+2026-07-01 11:24:48,662 | INFO     | Tâche enregistrée : CPU
+2026-07-01 11:24:48,674 | INFO     | Tâche enregistrée : Memory
+2026-07-01 11:24:48,686 | INFO     | Tâche enregistrée : Logs
+2026-07-01 11:24:48,698 | INFO     | Tâche enregistrée : Network
+2026-07-01 11:24:48,779 | INFO     | Tâche enregistrée : Services
+2026-07-01 11:24:48,792 | INFO     | Tâche enregistrée : Filesystem
+2026-07-01 11:24:48,799 | INFO     | Tâche enregistrée : Transfer
+2026-07-01 11:24:48,799 | INFO     | Tâche enregistrée : Commands
+2026-07-01 11:24:48,800 | INFO     | Démarrage du Smart Agent...
+2026-07-01 11:24:48,800 | INFO     | Démarrage du scheduler...
+2026-07-01 11:24:48,807 | INFO     | Task started.
+2026-07-01 11:24:48,814 | INFO     | Task started.
+2026-07-01 11:24:48,820 | INFO     | Task started.
+2026-07-01 11:24:49,851 | INFO     | RAM : 78.7%
+2026-07-01 11:24:49,857 | INFO     | Task started.
+2026-07-01 11:24:49,857 | INFO     | CPU : 11.7%
+2026-07-01 11:24:49,864 | INFO     | Task started.
+2026-07-01 11:24:49,868 | INFO     | Scheduler démarré.
+2026-07-01 11:24:49,876 | INFO     | Task started.
+2026-07-01 11:24:49,882 | INFO     | Task started.
+2026-07-01 11:24:49,888 | INFO     | Task started.
+2026-07-01 11:24:50,067 | INFO     | 2 partitions collectées
+2026-07-01 11:24:50,130 | INFO     | 0 nouveaux événements collectés.
+2026-07-01 11:24:50,173 | ERROR    | [WinError 2] Le fichier spécifié est introuvable: '(originated from QueryServiceConfig2W)'
+2026-07-01 11:24:50,256 | INFO     | 4 services collectés
+2026-07-01 11:24:50,271 | INFO     | 149 connexions réseau collectées
+2026-07-01 11:24:52,028 | WARNING  | Serveur indisponible.
+2026-07-01 11:24:52,029 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:24:52,060 | INFO     | Serveur indisponible.
+2026-07-01 11:24:52,155 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:24:52,156 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:10,083 | INFO     | Migration existante
+2026-07-01 11:25:10,090 | INFO     | Initialisation du Smart Agent...
+2026-07-01 11:25:10,262 | INFO     | Tâche enregistrée : CPU
+2026-07-01 11:25:10,274 | INFO     | Tâche enregistrée : Memory
+2026-07-01 11:25:10,286 | INFO     | Tâche enregistrée : Logs
+2026-07-01 11:25:10,298 | INFO     | Tâche enregistrée : Network
+2026-07-01 11:25:10,349 | INFO     | Tâche enregistrée : Services
+2026-07-01 11:25:10,361 | INFO     | Tâche enregistrée : Filesystem
+2026-07-01 11:25:10,367 | INFO     | Tâche enregistrée : Transfer
+2026-07-01 11:25:10,367 | INFO     | Tâche enregistrée : Commands
+2026-07-01 11:25:10,367 | INFO     | Démarrage du Smart Agent...
+2026-07-01 11:25:10,367 | INFO     | Démarrage du scheduler...
+2026-07-01 11:25:10,374 | INFO     | Task started.
+2026-07-01 11:25:10,380 | INFO     | Task started.
+2026-07-01 11:25:10,766 | INFO     | Task started.
+2026-07-01 11:25:10,782 | INFO     | Task started.
+2026-07-01 11:25:10,782 | INFO     | Task started.
+2026-07-01 11:25:10,782 | INFO     | RAM : 78.4%
+2026-07-01 11:25:10,788 | INFO     | Task started.
+2026-07-01 11:25:10,793 | INFO     | Task started.
+2026-07-01 11:25:10,793 | INFO     | Scheduler démarré.
+2026-07-01 11:25:10,803 | INFO     | Task started.
+2026-07-01 11:25:10,804 | INFO     | 2 partitions collectées
+2026-07-01 11:25:11,018 | INFO     | 0 nouveaux événements collectés.
+2026-07-01 11:25:11,055 | ERROR    | [WinError 2] Le fichier spécifié est introuvable: '(originated from QueryServiceConfig2W)'
+2026-07-01 11:25:11,128 | INFO     | 4 services collectés
+2026-07-01 11:25:11,143 | INFO     | 149 connexions réseau collectées
+2026-07-01 11:25:11,376 | INFO     | CPU : 21.7%
+2026-07-01 11:25:13,046 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:13,047 | WARNING  | Serveur indisponible.
+2026-07-01 11:25:13,048 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:13,077 | INFO     | Serveur indisponible.
+2026-07-01 11:25:13,142 | ERROR    | Recursive use of cursors not allowed.
+Traceback (most recent call last):
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\scheduler.py", line 87, in run
+    self.callback()
+    ~~~~~~~~~~~~~^^
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\collectors\manager.py", line 28, in <lambda>
+    callback=lambda c=collector:self.execute(c)
+                                ~~~~~~~~~~~~^^^
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\collectors\manager.py", line 38, in execute
+    self.queue.publish(event)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\storage\repositories\manager.py", line 30, in publish
+    self.repository.save(event)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\storage\repositories\event_repository.py", line 12, in save
+    self.cursor.execute(
+    ~~~~~~~~~~~~~~~~~~~^
+        """ INSERT INTO events(collector, event_type, payload ) VALUES(?, ?, ?) """,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        )
+        ^
+    )
+    ^
+sqlite3.ProgrammingError: Recursive use of cursors not allowed.
+2026-07-01 11:25:13,183 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:13,184 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:13,295 | ERROR    | Recursive use of cursors not allowed.
+Traceback (most recent call last):
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\scheduler.py", line 87, in run
+    self.callback()
+    ~~~~~~~~~~~~~^^
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\collectors\manager.py", line 28, in <lambda>
+    callback=lambda c=collector:self.execute(c)
+                                ~~~~~~~~~~~~^^^
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\collectors\manager.py", line 38, in execute
+    self.queue.publish(event)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\storage\repositories\manager.py", line 30, in publish
+    self.repository.save(event)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\storage\repositories\event_repository.py", line 12, in save
+    self.cursor.execute(
+    ~~~~~~~~~~~~~~~~~~~^
+        """ INSERT INTO events(collector, event_type, payload ) VALUES(?, ?, ?) """,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        )
+        ^
+    )
+    ^
+sqlite3.ProgrammingError: Recursive use of cursors not allowed.
+2026-07-01 11:25:13,419 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:15,360 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:16,034 | INFO     | 0 nouveaux événements collectés.
+2026-07-01 11:25:17,516 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:19,621 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:20,075 | WARNING  | Serveur indisponible.
+2026-07-01 11:25:21,050 | INFO     | 0 nouveaux événements collectés.
+2026-07-01 11:25:21,799 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:23,153 | INFO     | RAM : 78.5%
+2026-07-01 11:25:23,967 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:24,511 | INFO     | CPU : 5.6%
+2026-07-01 11:25:25,173 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:26,064 | INFO     | 0 nouveaux événements collectés.
+2026-07-01 11:25:26,109 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:26,533 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:27,111 | WARNING  | Serveur indisponible.
+2026-07-01 11:25:28,275 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:30,107 | INFO     | Serveur indisponible.
+2026-07-01 11:25:30,418 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:31,076 | INFO     | 0 nouveaux événements collectés.
+2026-07-01 11:25:32,592 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:34,182 | WARNING  | Serveur indisponible.
+2026-07-01 11:25:34,766 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:35,329 | INFO     | RAM : 78.4%
+2026-07-01 11:25:36,091 | INFO     | 0 nouveaux événements collectés.
+2026-07-01 11:25:36,870 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:37,357 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:37,639 | INFO     | CPU : 9.8%
+2026-07-01 11:25:39,043 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:39,656 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:41,097 | INFO     | 0 nouveaux événements collectés.
+2026-07-01 11:25:41,189 | WARNING  | Serveur indisponible.
+2026-07-01 11:25:41,190 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:43,346 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:45,447 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:46,104 | INFO     | 0 nouveaux événements collectés.
+2026-07-01 11:25:47,153 | INFO     | Serveur indisponible.
+2026-07-01 11:25:47,458 | INFO     | RAM : 77.8%
+2026-07-01 11:25:47,658 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:48,220 | WARNING  | Serveur indisponible.
+2026-07-01 11:25:49,505 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:49,819 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:50,805 | INFO     | CPU : 7.7%
+2026-07-01 11:25:51,118 | INFO     | 0 nouveaux événements collectés.
+2026-07-01 11:25:51,927 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:52,850 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:54,078 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:55,262 | WARNING  | Serveur indisponible.
+2026-07-01 11:25:56,128 | INFO     | 0 nouveaux événements collectés.
+2026-07-01 11:25:56,801 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:58,994 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:25:59,740 | INFO     | RAM : 77.8%
+2026-07-01 11:26:00,357 | INFO     | Signal d'arrêt reçu.
+2026-07-01 11:26:00,358 | INFO     | Arrêt du Smart Agent...
+2026-07-01 11:26:00,360 | INFO     | Arrêt du scheduler...
+2026-07-01 11:26:00,361 | INFO     | Scheduler arrêté.
+2026-07-01 11:26:00,361 | INFO     | Task stopped.
+2026-07-01 11:26:00,361 | INFO     | Task stopped.
+2026-07-01 11:26:00,361 | INFO     | Task stopped.
+2026-07-01 11:26:00,361 | INFO     | Task stopped.
+2026-07-01 11:26:00,362 | INFO     | Task stopped.
+2026-07-01 11:33:38,030 | INFO     | Migration existante
+2026-07-01 11:33:38,036 | INFO     | Initialisation du Smart Agent...
+2026-07-01 11:33:38,221 | INFO     | Tâche enregistrée : CPU
+2026-07-01 11:33:38,235 | INFO     | Tâche enregistrée : Memory
+2026-07-01 11:33:38,248 | INFO     | Tâche enregistrée : Logs
+2026-07-01 11:33:38,268 | INFO     | Tâche enregistrée : Network
+2026-07-01 11:33:38,400 | INFO     | Tâche enregistrée : Services
+2026-07-01 11:33:38,413 | INFO     | Tâche enregistrée : Filesystem
+2026-07-01 11:33:38,419 | INFO     | Tâche enregistrée : Transfer
+2026-07-01 11:33:38,419 | INFO     | Tâche enregistrée : Commands
+2026-07-01 11:33:38,419 | INFO     | Démarrage du Smart Agent...
+2026-07-01 11:33:38,419 | INFO     | Démarrage du scheduler...
+2026-07-01 11:33:38,426 | INFO     | Task started.
+2026-07-01 11:33:38,433 | INFO     | Task started.
+2026-07-01 11:33:38,439 | INFO     | Task started.
+2026-07-01 11:33:38,451 | INFO     | Task started.
+2026-07-01 11:33:38,452 | INFO     | Task started.
+2026-07-01 11:33:38,861 | INFO     | Task started.
+2026-07-01 11:33:38,862 | INFO     | RAM : 79.3%
+2026-07-01 11:33:38,871 | INFO     | Scheduler démarré.
+2026-07-01 11:33:38,878 | INFO     | Task started.
+2026-07-01 11:33:38,884 | INFO     | Task started.
+2026-07-01 11:33:39,075 | INFO     | 2 partitions collectées
+2026-07-01 11:33:39,088 | INFO     | 0 nouveaux événements collectés.
+2026-07-01 11:33:39,124 | ERROR    | [WinError 2] Le fichier spécifié est introuvable: '(originated from QueryServiceConfig2W)'
+2026-07-01 11:33:39,195 | INFO     | 4 services collectés
+2026-07-01 11:33:39,210 | INFO     | 157 connexions réseau collectées
+2026-07-01 11:33:39,428 | INFO     | CPU : 15.9%
+2026-07-01 11:33:41,095 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:33:41,096 | INFO     | Serveur indisponible.
+2026-07-01 11:33:41,097 | WARNING  | Serveur indisponible. Impossible de récupérer les actions.
+2026-07-01 11:33:41,098 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:33:41,204 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:33:59,963 | INFO     | Migration existante
+2026-07-01 11:33:59,969 | INFO     | Initialisation du Smart Agent...
+2026-07-01 11:34:00,145 | INFO     | Tâche enregistrée : CPU
+2026-07-01 11:34:00,157 | INFO     | Tâche enregistrée : Memory
+2026-07-01 11:34:00,169 | INFO     | Tâche enregistrée : Logs
+2026-07-01 11:34:00,181 | INFO     | Tâche enregistrée : Network
+2026-07-01 11:34:00,232 | INFO     | Tâche enregistrée : Services
+2026-07-01 11:34:00,244 | INFO     | Tâche enregistrée : Filesystem
+2026-07-01 11:34:00,251 | INFO     | Tâche enregistrée : Transfer
+2026-07-01 11:34:00,251 | INFO     | Tâche enregistrée : Commands
+2026-07-01 11:34:00,251 | INFO     | Démarrage du Smart Agent...
+2026-07-01 11:34:00,251 | INFO     | Démarrage du scheduler...
+2026-07-01 11:34:00,258 | INFO     | Task started.
+2026-07-01 11:34:00,265 | INFO     | Task started.
+2026-07-01 11:34:00,271 | INFO     | Task started.
+2026-07-01 11:34:00,677 | INFO     | Task started.
+2026-07-01 11:34:00,684 | INFO     | Task started.
+2026-07-01 11:34:00,690 | INFO     | Task started.
+2026-07-01 11:34:00,690 | INFO     | RAM : 79.2%
+2026-07-01 11:34:00,694 | INFO     | Scheduler démarré.
+2026-07-01 11:34:00,711 | INFO     | Task started.
+2026-07-01 11:34:00,736 | INFO     | Task started.
+2026-07-01 11:34:00,736 | INFO     | 2 partitions collectées
+2026-07-01 11:34:00,782 | INFO     | 0 nouveaux événements collectés.
+2026-07-01 11:34:00,957 | ERROR    | [WinError 2] Le fichier spécifié est introuvable: '(originated from QueryServiceConfig2W)'
+2026-07-01 11:34:01,027 | INFO     | 4 services collectés
+2026-07-01 11:34:01,042 | INFO     | 152 connexions réseau collectées
+2026-07-01 11:34:01,260 | INFO     | CPU : 13.4%
+2026-07-01 11:34:02,859 | WARNING  | Serveur indisponible. Impossible de récupérer les actions.
+2026-07-01 11:34:02,859 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:02,860 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:02,863 | ERROR    | Recursive use of cursors not allowed.
+Traceback (most recent call last):
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\scheduler.py", line 87, in run
+    self.callback()
+    ~~~~~~~~~~~~~^^
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\collectors\manager.py", line 28, in <lambda>
+    callback=lambda c=collector:self.execute(c)
+                                ~~~~~~~~~~~~^^^
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\collectors\manager.py", line 38, in execute
+    self.queue.publish(event)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\storage\repositories\manager.py", line 30, in publish
+    self.repository.save(event)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "D:\Promo X2028\X3\Projet Intégrateur\Realisation\Projet-Int-grateur-Smart-SIEM\Agents\agent\code\storage\repositories\event_repository.py", line 12, in save
+    self.cursor.execute(
+    ~~~~~~~~~~~~~~~~~~~^
+        """ INSERT INTO events(collector, event_type, payload ) VALUES(?, ?, ?) """,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        )
+        ^
+    )
+    ^
+sqlite3.ProgrammingError: Recursive use of cursors not allowed.
+2026-07-01 11:34:02,874 | INFO     | Serveur indisponible.
+2026-07-01 11:34:03,061 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:03,076 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:03,308 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:05,027 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:05,230 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:05,324 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:05,830 | INFO     | 0 nouveaux événements collectés.
+2026-07-01 11:34:07,353 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:07,447 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:09,489 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:09,596 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:09,911 | WARNING  | Serveur indisponible. Impossible de récupérer les actions.
+2026-07-01 11:34:10,836 | INFO     | 0 nouveaux événements collectés.
+2026-07-01 11:34:11,855 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:12,875 | INFO     | RAM : 78.9%
+2026-07-01 11:34:14,002 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:14,407 | INFO     | CPU : 10.4%
+2026-07-01 11:34:14,910 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:15,845 | INFO     | 0 nouveaux événements collectés.
+2026-07-01 11:34:16,188 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:16,468 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:16,968 | WARNING  | Serveur indisponible. Impossible de récupérer les actions.
+2026-07-01 11:34:18,359 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:19,916 | INFO     | Serveur indisponible.
+2026-07-01 11:34:20,497 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:20,857 | INFO     | 0 nouveaux événements collectés.
+2026-07-01 11:34:22,593 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:24,031 | WARNING  | Serveur indisponible. Impossible de récupérer les actions.
+2026-07-01 11:34:24,765 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:25,080 | INFO     | RAM : 78.3%
+2026-07-01 11:34:25,864 | INFO     | 0 nouveaux événements collectés.
+2026-07-01 11:34:26,884 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:27,118 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:27,581 | INFO     | CPU : 5.1%
+2026-07-01 11:34:29,084 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:29,620 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:30,874 | INFO     | 0 nouveaux événements collectés.
+2026-07-01 11:34:31,061 | WARNING  | Serveur indisponible. Impossible de récupérer les actions.
+2026-07-01 11:34:31,248 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-01 11:34:33,756 | INFO     | Signal d'arrêt reçu.
+2026-07-01 11:34:33,757 | INFO     | Arrêt du Smart Agent...
+2026-07-01 11:34:33,759 | INFO     | Arrêt du scheduler...
+2026-07-01 11:34:33,760 | INFO     | Scheduler arrêté.
+2026-07-01 11:34:33,760 | INFO     | Task stopped.
+2026-07-01 11:34:33,761 | INFO     | Task stopped.
+2026-07-01 11:34:33,761 | INFO     | Task stopped.
+2026-07-01 11:34:33,761 | INFO     | Task stopped.
+2026-07-01 11:34:33,762 | INFO     | Task stopped.
+2026-07-01 11:34:33,762 | INFO     | Task stopped.
+2026-07-01 11:34:33,762 | INFO     | Task stopped.

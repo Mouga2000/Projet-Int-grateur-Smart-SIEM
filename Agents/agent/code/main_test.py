@@ -139,6 +139,7 @@ from collectors.network import NetworkCollector
 from collectors.services import ServicesCollector
 from collectors.filesystem import FilesystemCollector
 
+from communication_serveur import CommandService
 from collectors.manager import CollectorManager
 from actions.manager import ActionManager
 
@@ -174,10 +175,12 @@ class SmartAgent:
 
         self.transfer_manager = TransferManager()
 
-        self.configure_tasks()
-
         self.action_manager = ActionManager()
+        self.command_service = CommandService(
+            #self.action_manager
+        )
         
+        self.configure_tasks()
 
 
 
@@ -236,6 +239,14 @@ class SmartAgent:
                 name="Transfer",
                 interval=interval,
                 callback=self.transfer_manager.run
+            )
+        )
+
+        self.scheduler.register(
+            ScheduledTask(
+                name="Commands",
+                interval=5,
+                callback=self.command_service.run
             )
         )
         

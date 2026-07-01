@@ -3,7 +3,7 @@ from fastapi import FastAPI
 app = FastAPI()
 
 
-@app.post("/api/events")
+@app.post("/api/v1/events")
 async def receive(event: dict):
 
     print(event)
@@ -11,7 +11,7 @@ async def receive(event: dict):
     return {"status": "ok"}
 
 
-@app.post("/api/agents/heartbeat")
+@app.post("/api/v1/agents/heartbeat")
 async def heartbeat(data: dict):
 
     print("=" * 50)

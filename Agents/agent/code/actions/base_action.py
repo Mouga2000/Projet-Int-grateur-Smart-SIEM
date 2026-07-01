@@ -1,15 +1,11 @@
 from abc import ABC, abstractmethod
+from actions.result import ActionResult
 
 
 class BaseAction(ABC):
 
-    @property
-    @abstractmethod
-    def action_name(self):
-        pass
+    name = ""
 
     @abstractmethod
-    def execute(self, payload):
+    def execute(self, parameters:dict)->ActionResult:
         pass
-
-    

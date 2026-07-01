@@ -38,10 +38,7 @@ class CommunicationClient:
 
 
     def _headers(self) -> dict:
-
-        headers = {
-            "Content-Type": "application/json"
-        }
+        headers = {"Content-Type": "application/json"}
 
         if self.token:
             headers["Authorization"] = (
@@ -53,7 +50,7 @@ class CommunicationClient:
 
 
     def post(self, payload: dict) -> bool:
-        endpoint = "/api/events"
+        endpoint = self.config.get("server", "api", "events")
         url = self.base_url + endpoint
 
         try:
@@ -80,13 +77,16 @@ class CommunicationClient:
 
 
     def ping(self):
+        header = self.config.get("server", "api", "ping")
         try:
             response = requests.get(
                 self.base_url +
-                "/api/v1/ping",
+                header,
                 timeout=3
             )
             return response.status_code == 200
 
         except:
             return False
+
+

@@ -47,9 +47,10 @@ class HeartbeatService:
     def send(self):
 
         heartbeat = self.create_heartbeat()
+        endpoint = self.config.get("server", "api", "heartbeat")
 
         success = self.client.post(
-            "/api/agents/heartbeat",
+            endpoint,
             heartbeat.to_dict()
         )
 

@@ -33,9 +33,7 @@ class EventSync:
         if len(batch) == 0:
             return
 
-        self.logger.info(
-            f"{len(batch)} événements en attente de synchronisation."
-        )
+        self.logger.info(f"{len(batch)} événements en attente de synchronisation.")
         
         ids = [row["id"] for row in batch]                  # récupération des IDs
 
