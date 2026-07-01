@@ -1,3 +1,4 @@
+
 # Smart SIEM — Backend
 
 Plateforme SIEM (Security Information and Event Management) intelligente avec ingestion universelle de logs, normalisation automatique, analyses comportementales (UEBA/ML), investigations croisées, archivage conforme et orchestration SOAR.
@@ -40,6 +41,7 @@ Projet académique dans le cadre du cursus **UCAC ICAM — X3 PROJET INTÉGRATEU
 ```
 
 **Architecture duale :**
+
 - **PostgreSQL** — données structurées : utilisateurs, règles, audits, investigations, archives, profils UEBA
 - **Elasticsearch** — données volumineuses : logs de sécurité (index `logs-YYYY-MM-DD`) + dataset CLUE-LDS (index `logs-clue`)
 
@@ -47,18 +49,18 @@ Projet académique dans le cadre du cursus **UCAC ICAM — X3 PROJET INTÉGRATEU
 
 ## Stack technique
 
-| Composant           | Technologie                          | Rôle                                        |
-| ------------------- | ------------------------------------ | ------------------------------------------- |
-| API                 | FastAPI 0.138 + Python 3.14         | Serveur HTTP REST (Uvicorn)                 |
-| Base de données     | PostgreSQL 17 + SQLAlchemy 2.0 async | Utilisateurs, règles, audits, investigations|
-| Moteur de recherche | Elasticsearch 8.11                   | Logs, recherche plein texte, agrégations    |
+| Composant           | Technologie                          | Rôle                                         |
+| ------------------- | ------------------------------------ | --------------------------------------------- |
+| API                 | FastAPI 0.138 + Python 3.14          | Serveur HTTP REST (Uvicorn)                   |
+| Base de données    | PostgreSQL 17 + SQLAlchemy 2.0 async | Utilisateurs, règles, audits, investigations |
+| Moteur de recherche | Elasticsearch 8.11                   | Logs, recherche plein texte, agrégations     |
 | Cache & queue       | Redis + Celery                       | Broker tâches, purge, compteurs corrélation |
-| ML/UEBA             | scikit-learn (Isolation Forest)      | Analyse comportementale, scoring risque     |
+| ML/UEBA             | scikit-learn (Isolation Forest)      | Analyse comportementale, scoring risque       |
 | Authentification    | JWT (HS256) + MFA (TOTP/pyotp)       | Sessions sécurisées et multi-facteurs       |
-| Chiffrement         | cryptography (RSA 2048)              | Signatures archives, non-répudiation        |
+| Chiffrement         | cryptography (RSA 2048)              | Signatures archives, non-répudiation         |
 | Migrations          | Alembic                              | Évolution du schéma PostgreSQL              |
-| Tests               | pytest + pytest-asyncio + httpx      | 387 tests unitaires et API                  |
-| Docker              | Docker Compose                       | Elasticsearch + Kibana + API conteneurisés  |
+| Tests               | pytest + pytest-asyncio + httpx      | 387 tests unitaires et API                    |
+| Docker              | Docker Compose                       | Elasticsearch + Kibana + API conteneurisés   |
 
 ---
 
@@ -184,142 +186,142 @@ SIEM/
 
 ### 🔐 Authentification
 
-| Méthode | Endpoint | Auth | Description |
-|---|---|---|---|
-| POST | `/api/v1/auth/login` | Public | Authentification (username/password + MFA optionnel) |
-| POST | `/api/v1/auth/logout` | Token | Déconnexion (journalisée) |
-| GET | `/api/v1/auth/mfa/status` | Token | Statut MFA du compte connecté |
-| POST | `/api/v1/auth/mfa/setup` | Token | Générer un secret TOTP + QR code |
-| POST | `/api/v1/auth/mfa/verify` | Token | Activer la MFA après vérification du code |
-| POST | `/api/v1/auth/mfa/disable` | Token | Désactiver la MFA (mot de passe requis) |
+| Méthode | Endpoint                     | Auth   | Description                                          |
+| -------- | ---------------------------- | ------ | ---------------------------------------------------- |
+| POST     | `/api/v1/auth/login`       | Public | Authentification (username/password + MFA optionnel) |
+| POST     | `/api/v1/auth/logout`      | Token  | Déconnexion (journalisée)                          |
+| GET      | `/api/v1/auth/mfa/status`  | Token  | Statut MFA du compte connecté                       |
+| POST     | `/api/v1/auth/mfa/setup`   | Token  | Générer un secret TOTP + QR code                   |
+| POST     | `/api/v1/auth/mfa/verify`  | Token  | Activer la MFA après vérification du code          |
+| POST     | `/api/v1/auth/mfa/disable` | Token  | Désactiver la MFA (mot de passe requis)             |
 
 ### 👤 Utilisateurs
 
-| Méthode | Endpoint | Auth | Description |
-|---|---|---|---|
-| GET | `/api/v1/users/` | Admin | Liste tous les utilisateurs |
-| POST | `/api/v1/users/` | Admin | Créer un utilisateur (journalisé) |
-| GET | `/api/v1/users/me` | Token | Profil de l'utilisateur connecté |
-| POST | `/api/v1/users/setup` | Public | Créer le premier administrateur (bootstrap) |
-| PUT | `/api/v1/users/{username}/role` | Admin | Modifier le rôle d'un utilisateur (journalisé) |
-| PUT | `/api/v1/users/{username}/perimeter` | Admin | Modifier le périmètre (journalisé) |
+| Méthode | Endpoint                               | Auth   | Description                                      |
+| -------- | -------------------------------------- | ------ | ------------------------------------------------ |
+| GET      | `/api/v1/users/`                     | Admin  | Liste tous les utilisateurs                      |
+| POST     | `/api/v1/users/`                     | Admin  | Créer un utilisateur (journalisé)              |
+| GET      | `/api/v1/users/me`                   | Token  | Profil de l'utilisateur connecté                |
+| POST     | `/api/v1/users/setup`                | Public | Créer le premier administrateur (bootstrap)     |
+| PUT      | `/api/v1/users/{username}/role`      | Admin  | Modifier le rôle d'un utilisateur (journalisé) |
+| PUT      | `/api/v1/users/{username}/perimeter` | Admin  | Modifier le périmètre (journalisé)            |
 
 ### 📥 Logs
 
-| Méthode | Endpoint | Auth | Description |
-|---|---|---|---|
-| POST | `/api/v1/logs/ingest` | Public | Ingérer un log (normalisation automatique) |
-| GET | `/api/v1/logs/` | Token | Lister les logs (paginé) |
-| POST | `/api/v1/logs/search` | Token | Recherche multi-critères (10 filtres) |
-| GET | `/api/v1/logs/timeline` | Token | Histogramme temporel (10s à 1M) |
-| GET | `/api/v1/logs/{id}` | Token | Détail d'un log |
-| DELETE | `/api/v1/logs/{id}` | Token | Supprimer un log |
+| Méthode | Endpoint                  | Auth   | Description                                 |
+| -------- | ------------------------- | ------ | ------------------------------------------- |
+| POST     | `/api/v1/logs/ingest`   | Public | Ingérer un log (normalisation automatique) |
+| GET      | `/api/v1/logs/`         | Token  | Lister les logs (paginé)                   |
+| POST     | `/api/v1/logs/search`   | Token  | Recherche multi-critères (10 filtres)      |
+| GET      | `/api/v1/logs/timeline` | Token  | Histogramme temporel (10s à 1M)            |
+| GET      | `/api/v1/logs/{id}`     | Token  | Détail d'un log                            |
+| DELETE   | `/api/v1/logs/{id}`     | Token  | Supprimer un log                            |
 
 ### 🧠 UEBA — Analyse Comportementale
 
-| Méthode | Endpoint | Auth | Description |
-|---|---|---|---|
-| GET | `/api/v1/ueba/profile/{entity_id}` | Token | Profil UEBA + score de risque |
-| GET | `/api/v1/ueba/scores` | Analyste+ | Top scores de risque |
+| Méthode | Endpoint                             | Auth      | Description                   |
+| -------- | ------------------------------------ | --------- | ----------------------------- |
+| GET      | `/api/v1/ueba/profile/{entity_id}` | Token     | Profil UEBA + score de risque |
+| GET      | `/api/v1/ueba/scores`              | Analyste+ | Top scores de risque          |
 
 ### 🔍 Investigations
 
-| Méthode | Endpoint | Auth | Description |
-|---|---|---|---|
-| POST | `/api/v1/investigations/` | Analyste | Créer une investigation |
-| GET | `/api/v1/investigations/` | Token | Lister les investigations |
-| GET | `/api/v1/investigations/{id}` | Token | Détail d'une investigation |
-| POST | `/api/v1/investigations/{id}/logs` | Analyste | Marquer un log suspect (verdict + note) |
-| PATCH | `/api/v1/investigations/{id}/status` | Analyste | Changer le statut |
-| PATCH | `/api/v1/investigations/{id}` | Analyste | Modifier (titre, description, assignation) |
+| Méthode | Endpoint                               | Auth     | Description                                |
+| -------- | -------------------------------------- | -------- | ------------------------------------------ |
+| POST     | `/api/v1/investigations/`            | Analyste | Créer une investigation                   |
+| GET      | `/api/v1/investigations/`            | Token    | Lister les investigations                  |
+| GET      | `/api/v1/investigations/{id}`        | Token    | Détail d'une investigation                |
+| POST     | `/api/v1/investigations/{id}/logs`   | Analyste | Marquer un log suspect (verdict + note)    |
+| PATCH    | `/api/v1/investigations/{id}/status` | Analyste | Changer le statut                          |
+| PATCH    | `/api/v1/investigations/{id}`        | Analyste | Modifier (titre, description, assignation) |
 
 ### 🚨 Alertes
 
-| Méthode | Endpoint | Auth | Description |
-|---|---|---|---|
-| GET | `/api/v1/alerts/` | Token | Lister les alertes (filtres sévérité/statut) |
-| GET | `/api/v1/alerts/stats` | Token | Statistiques par sévérité et statut |
-| GET | `/api/v1/alerts/{id}` | Token | Détail d'une alerte |
-| PATCH | `/api/v1/alerts/{id}` | Analyste | Mettre à jour le statut |
+| Méthode | Endpoint                 | Auth     | Description                                     |
+| -------- | ------------------------ | -------- | ----------------------------------------------- |
+| GET      | `/api/v1/alerts/`      | Token    | Lister les alertes (filtres sévérité/statut) |
+| GET      | `/api/v1/alerts/stats` | Token    | Statistiques par sévérité et statut          |
+| GET      | `/api/v1/alerts/{id}`  | Token    | Détail d'une alerte                            |
+| PATCH    | `/api/v1/alerts/{id}`  | Analyste | Mettre à jour le statut                        |
 
 ### 📋 Incidents
 
-| Méthode | Endpoint | Auth | Description |
-|---|---|---|---|
-| GET | `/api/v1/incidents/` | Token | Lister les incidents (filtre statut + pagination) |
-| POST | `/api/v1/incidents/` | Analyste | Créer un incident (avec timeline) |
-| GET | `/api/v1/incidents/{id}` | Token | Détail + timeline complète |
-| PATCH | `/api/v1/incidents/{id}/status` | Analyste | Changer le statut (journalisé) |
-| POST | `/api/v1/incidents/{id}/alerts` | Analyste | Ajouter une alerte |
-| POST | `/api/v1/incidents/{id}/assign` | Analyste | Assigner à un analyste |
+| Méthode | Endpoint                          | Auth     | Description                                       |
+| -------- | --------------------------------- | -------- | ------------------------------------------------- |
+| GET      | `/api/v1/incidents/`            | Token    | Lister les incidents (filtre statut + pagination) |
+| POST     | `/api/v1/incidents/`            | Analyste | Créer un incident (avec timeline)                |
+| GET      | `/api/v1/incidents/{id}`        | Token    | Détail + timeline complète                      |
+| PATCH    | `/api/v1/incidents/{id}/status` | Analyste | Changer le statut (journalisé)                   |
+| POST     | `/api/v1/incidents/{id}/alerts` | Analyste | Ajouter une alerte                                |
+| POST     | `/api/v1/incidents/{id}/assign` | Analyste | Assigner à un analyste                           |
 
 ### ⚙️ Règles de corrélation
 
-| Méthode | Endpoint | Auth | Description |
-|---|---|---|---|
-| GET | `/api/v1/rules/` | Token | Lister les règles |
-| POST | `/api/v1/rules/` | Admin | Créer une règle |
-| GET | `/api/v1/rules/{id}` | Token | Détail d'une règle |
-| PUT | `/api/v1/rules/{id}` | Admin | Modifier une règle |
-| DELETE | `/api/v1/rules/{id}` | Admin | Supprimer (soft-delete) |
+| Méthode | Endpoint               | Auth  | Description             |
+| -------- | ---------------------- | ----- | ----------------------- |
+| GET      | `/api/v1/rules/`     | Token | Lister les règles      |
+| POST     | `/api/v1/rules/`     | Admin | Créer une règle       |
+| GET      | `/api/v1/rules/{id}` | Token | Détail d'une règle    |
+| PUT      | `/api/v1/rules/{id}` | Admin | Modifier une règle     |
+| DELETE   | `/api/v1/rules/{id}` | Admin | Supprimer (soft-delete) |
 
 Types : `single_event`, `threshold` (Redis), `sequence` (Redis), `correlation` (ES), `ueba` (score ML)
 
 ### 🤖 Playbooks SOAR
 
-| Méthode | Endpoint | Auth | Description |
-|---|---|---|---|
-| GET | `/api/v1/playbooks/` | Token | Lister les playbooks |
-| POST | `/api/v1/playbooks/` | Admin | Créer un playbook |
-| GET | `/api/v1/playbooks/{id}` | Token | Détail d'un playbook |
-| PUT | `/api/v1/playbooks/{id}` | Admin | Modifier un playbook |
-| DELETE | `/api/v1/playbooks/{id}` | Admin | Supprimer (soft-delete) |
-| POST | `/api/v1/playbooks/{id}/execute` | Analyste | Exécuter un playbook |
+| Méthode | Endpoint                           | Auth     | Description             |
+| -------- | ---------------------------------- | -------- | ----------------------- |
+| GET      | `/api/v1/playbooks/`             | Token    | Lister les playbooks    |
+| POST     | `/api/v1/playbooks/`             | Admin    | Créer un playbook      |
+| GET      | `/api/v1/playbooks/{id}`         | Token    | Détail d'un playbook   |
+| PUT      | `/api/v1/playbooks/{id}`         | Admin    | Modifier un playbook    |
+| DELETE   | `/api/v1/playbooks/{id}`         | Admin    | Supprimer (soft-delete) |
+| POST     | `/api/v1/playbooks/{id}/execute` | Analyste | Exécuter un playbook   |
 
 Actions : `block_ip`, `disable_user`, `isolate_host`, `notify_slack`, `notify_email`, `create_ticket`
 
 ### 🔔 Notifications
 
-| Méthode | Endpoint | Auth | Description |
-|---|---|---|---|
-| GET | `/api/v1/notifications/` | Token | Lister mes notifications |
-| GET | `/api/v1/notifications/unread-count` | Token | Nombre de notifications non lues |
-| PATCH | `/api/v1/notifications/{id}/read` | Token | Marquer comme lue |
-| POST | `/api/v1/notifications/read-all` | Token | Tout marquer comme lu |
+| Méthode | Endpoint                               | Auth  | Description                      |
+| -------- | -------------------------------------- | ----- | -------------------------------- |
+| GET      | `/api/v1/notifications/`             | Token | Lister mes notifications         |
+| GET      | `/api/v1/notifications/unread-count` | Token | Nombre de notifications non lues |
+| PATCH    | `/api/v1/notifications/{id}/read`    | Token | Marquer comme lue                |
+| POST     | `/api/v1/notifications/read-all`     | Token | Tout marquer comme lu            |
 
 ### 🗄️ Archivage (Admin)
 
-| Méthode | Endpoint | Auth | Description |
-|---|---|---|---|
-| POST | `/api/v1/admin/archive/create` | Admin | Créer une archive certifiée |
-| GET | `/api/v1/admin/archive/list` | Admin | Lister les archives |
-| GET | `/api/v1/admin/archive/chain` | Admin | Chaîne de confiance des archives |
-| GET | `/api/v1/admin/archive/{id}` | Admin | Détail d'une archive |
-| POST | `/api/v1/admin/archive/verify/{id}` | Admin | Vérifier l'intégrité d'une archive |
-| GET | `/api/v1/admin/archive/{id}/export` | Admin | Export pour audit réglementaire |
+| Méthode | Endpoint                              | Auth  | Description                           |
+| -------- | ------------------------------------- | ----- | ------------------------------------- |
+| POST     | `/api/v1/admin/archive/create`      | Admin | Créer une archive certifiée         |
+| GET      | `/api/v1/admin/archive/list`        | Admin | Lister les archives                   |
+| GET      | `/api/v1/admin/archive/chain`       | Admin | Chaîne de confiance des archives     |
+| GET      | `/api/v1/admin/archive/{id}`        | Admin | Détail d'une archive                 |
+| POST     | `/api/v1/admin/archive/verify/{id}` | Admin | Vérifier l'intégrité d'une archive |
+| GET      | `/api/v1/admin/archive/{id}/export` | Admin | Export pour audit réglementaire      |
 
 ### 🛠️ Administration
 
-| Méthode | Endpoint | Auth | Description |
-|---|---|---|---|
-| POST | `/api/v1/admin/purge/logs` | Admin | Purger les logs (rétention) |
-| POST | `/api/v1/admin/purge/audit` | Admin | Purger les audits (rétention) |
-| GET | `/api/v1/admin/retention` | Admin | Configuration de rétention |
+| Méthode | Endpoint                      | Auth  | Description                    |
+| -------- | ----------------------------- | ----- | ------------------------------ |
+| POST     | `/api/v1/admin/purge/logs`  | Admin | Purger les logs (rétention)   |
+| POST     | `/api/v1/admin/purge/audit` | Admin | Purger les audits (rétention) |
+| GET      | `/api/v1/admin/retention`   | Admin | Configuration de rétention    |
 
 ### 🎯 MITRE ATT&CK
 
-| Méthode | Endpoint | Auth | Description |
-|---|---|---|---|
-| GET | `/api/v1/mitre/tactics` | Token | Liste des 14 tactiques |
-| GET | `/api/v1/mitre/techniques` | Token | Liste des 36 techniques |
-| GET | `/api/v1/mitre/techniques/{technique_id}` | Token | Détail d'une technique |
+| Méthode | Endpoint                                    | Auth  | Description             |
+| -------- | ------------------------------------------- | ----- | ----------------------- |
+| GET      | `/api/v1/mitre/tactics`                   | Token | Liste des 14 tactiques  |
+| GET      | `/api/v1/mitre/techniques`                | Token | Liste des 36 techniques |
+| GET      | `/api/v1/mitre/techniques/{technique_id}` | Token | Détail d'une technique |
 
 ### 🏠 Santé
 
-| Méthode | Endpoint | Auth | Description |
-|---|---|---|---|
-| GET | `/` | Public | Page d'accueil |
-| GET | `/health` | Public | Health check |
+| Méthode | Endpoint    | Auth   | Description    |
+| -------- | ----------- | ------ | -------------- |
+| GET      | `/`       | Public | Page d'accueil |
+| GET      | `/health` | Public | Health check   |
 
 ---
 
@@ -329,13 +331,13 @@ Actions : `block_ip`, `disable_user`, `isolate_host`, `notify_slack`, `notify_em
 
 **Fichiers :** `app/services/normalization.py`, `app/api/v1/logs.py`, `app/schemas/log_schemas.py`
 
-| Fonctionnalité | Implémentation |
-|---|---|
-| **Récepteur universel** | Endpoint `POST /api/v1/logs/ingest` — accepte tout format JSON, tolérant aux champs manquants |
-| **Normalisation** | `NormalizationService.normalize()` transforme les logs bruts en JSON structuré avec `timestamp`, `source_ip`, `host`, `log_type`, `severity`, `raw_message` |
-| **Tagging automatique** | `NormalizationService.auto_tag()` analyse le message brut via 20 règles regex pour assigner `severity` (info/warning/error/critical) et `log_type` (auth/réseau/système/application) |
-| **Enrichissement** | `NormalizationService.extract_structured()` extrait les IPs, MACs, noms d'utilisateurs et ports depuis le message brut |
-| **Mapping agent → SIEM** | Compatible avec le format agent (`hostname`, `event_type`, `message`) et le format SIEM (`source_ip`, `host`, `raw_message`) |
+| Fonctionnalité                 | Implémentation                                                                                                                                                                               |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Récepteur universel**  | Endpoint`POST /api/v1/logs/ingest` — accepte tout format JSON, tolérant aux champs manquants                                                                                              |
+| **Normalisation**         | `NormalizationService.normalize()` transforme les logs bruts en JSON structuré avec `timestamp`, `source_ip`, `host`, `log_type`, `severity`, `raw_message`                    |
+| **Tagging automatique**   | `NormalizationService.auto_tag()` analyse le message brut via 20 règles regex pour assigner `severity` (info/warning/error/critical) et `log_type` (auth/réseau/système/application) |
+| **Enrichissement**        | `NormalizationService.extract_structured()` extrait les IPs, MACs, noms d'utilisateurs et ports depuis le message brut                                                                      |
+| **Mapping agent → SIEM** | Compatible avec le format agent (`hostname`, `event_type`, `message`) et le format SIEM (`source_ip`, `host`, `raw_message`)                                                      |
 
 ---
 
@@ -343,15 +345,15 @@ Actions : `block_ip`, `disable_user`, `isolate_host`, `notify_slack`, `notify_em
 
 **Fichiers :** `app/core/database.py`, `app/core/elasticsearch.py`, `app/core/config.py`, `app/services/archiver.py`, `app/api/v1/archive.py`, `app/repositories/log_repo.py`, `app/tasks/notification_tasks.py`
 
-| Fonctionnalité | Implémentation |
-|---|---|
-| **Indexation des logs** | Elasticsearch — indexation par date `logs-YYYY-MM-DD` avec recherche plein texte, filtres et agrégations |
-| **Indexation des données structurées** | PostgreSQL via SQLAlchemy 2.0 async — utilisateurs, règles, alertes, incidents, profils UEBA |
-| **Rétention configurable** | `LOG_RETENTION_DAYS` (défaut 90j) et `AUDIT_RETENTION_DAYS` (défaut 365j) dans `.env` |
-| **Purge automatique** | Tâche Celery `purge_old_logs()` exécutée quotidiennement à 3h — supprime les logs ES et audits PG obsolètes |
-| **Archivage certifié** | `ArchiverService.create_archive()` — compression gzip, SHA-256, Merkle tree, chaîne blockchain-like, signature RSA 2048, export pour audit réglementaire |
-| **Vérification d'intégrité** | `ArchiverService.verify_archive()` — vérifie l'existence du fichier, SHA-256, chaîne de hachage et signature temporelle |
-| **Endpoints archivage** | Créer, lister la chaîne, vérifier, exporter (réservé aux administrateurs) |
+| Fonctionnalité                                | Implémentation                                                                                                                                               |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Indexation des logs**                  | Elasticsearch — indexation par date`logs-YYYY-MM-DD` avec recherche plein texte, filtres et agrégations                                                   |
+| **Indexation des données structurées** | PostgreSQL via SQLAlchemy 2.0 async — utilisateurs, règles, alertes, incidents, profils UEBA                                                                |
+| **Rétention configurable**              | `LOG_RETENTION_DAYS` (défaut 90j) et `AUDIT_RETENTION_DAYS` (défaut 365j) dans `.env`                                                                 |
+| **Purge automatique**                    | Tâche Celery`purge_old_logs()` exécutée quotidiennement à 3h — supprime les logs ES et audits PG obsolètes                                            |
+| **Archivage certifié**                  | `ArchiverService.create_archive()` — compression gzip, SHA-256, Merkle tree, chaîne blockchain-like, signature RSA 2048, export pour audit réglementaire |
+| **Vérification d'intégrité**          | `ArchiverService.verify_archive()` — vérifie l'existence du fichier, SHA-256, chaîne de hachage et signature temporelle                                  |
+| **Endpoints archivage**                  | Créer, lister la chaîne, vérifier, exporter (réservé aux administrateurs)                                                                                |
 
 ---
 
@@ -361,25 +363,25 @@ Actions : `block_ip`, `disable_user`, `isolate_host`, `notify_slack`, `notify_em
 
 **Moteur de règles** — `CorrelationEngine.evaluate_event()` supporte 5 types de règles :
 
-| Type | Mécanisme | Exemple |
-|---|---|---|
-| **`single_event`** | Comparaison directe champ → valeur | `event_type == "login_failed"` |
-| **`threshold`** | Compteur Redis avec TTL configurable | 5 échecs auth en 60 secondes |
-| **`sequence`** | Progression d'étapes dans Redis | Reconnaissance → Lateral Movement → Exfiltration |
-| **`correlation`** | Requête cross-source dans Elasticsearch | Firewall + AD sur même IP en 5 min |
-| **`ueba`** | Vérification du score de risque ≥ seuil | Score ≥ 70 → alerte comportementale |
+| Type                       | Mécanisme                                | Exemple                                            |
+| -------------------------- | ----------------------------------------- | -------------------------------------------------- |
+| **`single_event`** | Comparaison directe champ → valeur       | `event_type == "login_failed"`                   |
+| **`threshold`**    | Compteur Redis avec TTL configurable      | 5 échecs auth en 60 secondes                      |
+| **`sequence`**     | Progression d'étapes dans Redis          | Reconnaissance → Lateral Movement → Exfiltration |
+| **`correlation`**  | Requête cross-source dans Elasticsearch  | Firewall + AD sur même IP en 5 min                |
+| **`ueba`**         | Vérification du score de risque ≥ seuil | Score ≥ 70 → alerte comportementale              |
 
 **Scénarios MITRE ATT&CK pré-définis** (7 règles dans `seed_rules.py`) :
 
-| Scénario | MITRE | Type |
-|---|---|---|
-| Brute Force | T1110 (credential_access) | `threshold` : 5 échecs en 60s |
-| Port Scan | T1046 (reconnaissance) | `threshold` : 10 connexions en 30s |
-| Pass-the-Hash | T1550 (lateral_movement) | `threshold` : 3 NTLM en 300s |
-| Exfiltration C2 | T1041 (exfiltration) | `threshold` : 10x volume en 900s |
-| Log Deletion | T1070 (defense_evasion) | `single_event` |
-| Firewall + AD | T1078 (initial_access) | `correlation` inter-sources |
-| Chaîne complète | T1046 → T1550 → T1041 | `sequence` 3 étapes |
+| Scénario         | MITRE                     | Type                                 |
+| ----------------- | ------------------------- | ------------------------------------ |
+| Brute Force       | T1110 (credential_access) | `threshold` : 5 échecs en 60s     |
+| Port Scan         | T1046 (reconnaissance)    | `threshold` : 10 connexions en 30s |
+| Pass-the-Hash     | T1550 (lateral_movement)  | `threshold` : 3 NTLM en 300s       |
+| Exfiltration C2   | T1041 (exfiltration)      | `threshold` : 10x volume en 900s   |
+| Log Deletion      | T1070 (defense_evasion)   | `single_event`                     |
+| Firewall + AD     | T1078 (initial_access)    | `correlation` inter-sources        |
+| Chaîne complète | T1046 → T1550 → T1041   | `sequence` 3 étapes               |
 
 **Fenêtres temporelles** configurables par règle via `window_seconds` (threshold) et `window_seconds` (sequence).
 
@@ -391,27 +393,29 @@ Actions : `block_ip`, `disable_user`, `isolate_host`, `notify_slack`, `notify_em
 
 #### Système d'alertes
 
-| Niveau | Code | Déclenché par |
-|---|---|---|
-| INFO | `severity: info` | Règles de moindre importance |
-| WARNING | `severity: medium` | Comportements suspects |
-| HIGH | `severity: high` | Règles UEBA, seuils dépassés |
+| Niveau   | Code                   | Déclenché par                  |
+| -------- | ---------------------- | -------------------------------- |
+| INFO     | `severity: info`     | Règles de moindre importance    |
+| WARNING  | `severity: medium`   | Comportements suspects           |
+| HIGH     | `severity: high`     | Règles UEBA, seuils dépassés  |
 | CRITICAL | `severity: critical` | Mouvement latéral, exfiltration |
 
 Les alertes sont créées automatiquement par `CorrelationEngine.create_alert()` avec :
+
 - Référence à la règle, IP source, hôte, description
 - Tactique et technique MITRE ATT&CK
 - Score de confiance (50-100)
 
 #### Notification multi-canal
 
-| Canal | Technologie | Activation |
-|---|---|---|
-| **In-app** | PostgreSQL (`notifications`) | Toujours actif — notifications stockées en base |
-| **Email** | SMTP (STARTTLS) + template HTML | `SMTP_HOST` dans `.env` |
-| **Slack** | Webhook HTTP | `SLACK_WEBHOOK_URL` dans `.env` |
+| Canal            | Technologie                     | Activation                                        |
+| ---------------- | ------------------------------- | ------------------------------------------------- |
+| **In-app** | PostgreSQL (`notifications`)  | Toujours actif — notifications stockées en base |
+| **Email**  | SMTP (STARTTLS) + template HTML | `SMTP_HOST` dans `.env`                       |
+| **Slack**  | Webhook HTTP                    | `SLACK_WEBHOOK_URL` dans `.env`               |
 
 Le template d'email (`app/templates/email/alert_notification.html`) inclut :
+
 - En-tête coloré selon la sévérité (rouge → critical, orange → high, etc.)
 - Tableau des détails (règle, IP, hôte, type d'événement)
 - Badges MITRE ATT&CK
@@ -424,20 +428,21 @@ Le rendu est assuré par `email_templating.py` (stdlib `string.Template` — zé
 
 Actions disponibles (`app/services/soar.py`) :
 
-| Action | Commande | Cible |
-|---|---|---|
-| `block_ip` | Bloque une IP sur le pare-feu | Agent distant HTTP |
-| `disable_user` | Désactive un compte utilisateur | Agent distant HTTP |
-| `isolate_host` | Isole une machine du réseau | Agent distant HTTP |
-| `notify_slack` | Envoie une notification Slack | Slack Webhook |
-| `notify_email` | Envoie un email | SMTP |
-| `create_ticket` | Crée un ticket d'incident (ID: SIEM-XXXXX) | Interne |
+| Action            | Commande                                    | Cible              |
+| ----------------- | ------------------------------------------- | ------------------ |
+| `block_ip`      | Bloque une IP sur le pare-feu               | Agent distant HTTP |
+| `disable_user`  | Désactive un compte utilisateur            | Agent distant HTTP |
+| `isolate_host`  | Isole une machine du réseau                | Agent distant HTTP |
+| `notify_slack`  | Envoie une notification Slack               | Slack Webhook      |
+| `notify_email`  | Envoie un email                             | SMTP               |
+| `create_ticket` | Crée un ticket d'incident (ID: SIEM-XXXXX) | Interne            |
 
 Les playbooks supportent : 4 triggers (manual, alert_created, scheduled, webhook), retry automatique, timeout configurable.
 
 #### Tableau de suivi des incidents
 
 `POST /api/v1/incidents/` crée un incident avec :
+
 - **Statut** : `ouverte → en_cours → resolue → classee`
 - **Timeline** : chaque action est horodatée et signée (création, changement de statut, ajout d'alerte, assignation)
 - **Assignation** à un analyste
@@ -449,14 +454,14 @@ Les playbooks supportent : 4 triggers (manual, alert_created, scheduled, webhook
 
 **Fichiers :** `app/api/v1/alerts.py`, `app/api/v1/logs.py`, `app/api/v1/incidents.py`, `app/api/v1/ueba.py`
 
-| Fonctionnalité | Endpoint | Description |
-|---|---|---|
-| **Top alertes** | `GET /api/v1/alerts/?severity=critical` | Liste des alertes par sévérité |
-| **Statistiques** | `GET /api/v1/alerts/stats` | Compteurs par sévérité et statut |
-| **Volume de logs** | `GET /api/v1/logs/timeline?interval=1h` | Histogramme temporel |
-| **Scores UEBA** | `GET /api/v1/ueba/scores?min_score=50` | Entités les plus risquées |
-| **Profil UEBA** | `GET /api/v1/ueba/profile/{entity_id}` | Baseline + score d'une entité |
-| **Timeline incidents** | `GET /api/v1/incidents/{id}` | Chronologie complète d'un incident |
+| Fonctionnalité              | Endpoint                                  | Description                         |
+| ---------------------------- | ----------------------------------------- | ----------------------------------- |
+| **Top alertes**        | `GET /api/v1/alerts/?severity=critical` | Liste des alertes par sévérité   |
+| **Statistiques**       | `GET /api/v1/alerts/stats`              | Compteurs par sévérité et statut |
+| **Volume de logs**     | `GET /api/v1/logs/timeline?interval=1h` | Histogramme temporel                |
+| **Scores UEBA**        | `GET /api/v1/ueba/scores?min_score=50`  | Entités les plus risquées         |
+| **Profil UEBA**        | `GET /api/v1/ueba/profile/{entity_id}`  | Baseline + score d'une entité      |
+| **Timeline incidents** | `GET /api/v1/incidents/{id}`            | Chronologie complète d'un incident |
 
 **Filtres disponibles** dans `POST /api/v1/logs/search` :
 `query` (plein texte), `source_ips`, `destination_ips`, `users`, `hosts`, `log_types`, `severities`, `tags`, `date_from`, `date_to`
@@ -472,6 +477,7 @@ La visualisation chronologique utilise l'agrégation `date_histogram` d'Elastics
 #### Recherche multi-critères
 
 `POST /api/v1/logs/search` supporte 10 filtres combinables :
+
 - IP source et destination (extraite du message)
 - Noms d'utilisateurs (extraits du message)
 - Hosts
@@ -488,11 +494,11 @@ Retourne un histogramme des événements groupés par intervalle de temps, utili
 
 #### Investigation croisée
 
-| Endpoint | Fonction |
-|---|---|
-| `POST /api/v1/investigations/` | Créer une enquête |
+| Endpoint                                  | Fonction                            |
+| ----------------------------------------- | ----------------------------------- |
+| `POST /api/v1/investigations/`          | Créer une enquête                 |
 | `POST /api/v1/investigations/{id}/logs` | Marquer un log suspect avec verdict |
-| `GET /api/v1/investigations/{id}` | Voir tous les logs de l'enquête |
+| `GET /api/v1/investigations/{id}`       | Voir tous les logs de l'enquête    |
 
 Verdicts disponibles : `suspect`, `benign`, `confirmed`, `false_positive`
 
@@ -501,6 +507,7 @@ Chaque investigation est liée aux tactiques/techniques MITRE ATT&CK.
 #### Rétention et historique
 
 Les logs sont conservés dans Elasticsearch jusqu'à la limite configurée (`LOG_RETENTION_DAYS`), puis :
+
 - Purge automatique par Celery (quotidien)
 - Archivage certifié avant purge (SHA-256 + chaîne)
 - Consultation possible via l'API pendant toute la période de rétention
@@ -519,13 +526,13 @@ Les logs sont conservés dans Elasticsearch jusqu'à la limite configurée (`LOG
 
 #### RBAC — 5 rôles avec permissions granulaires
 
-| Rôle | Permissions |
-|---|---|
-| **Lecteur** | `read:logs`, `read:dashboard`, `read:reports` |
-| **Analyste** | + `write:alerts`, `read/write:incidents`, `read:audit` |
-| **Auditeur** | `read:audit`, `read:reports`, `export:data` |
-| **RSSI** | `read:dashboard`, `read/write:reports` |
-| **Administrateur** | `*` (toutes les permissions) |
+| Rôle                    | Permissions                                                 |
+| ------------------------ | ----------------------------------------------------------- |
+| **Lecteur**        | `read:logs`, `read:dashboard`, `read:reports`         |
+| **Analyste**       | +`write:alerts`, `read/write:incidents`, `read:audit` |
+| **Auditeur**       | `read:audit`, `read:reports`, `export:data`           |
+| **RSSI**           | `read:dashboard`, `read/write:reports`                  |
+| **Administrateur** | `*` (toutes les permissions)                              |
 
 Vérification via `require_role()` et `require_permissions()` dans les dépendances FastAPI.
 
@@ -533,18 +540,19 @@ Vérification via `require_role()` et `require_permissions()` dans les dépendan
 
 Toutes les actions sensibles sont tracées dans `audit_logs` (PostgreSQL) :
 
-| Action | Journalisée dans | Détails enregistrés |
-|---|---|---|
-| Connexion | `AuditRepository.log_login_attempt()` | user, IP, succès/échec |
-| Déconnexion | `AuditRepository.log_logout()` | user |
-| MFA | `AuditRepository.log_mfa_verification()` | user, succès/échec |
-| Création utilisateur | `AuditRepository.log_user_management("create_user")` | admin, new_user, rôle |
-| Modification rôle | `AuditRepository.log_user_management("update_role")` | admin, cible, ancien/nouveau rôle |
+| Action                   | Journalisée dans                                           | Détails enregistrés                    |
+| ------------------------ | ----------------------------------------------------------- | ---------------------------------------- |
+| Connexion                | `AuditRepository.log_login_attempt()`                     | user, IP, succès/échec                 |
+| Déconnexion             | `AuditRepository.log_logout()`                            | user                                     |
+| MFA                      | `AuditRepository.log_mfa_verification()`                  | user, succès/échec                     |
+| Création utilisateur    | `AuditRepository.log_user_management("create_user")`      | admin, new_user, rôle                   |
+| Modification rôle       | `AuditRepository.log_user_management("update_role")`      | admin, cible, ancien/nouveau rôle       |
 | Modification périmètre | `AuditRepository.log_user_management("update_perimeter")` | admin, cible, ancien/nouveau périmètre |
 
 #### Ségrégation par périmètre
 
 4 niveaux de périmètre (`app/utils/tags.py`) :
+
 - **Équipe** — groupe fonctionnel
 - **Service** — unité organisationnelle
 - **Filiale** — entité juridique/géographique
@@ -579,6 +587,7 @@ Chaque entité (utilisateur, hôte) a un profil stocké dans `profils_ueba` (Pos
 ```
 
 **9 dimensions** extraites par `extract_features()` :
+
 - Temporelles : `mean_hour`, `std_hour`
 - Volume : `total_events`, `avg_bytes`
 - Diversité : `unique_ips`, `unique_users`, `unique_log_types`
@@ -587,11 +596,13 @@ Chaque entité (utilisateur, hôte) a un profil stocké dans `profils_ueba` (Pos
 #### Détection d'anomalies
 
 **Modèle ML :** Isolation Forest (scikit-learn) avec `contamination=0.1`
+
 - Entraîné sur **50 522 929 événements** du dataset CLUE-LDS
 - **5 389 profils utilisateurs** dans la base
 - Sauvegardé dans `models/ueba/isolation_forest.joblib`
 
 **Business rules** (sur-score) : adjonction de points selon les règles métier :
+
 - `error_ratio > 50%` → +15 points
 - `critical_ratio > 10%` → +20 points
 - `unique_ips > 20` → +10 points
@@ -608,6 +619,7 @@ Chaque entité (utilisateur, hôte) a un profil stocké dans `profils_ueba` (Pos
 #### Corrélation comportements ↔ événements de sécurité
 
 Règle `ueba` dans le moteur de corrélation :
+
 ```
 Log entrant → check_ueba_rule()
   → get_profile(entity_id) → risk_score ≥ 70 ?
@@ -675,16 +687,16 @@ curl -X POST http://localhost:8000/api/v1/users/setup \
 
 ### Variables d'environnement (`.env`)
 
-| Variable | Défaut | Description |
-|---|---|---|
-| `SECRET_KEY` | *(obligatoire)* | Clé secrète JWT |
-| `DATABASE_URL` | `postgresql+asyncpg://…/SmartSiem` | URL PostgreSQL |
-| `ELASTICSEARCH_HOST` | `localhost` | Hôte Elasticsearch |
-| `REDIS_HOST` | `localhost` | Hôte Redis |
-| `LOG_RETENTION_DAYS` | `90` | Rétention logs |
-| `UEBA_ENABLED` | `True` | Activer UEBA |
-| `UEBA_ANOMALY_THRESHOLD` | `70` | Seuil d'alerte UEBA |
-| `SMTP_HOST` | *(optionnel)* | Serveur SMTP email |
+| Variable                   | Défaut                               | Description         |
+| -------------------------- | ------------------------------------- | ------------------- |
+| `SECRET_KEY`             | *(obligatoire)*                     | Clé secrète JWT   |
+| `DATABASE_URL`           | `postgresql+asyncpg://…/SmartSiem` | URL PostgreSQL      |
+| `ELASTICSEARCH_HOST`     | `localhost`                         | Hôte Elasticsearch |
+| `REDIS_HOST`             | `localhost`                         | Hôte Redis         |
+| `LOG_RETENTION_DAYS`     | `90`                                | Rétention logs     |
+| `UEBA_ENABLED`           | `True`                              | Activer UEBA        |
+| `UEBA_ANOMALY_THRESHOLD` | `70`                                | Seuil d'alerte UEBA |
+| `SMTP_HOST`              | *(optionnel)*                       | Serveur SMTP email  |
 
 ### Entraînement du modèle UEBA
 
@@ -713,22 +725,22 @@ pytest --cov=app --cov-report=term-missing
 
 ### Couverture des tests
 
-| Module | Tests |
-|---|---|
-| Normalisation | 44 |
-| Sécurité (hash, JWT, MFA) | 18 |
-| Schémas Pydantic | 17 |
-| Utilitaires (rôles, permissions) | 17 |
-| UEBA (features, scoring) | 16 |
-| SOAR (playbooks, actions) | 12 |
-| Notification service | 7 |
-| Email templating | 7 |
-| Corrélation (4 types + UEBA) | 14 |
-| Repositories (alert, rule, incident...) | 78 |
-| API endpoints (auth, UEBA, logs) | 23 |
-| Archive (Merkle, SHA-256, signature) | 20 services + 11 repo |
-| Audit (service + repo) | 20 |
-| **Total** | **387 tests** |
+| Module                                  | Tests                 |
+| --------------------------------------- | --------------------- |
+| Normalisation                           | 44                    |
+| Sécurité (hash, JWT, MFA)             | 18                    |
+| Schémas Pydantic                       | 17                    |
+| Utilitaires (rôles, permissions)       | 17                    |
+| UEBA (features, scoring)                | 16                    |
+| SOAR (playbooks, actions)               | 12                    |
+| Notification service                    | 7                     |
+| Email templating                        | 7                     |
+| Corrélation (4 types + UEBA)           | 14                    |
+| Repositories (alert, rule, incident...) | 78                    |
+| API endpoints (auth, UEBA, logs)        | 23                    |
+| Archive (Merkle, SHA-256, signature)    | 20 services + 11 repo |
+| Audit (service + repo)                  | 20                    |
+| **Total**                         | **387 tests**   |
 
 ---
 
