@@ -13,6 +13,5 @@ class BaseRepository(ABC):
         self.database = Database()
         self.connection = self.database.connect()
 
-        self.cursor = self.connection.cursor()
 
     

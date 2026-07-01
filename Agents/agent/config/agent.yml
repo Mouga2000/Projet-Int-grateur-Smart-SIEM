@@ -9,7 +9,7 @@ agent:
 
 server:
 
-  protocol: http
+  protocol: https
 
   host: 192.168.1.198   #169.254.170.76                     
 
@@ -93,7 +93,7 @@ logs:
       - "C:\\Windows\\System32\\winevt\\Logs\\Application.evtx"
       - "C:\\Windows\\System32\\winevt\\Logs\\System.evtx"
       - C:\Windows\System32\winevt\Logs\Security.evtx
-      - "D:\\Promo X2028\\X3\\Projet Intégrateur\\Realisation\\Projet-Int-grateur-Smart-SIEM\\Agents\\agent\\logs\\test.log"
+      #- "D:\\Promo X2028\\X3\\Projet Intégrateur\\Realisation\\Projet-Int-grateur-Smart-SIEM\\Agents\\agent\\logs\\test.log"
 
   read_from_end: true
 
@@ -202,14 +202,14 @@ commands:
 
 tls:
 
-  enabled: false
+  enabled: true
 
-  verify_server: false
+  verify_server: true
 
-  certificate: certs/agent.crt
+  ca_cert: code/security/ca-root.crt
 
-  private_key: certs/agent.key
+  client_cert: code/security/agent.crt
 
-  ca_certificate: certs/ca.crt
+  client_key: code/security/agent.key
 
 
