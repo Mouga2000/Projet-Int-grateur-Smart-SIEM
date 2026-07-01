@@ -19,37 +19,63 @@ from app.services.normalization import NormalizationService
 router = APIRouter(prefix="/logs", tags=["Logs"])
 
 
-@router.post("/ingest", response_model=LogResponse)
+@router.post("/ingest")
 async def ingest_log(
     request: Request,
     es=Depends(get_es),
     db: AsyncSession = Depends(get_db),
 ):
     """
-    Point d'entree universel -- accepte tout JSON, quel que soit le format.
-    Apres normalisation et indexation, le log est evalue par le moteur de correlation.
+    Point d'entree universel pour les logs.
+
+    Accepte deux formats :
+      - Un objet JSON (dict)  → normalisation + indexation + correlation
+      - Un tableau JSON (list) → normalisation + bulk index (imports massifs)
     """
     raw_data = await request.json()
 
+    # ── Mode bulk : un tableau de logs ──
+    if isinstance(raw_data, list):
+        if not raw_data:
+            return {"indexed": 0, "total": 0}
+
+        repo = LogRepository(es)
+        normalized_logs = []
+        errors = []
+
+        for i, item in enumerate(raw_data):
+            try:
+                normalized = await NormalizationService.normalize(item)
+                normalized_logs.append(normalized)
+            except Exception as e:
+                errors.append({"index": i, "error": str(e)[:200]})
+
+        if not normalized_logs:
+            return {"indexed": 0, "total": len(raw_data), "errors": errors}
+
+        try:
+            result = await repo.bulk_ingest(normalized_logs)
+            indexed_count = sum(
+                1 for item in result.get("indexed", [])
+                if item.get("index", {}).get("status") in (200, 201)
+            )
+        except ESConnectionError:
+            raise HTTPException(status_code=503, detail="Elasticsearch indisponible")
+
+        return {
+            "indexed": indexed_count,
+            "total": len(raw_data),
+            "errors": errors,
+        }
+
+    # ── Mode simple : un seul log (comportement historique) ──
     try:
         normalized = await NormalizationService.normalize(raw_data)
-
-        print(f"\n{'=' * 60}")
-        print(f"RAW -> NORMALIZED ({datetime.now().strftime('%H:%M:%S')})")
-        print(f"{'=' * 60}")
-        print("RAW:")
-        import json
-
-        print(json.dumps(raw_data, indent=2, ensure_ascii=False, default=str)[:500])
-        print(f"\n{'-' * 40}")
-        print("NORMALIZED (stocke dans ES) :")
-        print(json.dumps(normalized, indent=2, ensure_ascii=False, default=str))
-        print(f"{'=' * 60}\n")
 
         repo = LogRepository(es)
         result = await repo.ingest(normalized)
 
-        # --- CORRELATION : evaluer le log contre toutes les regles ---
+        # Correlation
         try:
             from app.repositories.alert_repo import AlertRepository
             from app.repositories.rule_repo import RuleRepository
@@ -72,16 +98,16 @@ async def ingest_log(
         except Exception as e:
             print(f"[CORRELATION] Erreur : {e}")
 
-        return LogResponse(
-            id=result["id"],
-            timestamp=normalized["timestamp"],
-            source_ip=normalized["source_ip"],
-            host=normalized["host"],
-            log_type=normalized.get("log_type"),
-            severity=normalized["severity"],
-            raw_message=normalized["raw_message"],
-            tags=normalized.get("tags", []),
-        )
+        return {
+            "id": result["id"],
+            "timestamp": normalized["timestamp"],
+            "source_ip": normalized["source_ip"],
+            "host": normalized["host"],
+            "log_type": normalized.get("log_type"),
+            "severity": normalized["severity"],
+            "raw_message": normalized["raw_message"],
+            "tags": normalized.get("tags", []),
+        }
 
     except ESConnectionError:
         raise HTTPException(status_code=503, detail="Elasticsearch indisponible")
@@ -180,7 +206,7 @@ async def search_logs(
 
         if perimeter_filters:
             must_clauses.append(
-                {"bool": {"should": perimeter_filters, "minimum_should_match": 1}}
+                {"bool": {"should": perimeter_filters, "minimum_should_match": 0}}
             )
 
     es_query = {"bool": {"must": must_clauses}} if must_clauses else {"match_all": {}}

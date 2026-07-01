@@ -38,5 +38,27 @@ certs/
 # Claude (config personnelle)
 .claude/
 
-
+# Fichiers de configuration sensible
 clue.json
+config.yaml
+*.secret
+
+# Données SIEM / logs collectés
+data/raw/
+data/processed/
+logs/
+uploads/
+
+# Rapports générés
+reports/
+output/
+*.html
+*.pdf
+
+# Notebooks (rendus et caches)
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# Datasets d'exemple / tests
+botsv3_data_set/
+botsv3_data_set.tgz

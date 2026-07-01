@@ -123,7 +123,8 @@ async def add_log_to_investigation(
     """
     # Verifier que le log existe dans Elasticsearch
     try:
-        log_doc = await es.get(index="logs-*", id=data.log_id)
+        from app.core.config import settings
+        log_doc = await es.get(index=settings.ELASTICSEARCH_INDEX_LOGS, id=data.log_id)
     except Exception:
         raise HTTPException(
             status_code=404,

@@ -19,9 +19,8 @@ class LogRepository:
         self.index_prefix = settings.ELASTICSEARCH_INDEX_LOGS
 
     def _get_index_name(self, date: datetime = None) -> str:
-        """Retourne le nom de l'index pour la date donnée (logs-YYYY-MM-DD)."""
-        today = (date or datetime.now()).strftime("%Y-%m-%d")
-        return f"{self.index_prefix}-{today}"
+        """Retourne le nom de l'index."""
+        return self.index_prefix
 
     async def ingest(self, log_data: dict) -> dict:
         """Indexe un log dans Elasticsearch et retourne le document avec son ID."""
@@ -54,7 +53,7 @@ class LogRepository:
         """Récupère un log par son ID Elasticsearch."""
         try:
             response = await self.es.get(
-                index=f"{self.index_prefix}-*",
+                index=self.index_prefix,
                 id=log_id,
             )
             doc = response["_source"]
@@ -90,7 +89,7 @@ class LogRepository:
             "sort": [{"timestamp": {"order": "desc"}}],
         }
 
-        target_index = index or f"{self.index_prefix}-*"
+        target_index = index or self.index_prefix
         response = await self.es.search(
             index=target_index,
             body=body,
@@ -127,7 +126,7 @@ class LogRepository:
         }
         # Utiliser un scroll pour récupérer tous les logs
         response = await self.es.search(
-            index=f"{self.index_prefix}-*",
+            index=self.index_prefix,
             body={
                 "query": query,
                 "size": size,
@@ -176,7 +175,7 @@ class LogRepository:
             query = {"match_all": {}}
 
         response = await self.es.count(
-            index=f"{self.index_prefix}-*",
+            index=self.index_prefix,
             body={"query": query},
         )
         return response["count"]
@@ -184,7 +183,7 @@ class LogRepository:
     async def delete_older_than(self, days: int) -> int:
         """Supprime les logs plus vieux que N jours via delete_by_query."""
         response = await self.es.delete_by_query(
-            index=f"{self.index_prefix}-*",
+            index=self.index_prefix,
             body={
                 "query": {
                     "range": {
@@ -245,7 +244,7 @@ class LogRepository:
         }
 
         response = await self.es.search(
-            index=f"{self.index_prefix}-*",
+            index=self.index_prefix,
             body=body,
         )
 

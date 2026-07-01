@@ -91,7 +91,7 @@ class Settings(BaseSettings):
     ELASTICSEARCH_HOST: str = "localhost"
     ELASTICSEARCH_PORT: int = 9200
     ELASTICSEARCH_SCHEME: str = "http"
-    ELASTICSEARCH_INDEX_LOGS: str = "logs"
+    ELASTICSEARCH_INDEX_LOGS: str = "logs-clue"
 
     # Redis / Celery
     REDIS_HOST: str = "localhost"
