@@ -42,8 +42,8 @@ celery_app.conf.beat_schedule = {
     #     "task": "app.tasks.report_tasks.generate_daily_report",
     #     "schedule": crontab(hour=6, minute=0),
     # },
-    # "train-ueba-model": {
-    #     "task": "app.tasks.ueba_tasks.train_anomaly_model",
-    #     "schedule": crontab(hour=2, minute=0, day_of_week="monday"),
-    # },
+    "train-ueba-model": {
+        "task": "app.tasks.ueba_tasks.train_anomaly_model",
+        "schedule": crontab(hour=2, minute=0, day_of_week="monday"),
+    },
 }

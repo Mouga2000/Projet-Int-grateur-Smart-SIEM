@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Smart SIEM</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            padding: 25px 30px;
+            color: #ffffff;
+        }
+        .header.critical { background: linear-gradient(135deg, #d32f2f, #b71c1c); }
+        .header.high { background: linear-gradient(135deg, #f57c00, #e65100); }
+        .header.medium { background: linear-gradient(135deg, #fbc02d, #f9a825); }
+        .header.low { background: linear-gradient(135deg, #388e3c, #2e7d32); }
+        .header.info { background: linear-gradient(135deg, #1976d2, #1565c0); }
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+        }
+        .header .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.25);
+            padding: 3px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+            text-transform: uppercase;
+        }
+        .header .timestamp {
+            font-size: 12px;
+            opacity: 0.85;
+            margin-top: 5px;
+        }
+        .body {
+            padding: 30px;
+        }
+        .field {
+            margin-bottom: 18px;
+        }
+        .field-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #888;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        .field-value {
+            font-size: 15px;
+            color: #333;
+            font-weight: 500;
+        }
+        .field-value.code {
+            font-family: 'Consolas', 'Courier New', monospace;
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            word-break: break-all;
+        }
+        .mitre-tag {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 6px;
+            margin-top: 4px;
+        }
+        .divider {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 25px 0;
+        }
+        .footer {
+            padding: 20px 30px;
+            background: #fafafa;
+            border-top: 1px solid #eee;
+            font-size: 12px;
+            color: #999;
+            text-align: center;
+        }
+        .footer strong {
+            color: #666;
+        }
+        .button {
+            display: inline-block;
+            background: #1976d2;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .button:hover {
+            background: #1565c0;
+        }
+        table.details {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table.details td {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        table.details td:first-child {
+            color: #888;
+            font-size: 12px;
+            width: 120px;
+        }
+        table.details td:last-child {
+            color: #333;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header $severity_class">
+            <h1>$title</h1>
+            <div class="badge">$severity</div>
+            <div class="timestamp">$timestamp</div>
+        </div>
+
+        <!-- Body -->
+        <div class="body">
+            <table class="details">
+                <tr>
+                    <td>Règle</td>
+                    <td>$rule_name</td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td>$description</td>
+                </tr>
+                <tr>
+                    <td>IP Source</td>
+                    <td>$source_ip</td>
+                </tr>
+                <tr>
+                    <td>Hôte</td>
+                    <td>$host</td>
+                </tr>
+                <tr>
+                    <td>Type d'événement</td>
+                    <td>$event_type</td>
+                </tr>
+            </table>
+
+            $mitre_section
+
+            <hr class="divider">
+
+            <div style="text-align: center;">
+                <a href="$dashboard_url" class="button">Voir dans le SIEM</a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <strong>Smart SIEM</strong> &mdash; Système de Gestion des Événements de Sécurité<br>
+            Cet email est envoyé automatiquement par le moteur de corrélation.
+        </div>
+    </div>
+</body>
+</html>

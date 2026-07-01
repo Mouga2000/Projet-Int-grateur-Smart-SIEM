@@ -3,11 +3,14 @@
 # Endpoints /api/v1/logs — Gestion des logs
 
 from datetime import datetime
+from typing import Optional
 
 from elasticsearch import ConnectionError as ESConnectionError
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.dependencies import get_current_user
+from app.core.database import get_db
 from app.core.elasticsearch import get_es
 from app.repositories.log_repo import LogRepository
 from app.schemas.log_schemas import LogListResponse, LogResponse, LogSearchRequest
@@ -16,42 +19,95 @@ from app.services.normalization import NormalizationService
 router = APIRouter(prefix="/logs", tags=["Logs"])
 
 
-@router.post("/ingest", response_model=LogResponse)
+@router.post("/ingest")
 async def ingest_log(
     request: Request,
     es=Depends(get_es),
+    db: AsyncSession = Depends(get_db),
 ):
     """
-    Point d'entrée universel — accepte tout JSON, quel que soit le format.
+    Point d'entree universel pour les logs.
+
+    Accepte deux formats :
+      - Un objet JSON (dict)  → normalisation + indexation + correlation
+      - Un tableau JSON (list) → normalisation + bulk index (imports massifs)
     """
     raw_data = await request.json()
-    import json
 
+    # ── Mode bulk : un tableau de logs ──
+    if isinstance(raw_data, list):
+        if not raw_data:
+            return {"indexed": 0, "total": 0}
+
+        repo = LogRepository(es)
+        normalized_logs = []
+        errors = []
+
+        for i, item in enumerate(raw_data):
+            try:
+                normalized = await NormalizationService.normalize(item)
+                normalized_logs.append(normalized)
+            except Exception as e:
+                errors.append({"index": i, "error": str(e)[:200]})
+
+        if not normalized_logs:
+            return {"indexed": 0, "total": len(raw_data), "errors": errors}
+
+        try:
+            result = await repo.bulk_ingest(normalized_logs)
+            indexed_count = sum(
+                1 for item in result.get("indexed", [])
+                if item.get("index", {}).get("status") in (200, 201)
+            )
+        except ESConnectionError:
+            raise HTTPException(status_code=503, detail="Elasticsearch indisponible")
+
+        return {
+            "indexed": indexed_count,
+            "total": len(raw_data),
+            "errors": errors,
+        }
+
+    # ── Mode simple : un seul log (comportement historique) ──
     try:
         normalized = await NormalizationService.normalize(raw_data)
 
-        print(f"\n{'=' * 60}")
-        print(f"RAW -> NORMALIZED ({datetime.now().strftime('%H:%M:%S')})")
-        print(f"{'=' * 60}")
-        print("RAW:")
-        print(json.dumps(raw_data, indent=2, ensure_ascii=False, default=str)[:500])
-        print(f"\n{'-' * 40}")
-        print("NORMALIZED (stocke dans ES) :")
-        print(json.dumps(normalized, indent=2, ensure_ascii=False, default=str))
-        print(f"{'=' * 60}\n")
         repo = LogRepository(es)
         result = await repo.ingest(normalized)
 
-        return LogResponse(
-            id=result["id"],
-            timestamp=normalized["timestamp"],
-            source_ip=normalized["source_ip"],
-            host=normalized["host"],
-            log_type=normalized.get("log_type"),
-            severity=normalized["severity"],
-            raw_message=normalized["raw_message"],
-            tags=normalized.get("tags", []),
-        )
+        # Correlation
+        try:
+            from app.repositories.alert_repo import AlertRepository
+            from app.repositories.rule_repo import RuleRepository
+            from app.repositories.user_repo import UserRepository
+            from app.services.correlation import CorrelationEngine
+
+            rule_repo = RuleRepository(db)
+            alert_repo = AlertRepository(db)
+            user_repo = UserRepository(db)
+            engine = CorrelationEngine(
+                rule_repository=rule_repo,
+                alert_repository=alert_repo,
+                elastic_repository=repo,
+                redis_client=None,
+                user_repository=user_repo,
+            )
+            alerts_created = await engine.evaluate_event(normalized)
+            if alerts_created:
+                print(f"[CORRELATION] {alerts_created} alerte(s) creee(s)")
+        except Exception as e:
+            print(f"[CORRELATION] Erreur : {e}")
+
+        return {
+            "id": result["id"],
+            "timestamp": normalized["timestamp"],
+            "source_ip": normalized["source_ip"],
+            "host": normalized["host"],
+            "log_type": normalized.get("log_type"),
+            "severity": normalized["severity"],
+            "raw_message": normalized["raw_message"],
+            "tags": normalized.get("tags", []),
+        }
 
     except ESConnectionError:
         raise HTTPException(status_code=503, detail="Elasticsearch indisponible")
@@ -131,6 +187,28 @@ async def search_logs(
             range_filter["lte"] = search.date_to.isoformat()
         must_clauses.append({"range": {"timestamp": range_filter}})
 
+    # Filtre automatique par perimetre de l'utilisateur
+    user_perimeter = current_user.get("perimeter", [])
+    user_role = current_user.get("role")
+    if user_perimeter and user_role != "administrateur":
+        # Si l'utilisateur a un perimetre "equipe", on filtre les logs par host/type
+        # qui correspondent a ce perimetre
+        perimeter_filters = []
+        for p in user_perimeter:
+            if p == "equipe":
+                perimeter_filters.append({"term": {"tags": "equipe"}})
+            elif p == "service":
+                perimeter_filters.append({"term": {"tags": "service"}})
+            elif p == "filiale":
+                perimeter_filters.append({"term": {"tags": "filiale"}})
+            elif p == "environnement":
+                perimeter_filters.append({"term": {"tags": "environnement"}})
+
+        if perimeter_filters:
+            must_clauses.append(
+                {"bool": {"should": perimeter_filters, "minimum_should_match": 0}}
+            )
+
     es_query = {"bool": {"must": must_clauses}} if must_clauses else {"match_all": {}}
 
     result = await repo.search(query=es_query, page=search.page, size=search.size)
@@ -141,7 +219,7 @@ async def search_logs(
 async def get_timeline(
     interval: str = Query(
         default="1h",
-        regex="^(10s|30s|1m|5m|15m|30m|1h|6h|12h|1d|1w|1M)$",
+        pattern="^(10s|30s|1m|5m|15m|30m|1h|6h|12h|1d|1w|1M)$",
         description="Intervalle de l'histogramme (10s, 1m, 1h, 1d, 1w, 1M)",
     ),
     date_from: Optional[datetime] = Query(

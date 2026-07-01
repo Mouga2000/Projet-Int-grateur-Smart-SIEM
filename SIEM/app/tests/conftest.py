@@ -4,6 +4,15 @@
 
 import pytest
 from datetime import datetime, timezone
+from app.main import app
+
+
+@pytest.fixture(autouse=True)
+def _clean_dependency_overrides():
+    """Nettoie les overrides de dépendances après chaque test API."""
+    yield
+    if app.dependency_overrides:
+        app.dependency_overrides.clear()
 
 
 @pytest.fixture

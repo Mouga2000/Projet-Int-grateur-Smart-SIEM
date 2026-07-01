@@ -9,11 +9,10 @@ python-multipart==0.0.32
 
 # --- Authentification ---
 python-jose[cryptography]==3.5.0   # JWT
-passlib[bcrypt]==1.7.4              # Hachage de mots de passe (obsolete, utilise bcrypt direct)
-bcrypt==5.0.0
-pyotp==2.10.0                       # MFA TOTP
-qrcode[pil]==8.2                    # QR codes pour la MFA
-pillow==12.2.0                      # Necessaire pour qrcode[pil]
+bcrypt==5.0.0                      # Hachage de mots de passe
+pyotp==2.10.0                      # MFA TOTP
+qrcode[pil]==8.2                   # QR codes pour la MFA
+pillow==12.2.0                     # Necessaire pour qrcode[pil]
 
 # --- PostgreSQL ---
 sqlalchemy==2.0.36
@@ -27,13 +26,18 @@ elasticsearch==8.19.3
 # --- Validation ---
 pydantic==2.13.4
 pydantic-settings==2.0.3
-email-validator==2.3.0              # Validation des emails (EmailStr)
+email-validator==2.3.0
 
 # --- Archivage & chiffrement ---
-cryptography==44.0.0              # Signatures RSA, hashs, clés
+cryptography==44.0.0
 
 # --- Utilitaires ---
 python-dotenv==1.2.2
+celery==5.5.2
+joblib==1.5.3
+numpy==2.5.0
+scikit-learn==1.9.0
+redis[hiredis]==5.2.0
 
 # --- Tests ---
 pytest==9.1.1

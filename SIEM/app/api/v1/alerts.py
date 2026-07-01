@@ -1,47 +1,91 @@
 # app/api/v1/alerts.py
 # -------------------------------
-# Endpoints /api/v1/alerts — Gestion des alertes
-#
-# Ce que tu dois mettre ici :
-#
-#   from fastapi import APIRouter, Depends, Query
-#   from app.schemas.alert_schemas import AlertResponse, AlertListResponse, AlertUpdate
-#   from app.services.alerts import AlertService
-#   from app.api.dependencies import get_current_user
-#
-#   router = APIRouter()
-#
-#   @router.get("/", response_model=AlertListResponse)
-#   async def list_alerts(
-#       status: str = Query(None, regex="^(open|in_progress|resolved|dismissed)$"),
-#       severity: str = Query(None, regex="^(low|medium|high|critical)$"),
-#       page: int = Query(1, ge=1),
-#       size: int = Query(50, le=200),
-#       current_user = Depends(get_current_user),
-#   ):
-#       """Liste les alertes avec filtres."""
-#       pass
-#
-#   @router.get("/{alert_id}", response_model=AlertResponse)
-#   async def get_alert(alert_id: int, current_user = Depends(get_current_user)):
-#       """Détail d'une alerte."""
-#       pass
-#
-#   @router.patch("/{alert_id}", response_model=AlertResponse)
-#   async def update_alert(
-#       alert_id: int,
-#       data: AlertUpdate,
-#       current_user = Depends(get_current_user),
-#   ):
-#       """Mettre à jour le statut / assignation d'une alerte."""
-#       pass
-#
-#   @router.post("/{alert_id}/acknowledge")
-#   async def acknowledge_alert(alert_id: int, current_user = Depends(get_current_user)):
-#       """Accuser réception d'une alerte."""
-#       pass
-#
-#   @router.post("/{alert_id}/escalate")
-#   async def escalate_alert(alert_id: int, current_user = Depends(get_current_user)):
-#       """Escalader une alerte (changer criticité, notifier)."""
-#       pass
+# Endpoints /api/v1/alerts -- Gestion des alertes
+
+from typing import Optional
+
+from fastapi import APIRouter, Depends, HTTPException, Query
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.api.dependencies import get_current_user, require_role
+from app.core.database import get_db
+from app.repositories.alert_repo import AlertRepository
+from app.utils.tags import Role
+
+router = APIRouter(prefix="/alerts", tags=["Alertes"])
+
+
+@router.get("/")
+async def list_alerts(
+    severity: Optional[str] = Query(None, pattern="^(info|low|medium|high|critical)$"),
+    status: Optional[str] = Query(None, pattern="^(ouverte|en_cours|resolue|classee)$"),
+    page: int = Query(1, ge=1),
+    size: int = Query(50, ge=1, le=200),
+    current_user: dict = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Liste les alertes avec filtres par severite et statut."""
+    repo = AlertRepository(db)
+    filters = {}
+    if severity:
+        filters["niveau"] = severity
+    if status:
+        filters["statut"] = status
+    return await repo.search(filters=filters, page=page, size=size)
+
+
+@router.get("/stats")
+async def get_alert_stats(
+    current_user: dict = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Statistiques sur les alertes (total, par severite, par statut)."""
+    repo = AlertRepository(db)
+    all_alerts = await repo.search(filters={}, page=1, size=10000)
+    items = all_alerts["items"]
+
+    by_severity = {"info": 0, "low": 0, "medium": 0, "high": 0, "critical": 0}
+    by_status = {"ouverte": 0, "en_cours": 0, "resolue": 0, "classee": 0}
+
+    for a in items:
+        sev = a.get("severity", "info")
+        if sev in by_severity:
+            by_severity[sev] += 1
+        st = a.get("status", "ouverte")
+        if st in by_status:
+            by_status[st] += 1
+
+    return {
+        "total": len(items),
+        "by_severity": by_severity,
+        "by_status": by_status,
+    }
+
+
+@router.get("/{alert_id}")
+async def get_alert(
+    alert_id: int,
+    current_user: dict = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Detail d'une alerte."""
+    repo = AlertRepository(db)
+    alert = await repo.get_by_id(alert_id)
+    if not alert:
+        raise HTTPException(status_code=404, detail="Alerte non trouvee")
+    return alert
+
+
+@router.patch("/{alert_id}")
+async def update_alert(
+    alert_id: int,
+    status: str = Query(..., pattern="^(ouverte|en_cours|resolue|classee)$"),
+    current_user: dict = Depends(require_role([Role.ANALYSTE, Role.ADMINISTRATEUR])),
+    db: AsyncSession = Depends(get_db),
+):
+    """Met a jour le statut d'une alerte (acquittement, resolution)."""
+    repo = AlertRepository(db)
+    success = await repo.update(alert_id, {"statut": status})
+    if not success:
+        raise HTTPException(status_code=404, detail="Alerte non trouvee")
+    return await repo.get_by_id(alert_id)
