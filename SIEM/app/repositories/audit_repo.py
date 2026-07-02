@@ -112,8 +112,12 @@ class AuditRepository:
         if filters:
             for key, value in filters.items():
                 column = getattr(AuditLog, key, None)
-                if column is not None:
-                    stmt = stmt.where(column == value)
+                if column is not None and value is not None:
+                    # username et resource_type : recherche partielle insensible à la casse
+                    if key in ("username", "resource_type", "action"):
+                        stmt = stmt.where(column.ilike(f"%{value}%"))
+                    else:
+                        stmt = stmt.where(column == value)
 
         result = await self.db.execute(stmt)
         logs = []

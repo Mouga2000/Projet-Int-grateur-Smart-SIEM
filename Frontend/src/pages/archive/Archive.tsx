@@ -9,12 +9,12 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
-import { Archive as ArchiveIcon, Plus, Link2, ShieldCheck, ShieldX } from "lucide-react";
+import { Plus, Link2, ShieldCheck, ShieldX } from "lucide-react";
 
-const STATUS_VARIANT: Record<string, "default" | "destructive" | "outline"> = {
-  certified: "default",
-  verified:  "default",
-  compromised: "destructive",
+const STATUS_STYLES: Record<string, string> = {
+  certified:   "status-certified",
+  verified:    "status-verified",
+  compromised: "status-compromised",
 };
 
 const Archive = () => {
@@ -38,11 +38,17 @@ const Archive = () => {
 
   useEffect(() => { fetchArchives(); }, []);
 
+  const [createError, setCreateError] = useState<string | null>(null);
+
   const handleCreate = async () => {
     setCreating(true);
+    setCreateError(null);
     try {
       await archiveService.create(days, windowDays);
       fetchArchives();
+    } catch (err: any) {
+      const msg = err?.response?.data?.detail ?? err?.message ?? "Erreur lors de la création";
+      setCreateError(typeof msg === "string" ? msg : "Période sans logs à archiver");
     } finally {
       setCreating(false);
     }
@@ -81,17 +87,22 @@ const Archive = () => {
         <CardContent className="flex flex-wrap items-end gap-4">
           <div className="space-y-1.5">
             <Label>Âge minimum (jours)</Label>
-            <Input type="number" value={days} onChange={(e) => setDays(parseInt(e.target.value))} className="w-32" />
+            <Input type="number" value={Number.isNaN(days) ? "" : days} onChange={(e) => setDays(parseInt(e.target.value) || 90)} className="w-32" />
           </div>
           <div className="space-y-1.5">
             <Label>Fenêtre (jours)</Label>
-            <Input type="number" value={windowDays} onChange={(e) => setWindowDays(parseInt(e.target.value))} className="w-32" />
+            <Input type="number" value={Number.isNaN(windowDays) ? "" : windowDays} onChange={(e) => setWindowDays(parseInt(e.target.value) || 30)} className="w-32" />
           </div>
           <Button onClick={handleCreate} disabled={creating}>
             <Plus className="h-4 w-4 mr-2" />
             {creating ? "Création..." : "Créer l'archive"}
           </Button>
         </CardContent>
+        {createError && (
+          <CardContent className="pt-0">
+            <p className="text-xs text-destructive">{createError}</p>
+          </CardContent>
+        )}
       </Card>
 
       {loading ? (
@@ -119,7 +130,7 @@ const Archive = () => {
                     </TableCell>
                     <TableCell>{a.log_count}</TableCell>
                     <TableCell>
-                      <Badge variant={STATUS_VARIANT[a.status] ?? "outline"}>{a.status}</Badge>
+                      <Badge variant="outline" className={STATUS_STYLES[a.status] ?? ""}>{a.status}</Badge>
                     </TableCell>
                     <TableCell className="text-xs text-muted-foreground">
                       {new Date(a.certified_at).toLocaleString("fr-FR")}

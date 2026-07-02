@@ -1,9 +1,11 @@
 // src/pages/admin/Rules.tsx
 import { useEffect, useState } from "react";
-import adminService from "../../services/adminService";
-import Button from "../../components/ui/Button";
+import api from "../../services/api";
+import { ENDPOINTS } from "../../config/endpoints";
+import { Button } from "../../components/ui/Button";
 import Modal from "../../components/ui/Modal";
-import Input from "../../components/ui/Input";
+import { Input } from "../../components/ui/Input";
+import { Label } from "../../components/ui/label";
 
 interface Rule {
   id: string;
@@ -22,17 +24,19 @@ const Rules = () => {
   const [form, setForm]         = useState<Partial<Rule>>({});
   const [saving, setSaving]     = useState(false);
 
-  const fetchRules = async () => {
-    setLoading(true);
-    try {
-      const data = await adminService.getRules();
-      setRules(data);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => { fetchRules(); }, []);
+  useEffect(() => {
+    let ignore = false;
+    (async () => {
+      setLoading(true);
+      try {
+        const { data } = await api.get(ENDPOINTS.rules.list);
+        if (!ignore) setRules(data);
+      } finally {
+        if (!ignore) setLoading(false);
+      }
+    })();
+    return () => { ignore = true; };
+  }, []);
 
   const openCreate = () => {
     setEditing(null);
@@ -50,10 +54,10 @@ const Rules = () => {
     setSaving(true);
     try {
       if (editing) {
-        const updated = await adminService.updateRule(editing.id, form);
+        const { data: updated } = await api.patch(ENDPOINTS.rules.update(editing.id), form);
         setRules((prev) => prev.map((r) => (r.id === updated.id ? updated : r)));
       } else {
-        const created = await adminService.createRule(form);
+        const { data: created } = await api.post(ENDPOINTS.rules.create, form);
         setRules((prev) => [...prev, created]);
       }
       setModalOpen(false);
@@ -63,12 +67,12 @@ const Rules = () => {
   };
 
   const toggleEnabled = async (rule: Rule) => {
-    const updated = await adminService.updateRule(rule.id, { enabled: !rule.enabled });
+    const { data: updated } = await api.patch(ENDPOINTS.rules.update(rule.id), { enabled: !rule.enabled });
     setRules((prev) => prev.map((r) => (r.id === updated.id ? updated : r)));
   };
 
   const handleDelete = async (id: string) => {
-    await adminService.deleteRule(id);
+    await api.delete(ENDPOINTS.rules.delete(id));
     setRules((prev) => prev.filter((r) => r.id !== id));
   };
 
@@ -76,7 +80,7 @@ const Rules = () => {
     <div className="flex flex-col gap-5">
       <div className="flex items-center justify-between">
         <h1 className="text-white font-medium text-lg">Règles de corrélation</h1>
-        <Button variant="primary" size="sm" onClick={openCreate}>
+        <Button size="sm" onClick={openCreate}>
           + Créer une règle
         </Button>
       </div>
@@ -101,7 +105,7 @@ const Rules = () => {
               </div>
               <p className="text-xs text-gray-500 truncate pl-4">{rule.description}</p>
               {rule.condition && (
-                <code className="text-xs text-cyan-400 font-mono pl-4 truncate">{rule.condition}</code>
+                <code className="text-xs text-cyan-400 font-mono pl-4 truncate">{JSON.stringify(rule.condition)}</code>
               )}
             </div>
             <div className="flex gap-2 shrink-0">
@@ -136,18 +140,22 @@ const Rules = () => {
         title={editing ? "Modifier la règle" : "Créer une règle"}
       >
         <div className="flex flex-col gap-4">
-          <Input
-            label="Nom"
-            value={form.name ?? ""}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
-            placeholder="Brute Force Detection"
-          />
-          <Input
-            label="Description"
-            value={form.description ?? ""}
-            onChange={(e) => setForm({ ...form, description: e.target.value })}
-            placeholder="Description de la règle..."
-          />
+          <div className="space-y-1.5">
+            <Label>Nom</Label>
+            <Input
+              value={form.name ?? ""}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              placeholder="Brute Force Detection"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label>Description</Label>
+            <Input
+              value={form.description ?? ""}
+              onChange={(e) => setForm({ ...form, description: e.target.value })}
+              placeholder="Description de la règle..."
+            />
+          </div>
           <div>
             <label className="text-xs text-gray-400 block mb-1">Sévérité</label>
             <select
@@ -182,8 +190,8 @@ const Rules = () => {
           </div>
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="ghost" size="sm" onClick={() => setModalOpen(false)}>Annuler</Button>
-            <Button variant="primary" size="sm" loading={saving} onClick={handleSave}>
-              {editing ? "Enregistrer" : "Créer"}
+            <Button disabled={saving} onClick={handleSave}>
+              {saving ? "Enregistrement..." : editing ? "Enregistrer" : "Créer"}
             </Button>
           </div>
         </div>

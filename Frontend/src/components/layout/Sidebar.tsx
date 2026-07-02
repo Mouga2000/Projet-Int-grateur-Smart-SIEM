@@ -5,7 +5,7 @@ import { Role } from "@/config/roles";
 import { cn } from "../../lib/utils";
 import {
   LayoutDashboard, FileSearch, ShieldAlert, Users,
-  Trash2, Archive, Link2,
+  Trash2, Archive, Link2, ScrollText, Siren, Settings2, ShieldCheck,
 } from "lucide-react";
 
 interface NavItem {
@@ -16,13 +16,18 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { path: "/dashboard",       label: "Dashboard",       icon: LayoutDashboard, roles: [Role.LECTEUR, Role.ANALYSTE, Role.RSSI, Role.ADMINISTRATEUR] },
-  { path: "/logs",            label: "Logs",             icon: FileSearch,      roles: [Role.LECTEUR, Role.ANALYSTE, Role.ADMINISTRATEUR] },
-  { path: "/investigations",  label: "Investigations",   icon: ShieldAlert,     roles: [Role.ANALYSTE, Role.ADMINISTRATEUR] },
-  { path: "/admin/users",     label: "Utilisateurs",     icon: Users,           roles: [Role.ADMINISTRATEUR] },
-  { path: "/admin/purge",     label: "Rétention",        icon: Trash2,          roles: [Role.ADMINISTRATEUR] },
-  { path: "/archive",         label: "Archives",         icon: Archive,         roles: [Role.ADMINISTRATEUR] },
-  { path: "/archive/chain",   label: "Chaîne d'intégrité", icon: Link2,         roles: [Role.ADMINISTRATEUR] },
+  { path: "/dashboard",       label: "Dashboard",          icon: LayoutDashboard, roles: [Role.LECTEUR, Role.ANALYSTE, Role.RSSI, Role.ADMINISTRATEUR] },
+  { path: "/logs",            label: "Logs",                icon: FileSearch,      roles: [Role.LECTEUR, Role.ANALYSTE, Role.ADMINISTRATEUR] },
+  { path: "/investigations",  label: "Investigations",      icon: ShieldAlert,     roles: [Role.ANALYSTE, Role.ADMINISTRATEUR] },
+  { path: "/admin/users",     label: "Utilisateurs",        icon: Users,           roles: [Role.ADMINISTRATEUR] },
+  { path: "/admin/rules",     label: "Règles",              icon: ScrollText,      roles: [Role.ADMINISTRATEUR] },
+  { path: "/admin/playbooks", label: "Playbooks SOAR",      icon: Siren,           roles: [Role.ADMINISTRATEUR] },
+  { path: "/admin/system",    label: "Système",             icon: Settings2,       roles: [Role.ADMINISTRATEUR] },
+  { path: "/admin/purge",     label: "Rétention",           icon: Trash2,          roles: [Role.ADMINISTRATEUR] },
+  { path: "/audit/logs",      label: "Logs d'audit",        icon: FileSearch,      roles: [Role.AUDITEUR, Role.ADMINISTRATEUR] },
+  { path: "/audit/verify",    label: "Vérification",        icon: ShieldCheck,     roles: [Role.AUDITEUR, Role.ADMINISTRATEUR] },
+  { path: "/archive",         label: "Archives",            icon: Archive,         roles: [Role.ADMINISTRATEUR] },
+  { path: "/archive/chain",   label: "Chaîne d'intégrité",  icon: Link2,           roles: [Role.ADMINISTRATEUR] },
 ];
 
 const Sidebar = () => {

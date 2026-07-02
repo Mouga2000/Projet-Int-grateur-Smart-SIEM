@@ -16,6 +16,8 @@ interface AuditLog {
 
 interface AuditFilter {
   userId?: string;
+  user_id?: string;
+  username?: string;
   action?: string;
   from?: string;
   to?: string;
@@ -25,7 +27,7 @@ interface AuditFilter {
 
 const auditService = {
   getLogs: async (params: AuditFilter): Promise<{ items: AuditLog[]; total: number }> => {
-    const { data } = await api.get(ENDPOINTS.logs.list, { params });
+    const { data } = await api.get(ENDPOINTS.audit.logs, { params });
     return data;
   },
 
@@ -35,9 +37,7 @@ const auditService = {
   },
 
   export: async (params: AuditFilter): Promise<Blob> => {
-    const exportEndpoint =
-      ((ENDPOINTS.logs as unknown) as Record<string, string>)["export"] || "/logs/export";
-    const { data } = await api.get(exportEndpoint, {
+    const { data } = await api.get(`${ENDPOINTS.audit.logs}/export`, {
       params,
       responseType: "blob",
     });

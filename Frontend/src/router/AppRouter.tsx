@@ -2,7 +2,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Role } from "../config/roles";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { useAuth } from "../hooks/useAuth";
 
 import Login           from "../pages/Login";
 import Layout          from "../components/layout/Layout";
@@ -12,21 +11,21 @@ import LogDetail       from "../pages/logs/LogDetail";
 import Investigations  from "../pages/investigations/Investigations";
 import InvestigationDetail from "../pages/investigations/InvestigationDetail";
 import Users           from "../pages/admin/Users";
+import Rules           from "../pages/admin/Rules";
+import Playbooks      from "../pages/admin/Playbooks";
+import System         from "../pages/admin/System";
 import Purge           from "../pages/admin/Purge";
 import Archive         from "../pages/archive/Archive";
 import ArchiveChain    from "../pages/archive/ArchiveChain";
 import Profile         from "../pages/Profile";
-
-const RootRedirect = () => {
-  const { isAuthenticated, redirectPath } = useAuth();
-  return <Navigate to={isAuthenticated ? redirectPath() : "/login"} replace />;
-};
+import AuditLogs      from "../pages/audit/Logs";
+import AuditVerify    from "../pages/audit/Verify";
 
 const AppRouter = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/" element={<RootRedirect />} />
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
       <Route element={<Layout />}>
         <Route path="/dashboard" element={
@@ -65,6 +64,32 @@ const AppRouter = () => (
             <Purge />
           </ProtectedRoute>
         }/>
+        <Route path="/admin/rules" element={
+          <ProtectedRoute allowedRoles={[Role.ADMINISTRATEUR]}>
+            <Rules />
+          </ProtectedRoute>
+        }/>
+        <Route path="/admin/playbooks" element={
+          <ProtectedRoute allowedRoles={[Role.ADMINISTRATEUR]}>
+            <Playbooks />
+          </ProtectedRoute>
+        }/>
+        <Route path="/admin/system" element={
+          <ProtectedRoute allowedRoles={[Role.ADMINISTRATEUR]}>
+            <System />
+          </ProtectedRoute>
+        }/>
+
+        <Route path="/audit/logs" element={
+          <ProtectedRoute allowedRoles={[Role.AUDITEUR, Role.ADMINISTRATEUR]}>
+            <AuditLogs />
+          </ProtectedRoute>
+        }/>
+        <Route path="/audit/verify" element={
+          <ProtectedRoute allowedRoles={[Role.AUDITEUR, Role.ADMINISTRATEUR]}>
+            <AuditVerify />
+          </ProtectedRoute>
+        }/>
 
         <Route path="/archive" element={
           <ProtectedRoute allowedRoles={[Role.ADMINISTRATEUR]}>
@@ -86,7 +111,7 @@ const AppRouter = () => (
             Accès non autorisé
           </div>
         }/>
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Route>
     </Routes>
   </BrowserRouter>

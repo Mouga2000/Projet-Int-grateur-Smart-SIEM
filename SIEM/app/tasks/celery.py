@@ -16,6 +16,7 @@ celery_app = Celery(
         "app.tasks.soar_tasks",
         "app.tasks.ueba_tasks",
         "app.tasks.report_tasks",
+        "app.tasks.archive_tasks",
     ],
 )
 
@@ -45,5 +46,9 @@ celery_app.conf.beat_schedule = {
     "train-ueba-model": {
         "task": "app.tasks.ueba_tasks.train_anomaly_model",
         "schedule": crontab(hour=2, minute=0, day_of_week="monday"),
+    },
+    "auto-archive-logs": {
+        "task": "app.tasks.archive_tasks.auto_archive_logs",
+        "schedule": crontab(hour=3, minute=0, day_of_week="sunday"),
     },
 }

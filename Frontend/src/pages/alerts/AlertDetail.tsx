@@ -13,7 +13,7 @@ const AlertDetail = () => {
   const { id }     = useParams<{ id: string }>();
   const navigate   = useNavigate();
   const { hasAnyRole } = useAuth();
-  const canEdit    = hasAnyRole([Role.ANALYSTE, Role.ADMIN]);
+  const canEdit    = hasAnyRole([Role.ANALYSTE, Role.ADMINISTRATEUR]);
 
   const [alert, setAlert]               = useState<Alert | null>(null);
   const [loading, setLoading]           = useState(true);

@@ -10,6 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.dependencies import get_current_user, require_role
 from app.core.database import get_db
+from app.repositories.audit_repo import AuditRepository
 from app.repositories.rule_repo import RuleRepository
 from app.utils.tags import Role
 
@@ -72,6 +73,13 @@ async def create_rule(
     """Cree une nouvelle regle de correlation."""
     repo = RuleRepository(db)
     rule = await repo.create({**data.dict(), "created_by": current_user["username"]})
+    audit = AuditRepository(db)
+    await audit.log_action({
+        "user_id": current_user["id"], "username": current_user.get("username", ""),
+        "action": "create_rule", "result": "success",
+        "resource_type": "rule", "resource_id": str(rule.get("id", "")),
+        "details": {"name": data.name, "severity": data.severity, "rule_type": data.rule_type},
+    })
     return rule
 
 
@@ -104,7 +112,15 @@ async def update_rule(
     success = await repo.update(rule_id, update_data)
     if not success:
         raise HTTPException(status_code=404, detail="Regle non trouvee")
-    return await repo.get_by_id(rule_id)
+    rule = await repo.get_by_id(rule_id)
+    audit = AuditRepository(db)
+    await audit.log_action({
+        "user_id": current_user["id"], "username": current_user.get("username", ""),
+        "action": "update_rule", "result": "success",
+        "resource_type": "rule", "resource_id": str(rule_id),
+        "details": {"changes": list(update_data.keys())},
+    })
+    return rule
 
 
 @router.delete("/{rule_id}")
@@ -118,4 +134,10 @@ async def delete_rule(
     success = await repo.delete(rule_id)
     if not success:
         raise HTTPException(status_code=404, detail="Regle non trouvee")
+    audit = AuditRepository(db)
+    await audit.log_action({
+        "user_id": current_user["id"], "username": current_user.get("username", ""),
+        "action": "delete_rule", "result": "success",
+        "resource_type": "rule", "resource_id": str(rule_id),
+    })
     return {"message": "Regle supprimee"}

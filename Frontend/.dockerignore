@@ -1,0 +1,40 @@
+# ============================================================
+# Smart SIEM - Frontend .dockerignore
+# ============================================================
+
+# Dépendances (installées dans le conteneur)
+node_modules
+npm-debug.log*
+
+# Build local
+dist
+dist-ssr
+
+# Cache
+.pnpm-store
+.cache
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env (passé via docker-compose)
+.env
+.env.local
+.env.*.local
+
+# Docker
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Documentation
+README.md

@@ -8,11 +8,12 @@ from elasticsearch import AsyncElasticsearch
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.dependencies import require_role
+from app.api.dependencies import get_current_user, require_role
 from app.core.config import settings
 from app.core.database import get_db
 from app.core.elasticsearch import get_es
 from app.repositories.archive_repo import ArchiveRepository
+from app.repositories.audit_repo import AuditRepository
 from app.repositories.log_repo import LogRepository
 from app.services.archiver import ArchiverService
 from app.utils.tags import Role
@@ -25,13 +26,13 @@ async def create_archive(
     days: int = Query(
         default=settings.ARCHIVE_AFTER_DAYS,
         ge=30,
-        le=365,
-        description="Âge minimum des logs à archiver (en jours)",
+        le=3650,
+        description="Âge minimum des logs à archiver (en jours, max 10 ans)",
     ),
     window_days: int = Query(
         default=30,
         ge=1,
-        le=90,
+        le=365,
         description="Fenêtre temporelle de l'archive (en jours)",
     ),
     current_user: dict = Depends(require_role([Role.ADMINISTRATEUR])),
@@ -59,6 +60,13 @@ async def create_archive(
         archive = await ArchiverService.create_archive(
             log_repo, archive_repo, date_from, date_to, current_user["id"]
         )
+        audit = AuditRepository(db)
+        await audit.log_action({
+            "user_id": current_user["id"], "username": current_user.get("username", ""),
+            "action": "create_archive", "result": "success",
+            "resource_type": "archive", "resource_id": str(archive.get("id", "")),
+            "details": {"date_from": str(date_from.date()), "date_to": str(date_to.date())},
+        })
         return archive
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -68,7 +76,7 @@ async def create_archive(
 async def list_archives(
     page: int = Query(1, ge=1),
     size: int = Query(50, ge=1, le=200),
-    current_user: dict = Depends(require_role([Role.ADMINISTRATEUR])),
+    current_user: dict = Depends(require_role([Role.AUDITEUR, Role.ADMINISTRATEUR])),
     db: AsyncSession = Depends(get_db),
 ):
     """Liste toutes les archives avec pagination."""
@@ -87,7 +95,7 @@ async def list_archives(
 
 @router.get("/chain")
 async def get_archive_chain(
-    current_user: dict = Depends(require_role([Role.ADMINISTRATEUR])),
+    current_user: dict = Depends(require_role([Role.AUDITEUR, Role.ADMINISTRATEUR])),
     db: AsyncSession = Depends(get_db),
 ):
     """
@@ -106,10 +114,8 @@ async def get_archive_chain(
                 "id": a["id"],
                 "period": f"{a['date_from'][:10]} -> {a['date_to'][:10]}",
                 "logs": a["log_count"],
-                "chain_hash": a["chain_hash"][:20] + "...",
-                "previous_hash": (
-                    a["previous_hash"][:20] + "..." if a["previous_hash"] else "GENESIS"
-                ),
+                "chain_hash": a["chain_hash"],
+                "previous_hash": a["previous_hash"] or "GENESIS",
                 "status": a["status"],
                 "certified_at": a["certified_at"],
             }
@@ -125,7 +131,7 @@ async def get_archive_chain(
 @router.post("/verify/{archive_id}")
 async def verify_archive(
     archive_id: int,
-    current_user: dict = Depends(require_role([Role.ADMINISTRATEUR])),
+    current_user: dict = Depends(require_role([Role.AUDITEUR, Role.ADMINISTRATEUR])),
     db: AsyncSession = Depends(get_db),
 ):
     """

@@ -8,6 +8,7 @@ from app.api.v1 import (
     admin,
     alerts,
     archive,
+    audit,
     auth,
     incidents,
     investigations,
@@ -35,6 +36,7 @@ api_router.include_router(investigations.router)
 api_router.include_router(notifications.router)
 api_router.include_router(playbooks.router)
 api_router.include_router(archive.router)
+api_router.include_router(audit.router)
 api_router.include_router(mitre.router)
 api_router.include_router(ueba.router)
 # api_router.include_router(health.router, prefix="/health", tags=["Health"])

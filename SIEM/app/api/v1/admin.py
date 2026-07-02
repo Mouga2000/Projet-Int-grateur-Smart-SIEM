@@ -29,6 +29,7 @@ async def purge_logs(
     """
     repo = LogRepository(es)
     deleted = await repo.delete_older_than(days)
+    # Note: pas de AuditRepository ici car ES pourrait être indisponible
     return {
         "deleted": deleted,
         "retention_days": days,
@@ -48,6 +49,12 @@ async def purge_audit(
     """
     repo = AuditRepository(db)
     deleted = await repo.delete_older_than(days)
+    await repo.log_action({
+        "user_id": current_user["id"], "username": current_user.get("username", ""),
+        "action": "purge_audit", "result": "success",
+        "resource_type": "audit_log", "resource_id": str(deleted),
+        "details": {"retention_days": days, "deleted": deleted},
+    })
     return {
         "deleted": deleted,
         "retention_days": days,
