@@ -10,7 +10,6 @@ from logger import AgentLogger
 
 class MigrationManager:
 
-    CURRENT_VERSION = 1
 
     def __init__(self):
         self.database = Database()

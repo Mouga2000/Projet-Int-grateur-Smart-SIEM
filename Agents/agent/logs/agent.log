@@ -17421,3 +17421,133 @@ requests.exceptions.SSLError: HTTPSConnectionPool(host='192.168.1.198', port=800
 2026-07-01 23:33:06,505 | INFO     | Task stopped.
 2026-07-01 23:33:06,505 | INFO     | Task stopped.
 2026-07-01 23:33:06,506 | INFO     | Task stopped.
+2026-07-02 07:53:27,324 | INFO     | Migration existante
+2026-07-02 07:53:27,351 | INFO     | Initialisation du Smart Agent...
+2026-07-02 07:53:27,524 | INFO     | Tâche enregistrée : CPU
+2026-07-02 07:53:27,536 | INFO     | Tâche enregistrée : Memory
+2026-07-02 07:53:27,548 | INFO     | Tâche enregistrée : Logs
+2026-07-02 07:53:27,560 | INFO     | Tâche enregistrée : Network
+2026-07-02 07:53:27,642 | INFO     | Tâche enregistrée : Services
+2026-07-02 07:53:27,654 | INFO     | Tâche enregistrée : Filesystem
+2026-07-02 07:53:27,660 | INFO     | Tâche enregistrée : Transfer
+2026-07-02 07:53:27,661 | INFO     | Tâche enregistrée : Commands
+2026-07-02 07:53:27,662 | INFO     | Démarrage du Smart Agent...
+2026-07-02 07:53:27,662 | INFO     | Démarrage du scheduler...
+2026-07-02 07:53:27,669 | INFO     | Task started.
+2026-07-02 07:53:27,675 | INFO     | Task started.
+2026-07-02 07:53:28,741 | INFO     | Task started.
+2026-07-02 07:53:28,747 | INFO     | Task started.
+2026-07-02 07:53:28,747 | INFO     | CPU : 22.3%
+2026-07-02 07:53:28,748 | INFO     | RAM : 68.6%
+2026-07-02 07:53:28,757 | INFO     | Task started.
+2026-07-02 07:53:28,763 | INFO     | Task started.
+2026-07-02 07:53:28,764 | INFO     | Scheduler démarré.
+2026-07-02 07:53:28,770 | INFO     | Task started.
+2026-07-02 07:53:28,783 | INFO     | Task started.
+2026-07-02 07:53:28,858 | INFO     | 2 partitions collectées
+2026-07-02 07:53:28,931 | INFO     | 0 nouveaux événements collectés.
+2026-07-02 07:53:29,049 | ERROR    | [WinError 2] Le fichier spécifié est introuvable: '(originated from QueryServiceConfig2W)'
+2026-07-02 07:53:29,127 | INFO     | 4 services collectés
+2026-07-02 07:53:29,143 | INFO     | 156 connexions réseau collectées
+2026-07-02 07:53:31,014 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:53:31,015 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:53:31,031 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:53:31,032 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:53:31,033 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:53:31,033 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:53:31,033 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:53:31,035 | INFO     | Serveur indisponible.
+2026-07-02 07:53:31,035 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:53:31,036 | WARNING  | Serveur indisponible. Impossible de récupérer les actions.
+2026-07-02 07:53:31,159 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:53:31,160 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:53:31,160 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:53:31,161 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:53:33,368 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:53:33,369 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:53:33,433 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:53:33,433 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:53:33,498 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:53:33,498 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:53:33,971 | INFO     | 0 nouveaux événements collectés.
+2026-07-02 07:53:35,597 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:53:35,598 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:53:35,679 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:53:35,679 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:53:37,741 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:53:37,741 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:53:37,853 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:53:38,096 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:53:38,635 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:53:38,640 | WARNING  | Serveur indisponible. Impossible de récupérer les actions.
+2026-07-02 07:53:38,976 | INFO     | 0 nouveaux événements collectés.
+2026-07-02 07:53:39,389 | INFO     | Signal d'arrêt reçu.
+2026-07-02 07:53:39,390 | INFO     | Arrêt du Smart Agent...
+2026-07-02 07:53:39,390 | INFO     | Arrêt du scheduler...
+2026-07-02 07:53:39,391 | INFO     | Scheduler arrêté.
+2026-07-02 07:53:39,391 | INFO     | Task stopped.
+2026-07-02 07:53:39,391 | INFO     | Task stopped.
+2026-07-02 07:53:39,391 | INFO     | Task stopped.
+2026-07-02 07:53:39,391 | INFO     | Task stopped.
+2026-07-02 07:53:39,391 | INFO     | Task stopped.
+2026-07-02 07:53:39,391 | INFO     | Task stopped.
+2026-07-02 07:53:39,391 | INFO     | Task stopped.
+2026-07-02 07:55:19,014 | INFO     | Migration existante
+2026-07-02 07:55:19,021 | INFO     | Initialisation du Smart Agent...
+2026-07-02 07:55:19,232 | INFO     | Tâche enregistrée : CPU
+2026-07-02 07:55:19,245 | INFO     | Tâche enregistrée : Memory
+2026-07-02 07:55:19,257 | INFO     | Tâche enregistrée : Logs
+2026-07-02 07:55:19,270 | INFO     | Tâche enregistrée : Network
+2026-07-02 07:55:19,382 | INFO     | Tâche enregistrée : Services
+2026-07-02 07:55:19,395 | INFO     | Tâche enregistrée : Filesystem
+2026-07-02 07:55:19,401 | INFO     | Tâche enregistrée : Transfer
+2026-07-02 07:55:19,401 | INFO     | Tâche enregistrée : Commands
+2026-07-02 07:55:19,401 | INFO     | Démarrage du Smart Agent...
+2026-07-02 07:55:19,401 | INFO     | Démarrage du scheduler...
+2026-07-02 07:55:19,409 | INFO     | Task started.
+2026-07-02 07:55:19,415 | INFO     | Task started.
+2026-07-02 07:55:19,423 | INFO     | Task started.
+2026-07-02 07:55:19,428 | INFO     | Task started.
+2026-07-02 07:55:19,815 | INFO     | Task started.
+2026-07-02 07:55:19,824 | INFO     | Task started.
+2026-07-02 07:55:19,825 | INFO     | Scheduler démarré.
+2026-07-02 07:55:19,874 | INFO     | Task started.
+2026-07-02 07:55:19,879 | INFO     | Task started.
+2026-07-02 07:55:19,880 | INFO     | RAM : 67.8%
+2026-07-02 07:55:19,917 | INFO     | 2 partitions collectées
+2026-07-02 07:55:19,933 | INFO     | 0 nouveaux événements collectés.
+2026-07-02 07:55:20,099 | ERROR    | [WinError 2] Le fichier spécifié est introuvable: '(originated from QueryServiceConfig2W)'
+2026-07-02 07:55:20,173 | INFO     | 4 services collectés
+2026-07-02 07:55:20,187 | INFO     | 143 connexions réseau collectées
+2026-07-02 07:55:20,417 | INFO     | CPU : 17.3%
+2026-07-02 07:55:22,112 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:55:22,113 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:55:22,114 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:55:22,114 | WARNING  | Serveur indisponible. Impossible de récupérer les actions.
+2026-07-02 07:55:22,115 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:55:22,116 | INFO     | Serveur indisponible.
+2026-07-02 07:55:22,116 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:55:22,117 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:55:22,207 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:55:22,208 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:55:22,209 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:55:22,211 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:55:22,448 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:55:22,448 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:55:24,369 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:55:24,450 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:55:24,532 | ERROR    | Ping failed: HTTPSConnectionPool(host='192.168.1.198', port=8000): Max retries exceeded with url: /api/v1/ping (Caused by NewConnectionError("HTTPSConnection(host='192.168.1.198', port=8000): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée"))
+2026-07-02 07:55:24,968 | INFO     | 0 nouveaux événements collectés.
+2026-07-02 07:55:24,968 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:55:24,970 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:55:24,970 | INFO     | Reseau indisponible, impossible de joindre le serveur SIEM
+2026-07-02 07:55:25,328 | INFO     | Signal d'arrêt reçu.
+2026-07-02 07:55:25,329 | INFO     | Arrêt du Smart Agent...
+2026-07-02 07:55:25,331 | INFO     | Arrêt du scheduler...
+2026-07-02 07:55:25,331 | INFO     | Scheduler arrêté.
+2026-07-02 07:55:25,332 | INFO     | Task stopped.
+2026-07-02 07:55:25,332 | INFO     | Task stopped.
+2026-07-02 07:55:25,333 | INFO     | Task stopped.
+2026-07-02 07:55:25,333 | INFO     | Task stopped.
+2026-07-02 07:55:25,333 | INFO     | Task stopped.
+2026-07-02 07:55:25,334 | INFO     | Task stopped.

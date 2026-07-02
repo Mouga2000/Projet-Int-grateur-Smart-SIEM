@@ -1,122 +1,4 @@
-"""from config import Config
 
-config = Config()
-
-print(config.get("agent", "id"))
-
-print(config.get("server", "host"))
-
-print(config.get("heartbeat", "interval"))
-"""
-
-
-"""
-from logger import AgentLogger
-
-logger = AgentLogger().get_logger()
-
-logger.debug("DEBUG")
-
-logger.info("INFO")
-
-logger.warning("WARNING")
-
-logger.error("ERROR")
-
-logger.critical("CRITICAL")
-"""
-
-"""
-from models.event import Event
-
-from communication import CommunicationClient
-
-event = Event()
-
-event.agent_id = "AGENT-002"
-
-event.collector = "Logs"
-
-event.event_type = "login"
-
-event.message = "Utilisateur connecté"
-
-client = CommunicationClient()
-
-client.post(
-
-    "/api/events",
-
-    event.to_dict()
-
-)
-"""
-
-"""
-from scheduler import Scheduler, ScheduledTask
-from heartbeat import HeartbeatService
-
-heartbeat = HeartbeatService()
-scheduler = Scheduler()
-scheduler.register(
-    ScheduledTask(
-
-        "Heartbeat",
-        30,
-        heartbeat.send
-
-    )
-)
-"""
-
-
-
-"""
-
-from scheduler import Scheduler, ScheduledTask
-
-
-def hello():
-
-    print("Hello")
-
-
-scheduler = Scheduler()
-
-scheduler.register(
-
-    ScheduledTask(
-        "HelloTask",
-
-        5,
-
-        hello
-    )
-)
-
-scheduler.start()
-
-while True:
-    pass
-"""
-
-"""
-from collectors.logs import LogsCollector
-
-collector = LogsCollector()
-
-events = collector.collect()
-
-for event in events:
-    print("="*50)
-
-    client.post(
-        "/api/events",
-
-        event.to_dict()
-
-    )
-"""
 
 """
 Point d'entrée du Smart Agent.
@@ -141,7 +23,6 @@ from collectors.filesystem import FilesystemCollector
 
 from communication_serveur import CommandService
 from collectors.manager import CollectorManager
-from actions.manager import ActionManager
 
 from storage.migrations import MigrationManager
 
@@ -155,7 +36,7 @@ MigrationManager().migrate()
 log =  AgentLogger()
 logger = log.get_logger()
 
-#url_event = "/api/events"   #"/api/v1/logs/ingest" 
+
 
 
 
@@ -175,10 +56,7 @@ class SmartAgent:
 
         self.transfer_manager = TransferManager()
 
-        self.action_manager = ActionManager()
-        self.command_service = CommandService(
-            #self.action_manager
-        )
+        self.command_service = CommandService()
         
         self.configure_tasks()
 
