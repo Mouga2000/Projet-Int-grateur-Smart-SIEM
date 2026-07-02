@@ -23,6 +23,17 @@ dist-ssr
 *.sln
 *.sw?
 
+# Env
+.env
+.env.local
+.env.*.local
+
+# TypeScript
+*.tsbuildinfo
+
+# Vite
+.vite/
+
 # Docker
 .docker/
 docker-compose.override.yml

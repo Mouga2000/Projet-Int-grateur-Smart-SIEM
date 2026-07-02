@@ -43,7 +43,7 @@ Projet académique dans le cadre du cursus **UCAC ICAM — X3 PROJET INTÉGRATEU
 **Architecture duale :**
 
 - **PostgreSQL** — données structurées : utilisateurs, règles, audits, investigations, archives, profils UEBA
-- **Elasticsearch** — données volumineuses : logs de sécurité (index `logs-YYYY-MM-DD`) + dataset CLUE-LDS (index `logs-clue`)
+- **Elasticsearch** — données volumineuses : logs de sécurité (index `logs-clue`) + datasets BOTSv3/CLUE
 
 ---
 
@@ -112,6 +112,7 @@ SIEM/
 │   │       ├── mitre.py         # Endpoints MITRE ATT&CK
 │   │       ├── admin.py         # Purge logs/audit + rétention
 │   │       ├── archive.py       # Archive certifiée (créer, lister, vérifier, exporter)
+│   │       ├── audit.py         # Logs d'audit PostgreSQL (GET + export CSV)
 │   │       └── ueba.py          # Profils UEBA, scores de risque
 │   │
 │   ├── models/
@@ -146,8 +147,11 @@ SIEM/
 │   │   └── notification_repo.py # Notifications PostgreSQL
 │   │
 │   ├── tasks/
+│   │   ├── archive_tasks.py     # auto_archive_logs (Celery Beat dimanche 3h)
 │   │   ├── celery.py            # Config Celery + Beat schedule
 │   │   ├── notification_tasks.py # purge_old_logs, send_email, send_slack
+│   │   ├── soar_tasks.py        # Tâches SOAR asynchrones
+│   │   ├── report_tasks.py      # Génération de rapports
 │   │   └── ueba_tasks.py        # train_anomaly_model, score_single_event
 │   │
 │   ├── utils/
@@ -289,16 +293,23 @@ Actions : `block_ip`, `disable_user`, `isolate_host`, `notify_slack`, `notify_em
 | PATCH    | `/api/v1/notifications/{id}/read`    | Token | Marquer comme lue                |
 | POST     | `/api/v1/notifications/read-all`     | Token | Tout marquer comme lu            |
 
+### 📋 Audit
+
+| Méthode | Endpoint                      | Auth     | Description                      |
+| ------- | ----------------------------- | -------- | -------------------------------- |
+| GET     | `/api/v1/audit/logs`        | Auditeur | Lister les logs d'audit         |
+| GET     | `/api/v1/audit/logs/export` | Auditeur | Exporter les logs d'audit (CSV) |
+
 ### 🗄️ Archivage (Admin)
 
-| Méthode | Endpoint                              | Auth  | Description                           |
-| -------- | ------------------------------------- | ----- | ------------------------------------- |
-| POST     | `/api/v1/admin/archive/create`      | Admin | Créer une archive certifiée         |
-| GET      | `/api/v1/admin/archive/list`        | Admin | Lister les archives                   |
-| GET      | `/api/v1/admin/archive/chain`       | Admin | Chaîne de confiance des archives     |
-| GET      | `/api/v1/admin/archive/{id}`        | Admin | Détail d'une archive                 |
-| POST     | `/api/v1/admin/archive/verify/{id}` | Admin | Vérifier l'intégrité d'une archive |
-| GET      | `/api/v1/admin/archive/{id}/export` | Admin | Export pour audit réglementaire      |
+| Méthode | Endpoint                              | Auth              | Description                           |
+| ------- | ------------------------------------- | ----------------- | ------------------------------------- |
+| POST    | `/api/v1/admin/archive/create`      | Admin/Auditeur    | Créer une archive certifiée         |
+| GET     | `/api/v1/admin/archive/list`        | Admin/Auditeur    | Lister les archives                   |
+| GET     | `/api/v1/admin/archive/chain`       | Admin/Auditeur    | Chaîne de confiance des archives     |
+| GET     | `/api/v1/admin/archive/{id}`        | Admin/Auditeur    | Détail d'une archive                 |
+| POST    | `/api/v1/admin/archive/verify/{id}` | Admin/Auditeur    | Vérifier l'intégrité d'une archive |
+| GET     | `/api/v1/admin/archive/{id}/export` | Admin/Auditeur    | Export pour audit réglementaire      |
 
 ### 🛠️ Administration
 

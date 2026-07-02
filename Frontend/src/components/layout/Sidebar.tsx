@@ -4,8 +4,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { Role } from "@/config/roles";
 import { cn } from "../../lib/utils";
 import {
-  LayoutDashboard, FileSearch, ShieldAlert, Users,
+  LayoutDashboard, FileSearch, ShieldAlert, Bell, Users,
   Trash2, Archive, Link2, ScrollText, Siren, Settings2, ShieldCheck,
+  Radio,
 } from "lucide-react";
 
 interface NavItem {
@@ -17,8 +18,10 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { path: "/dashboard",       label: "Dashboard",          icon: LayoutDashboard, roles: [Role.LECTEUR, Role.ANALYSTE, Role.RSSI, Role.ADMINISTRATEUR] },
+  { path: "/crisis-room",     label: "Crisis Room",        icon: Radio,           roles: [Role.ANALYSTE, Role.RSSI, Role.ADMINISTRATEUR] },
   { path: "/logs",            label: "Logs",                icon: FileSearch,      roles: [Role.LECTEUR, Role.ANALYSTE, Role.ADMINISTRATEUR] },
   { path: "/investigations",  label: "Investigations",      icon: ShieldAlert,     roles: [Role.ANALYSTE, Role.ADMINISTRATEUR] },
+  { path: "/alerts",          label: "Alertes",             icon: Bell,            roles: [Role.ANALYSTE, Role.ADMINISTRATEUR, Role.LECTEUR] },
   { path: "/admin/users",     label: "Utilisateurs",        icon: Users,           roles: [Role.ADMINISTRATEUR] },
   { path: "/admin/rules",     label: "Règles",              icon: ScrollText,      roles: [Role.ADMINISTRATEUR] },
   { path: "/admin/playbooks", label: "Playbooks SOAR",      icon: Siren,           roles: [Role.ADMINISTRATEUR] },

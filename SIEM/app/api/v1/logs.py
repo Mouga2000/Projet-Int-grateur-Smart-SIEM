@@ -190,9 +190,8 @@ async def search_logs(
     # Filtre automatique par perimetre de l'utilisateur
     user_perimeter = current_user.get("perimeter", [])
     user_role = current_user.get("role")
+    should_clauses = []
     if user_perimeter and user_role != "administrateur":
-        # Si l'utilisateur a un perimetre "equipe", on filtre les logs par host/type
-        # qui correspondent a ce perimetre
         perimeter_filters = []
         for p in user_perimeter:
             if p == "equipe":
@@ -205,11 +204,17 @@ async def search_logs(
                 perimeter_filters.append({"term": {"tags": "environnement"}})
 
         if perimeter_filters:
-            must_clauses.append(
-                {"bool": {"should": perimeter_filters, "minimum_should_match": 0}}
-            )
+            should_clauses.extend(perimeter_filters)
 
-    es_query = {"bool": {"must": must_clauses}} if must_clauses else {"match_all": {}}
+    # Construire la query ES
+    if must_clauses:
+        es_query = {"bool": {"must": must_clauses}}
+    else:
+        es_query = {"bool": {"must": [{"match_all": {}}]}}
+
+    if should_clauses:
+        es_query["bool"]["should"] = should_clauses
+        es_query["bool"]["minimum_should_match"] = 0
 
     result = await repo.search(query=es_query, page=search.page, size=search.size)
     return result

@@ -28,7 +28,7 @@ export const AlertProvider = ({ children }: { children: ReactNode }) => {
   useWebSocket({ onMessage: handleMessage });
 
   const criticalCount = liveAlerts.filter(
-    (a) => a.severity === "CRITICAL" && a.status === "NEW"
+    (a) => a.severity === "critical" && a.status === "ouverte"
   ).length;
 
   return (

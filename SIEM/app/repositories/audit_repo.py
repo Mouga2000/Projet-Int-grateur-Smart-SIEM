@@ -7,7 +7,7 @@
 from datetime import datetime, timezone
 from typing import List
 
-from sqlalchemy import delete, desc, select
+from sqlalchemy import delete, desc, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.sql_models import AuditLog
@@ -111,13 +111,25 @@ class AuditRepository:
 
         if filters:
             for key, value in filters.items():
-                column = getattr(AuditLog, key, None)
-                if column is not None and value is not None:
-                    # username et resource_type : recherche partielle insensible à la casse
-                    if key in ("username", "resource_type", "action"):
-                        stmt = stmt.where(column.ilike(f"%{value}%"))
-                    else:
-                        stmt = stmt.where(column == value)
+                if key == "date_from" and value:
+                    try:
+                        dt = datetime.fromisoformat(value)
+                        stmt = stmt.where(AuditLog.created_at >= dt)
+                    except (ValueError, TypeError):
+                        pass
+                elif key == "date_to" and value:
+                    try:
+                        dt = datetime.fromisoformat(value)
+                        stmt = stmt.where(AuditLog.created_at <= dt)
+                    except (ValueError, TypeError):
+                        pass
+                else:
+                    column = getattr(AuditLog, key, None)
+                    if column is not None and value is not None:
+                        if key in ("username", "resource_type", "action"):
+                            stmt = stmt.where(column.ilike(f"%{value}%"))
+                        else:
+                            stmt = stmt.where(column == value)
 
         result = await self.db.execute(stmt)
         logs = []
@@ -137,6 +149,33 @@ class AuditRepository:
                 }
             )
         return logs
+
+    async def count(self, filters: dict = None) -> int:
+        """Compte les logs d'audit avec filtres."""
+        stmt = select(func.count(AuditLog.id))
+        if filters:
+            for key, value in filters.items():
+                if key == "date_from" and value:
+                    try:
+                        dt = datetime.fromisoformat(value)
+                        stmt = stmt.where(AuditLog.created_at >= dt)
+                    except (ValueError, TypeError):
+                        pass
+                elif key == "date_to" and value:
+                    try:
+                        dt = datetime.fromisoformat(value)
+                        stmt = stmt.where(AuditLog.created_at <= dt)
+                    except (ValueError, TypeError):
+                        pass
+                else:
+                    column = getattr(AuditLog, key, None)
+                    if column is not None and value is not None:
+                        if key in ("username", "resource_type", "action"):
+                            stmt = stmt.where(column.ilike(f"%{value}%"))
+                        else:
+                            stmt = stmt.where(column == value)
+        result = await self.db.execute(stmt)
+        return result.scalar() or 0
 
     async def delete_older_than(self, days: int) -> int:
         """Supprime les logs d'audit plus vieux que N jours dans PostgreSQL."""

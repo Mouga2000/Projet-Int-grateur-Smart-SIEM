@@ -10,9 +10,12 @@ venv/
 __pycache__/
 *.py[cod]
 *.pyo
+*.egg
 *.egg-info/
 dist/
 build/
+pip-log.txt
+pip-delete-this-directory.txt
 
 # IDE
 .vscode/
@@ -46,8 +49,12 @@ config.yaml
 # Données SIEM / logs collectés
 data/raw/
 data/processed/
+data/archives/
 logs/
 uploads/
+
+# Modèles ML (UEBA)
+models/
 
 # Rapports générés
 reports/

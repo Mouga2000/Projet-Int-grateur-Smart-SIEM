@@ -4,7 +4,6 @@ import { useAlertContext } from "../../context/AlertContext";
 import type { Alert } from "../../types/alert";
 import StatusBadge from "../../components/alerts/StatusBadge";
 import api from "../../services/api";
-import { ENDPOINTS } from "../../config/endpoints";
 
 const CrisisRoom = () => {
   const { liveAlerts } = useAlertContext();
@@ -14,7 +13,7 @@ const CrisisRoom = () => {
   const fetchCriticals = useCallback(async () => {
     try {
       const { data } = await api.get("/alerts", {
-        params: { severity: "CRITICAL", status: "NEW", size: 20 },
+        params: { severity: "critical", size: 50 },
       });
       setCriticals(data.items);
       setLastRefresh(new Date());
@@ -30,7 +29,7 @@ const CrisisRoom = () => {
 
   // Fusionner avec les alertes live
   const allCriticals = [
-    ...liveAlerts.filter((a) => a.severity === "CRITICAL"),
+    ...liveAlerts.filter((a) => a.severity === "critical"),
     ...criticals,
   ].filter(
     (a, i, arr) => arr.findIndex((x) => x.id === a.id) === i
@@ -59,19 +58,19 @@ const CrisisRoom = () => {
         <div className="bg-red-950/40 border border-red-900 rounded-xl p-4 col-span-1">
           <p className="text-xs text-red-500 mb-1">Alertes critiques actives</p>
           <p className="text-4xl font-bold text-red-400">
-            {allCriticals.filter((a) => a.status === "NEW").length}
+            {allCriticals.filter((a) => a.status === "ouverte").length}
           </p>
         </div>
         <div className="bg-orange-950/40 border border-orange-900 rounded-xl p-4">
           <p className="text-xs text-orange-500 mb-1">En cours de traitement</p>
           <p className="text-4xl font-bold text-orange-400">
-            {allCriticals.filter((a) => a.status === "IN_PROGRESS").length}
+            {allCriticals.filter((a) => a.status === "en_cours").length}
           </p>
         </div>
         <div className="bg-gray-900 border border-gray-800 rounded-xl p-4">
-          <p className="text-xs text-gray-500 mb-1">Escaladées</p>
+          <p className="text-xs text-gray-500 mb-1">Résolues</p>
           <p className="text-4xl font-bold text-white">
-            {allCriticals.filter((a) => a.status === "ESCALATED").length}
+            {allCriticals.filter((a) => a.status === "resolue").length}
           </p>
         </div>
       </div>
@@ -94,11 +93,11 @@ const CrisisRoom = () => {
                   {alert.title}
                 </p>
                 <p className="text-xs text-gray-500 truncate">
-                  {alert.source}
-                  {alert.sourceIp && ` · ${alert.sourceIp}`}
+                  {alert.host || alert.source_ip || "—"}
+                  {alert.source_ip && ` · ${alert.source_ip}`}
                 </p>
                 <p className="text-xs text-gray-600 font-mono">
-                  {new Date(alert.createdAt).toLocaleString("fr-FR")}
+                  {alert.created_at ? new Date(alert.created_at).toLocaleString("fr-FR") : "—"}
                 </p>
               </div>
               <div className="flex flex-col items-end gap-2 shrink-0">

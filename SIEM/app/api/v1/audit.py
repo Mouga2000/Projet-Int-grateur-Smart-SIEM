@@ -44,9 +44,14 @@ async def get_audit_logs(
     if resource_type:
         filters["resource_type"] = resource_type
 
+    if date_from:
+        filters["date_from"] = date_from
+    if date_to:
+        filters["date_to"] = date_to
+
     offset = (page - 1) * size
     items = await repo.get_audit_logs(filters=filters or None, limit=size, offset=offset)
-    total = len(items)
+    total = await repo.count(filters=filters or None)
 
     return {
         "items": items,

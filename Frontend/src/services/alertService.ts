@@ -9,33 +9,27 @@ interface PaginatedAlerts {
   size: number;
 }
 
-const ALERT_ENDPOINTS = {
-  list: "/alerts",
-  detail: (id: string) => `/alerts/${id}`,
-  status: (id: string) => `/alerts/${id}/status`,
-  escalate: (id: string) => `/alerts/${id}/escalate`,
-};
-
 const alertService = {
   getAlerts: async (
     params: AlertFilter & { page?: number; size?: number }
   ): Promise<PaginatedAlerts> => {
-    const { data } = await api.get(ALERT_ENDPOINTS.list, { params });
+    const query: Record<string, any> = { page: params.page ?? 1, size: params.size ?? 50 };
+    if (params.severity) query.severity = params.severity;
+    if (params.status) query.status = params.status;
+    if (params.search) query.search = params.search;
+    if (params.from) query.date_from = params.from;
+    if (params.to) query.date_to = params.to;
+    const { data } = await api.get("/alerts/", { params: query });
     return data;
   },
 
-  getAlert: async (id: string): Promise<Alert> => {
-    const { data } = await api.get(ALERT_ENDPOINTS.detail(id));
+  getAlert: async (id: number): Promise<Alert> => {
+    const { data } = await api.get(`/alerts/${id}`);
     return data;
   },
 
-  updateStatus: async (id: string, status: AlertStatus): Promise<Alert> => {
-    const { data } = await api.patch(ALERT_ENDPOINTS.status(id), { status });
-    return data;
-  },
-
-  escalate: async (id: string, reason: string): Promise<Alert> => {
-    const { data } = await api.post(ALERT_ENDPOINTS.escalate(id), { reason });
+  updateStatus: async (id: number, status: AlertStatus): Promise<Alert> => {
+    const { data } = await api.patch(`/alerts/${id}`, null, { params: { status } });
     return data;
   },
 };

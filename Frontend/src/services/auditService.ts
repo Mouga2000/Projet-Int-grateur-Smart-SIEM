@@ -23,11 +23,19 @@ interface AuditFilter {
   to?: string;
   page?: number;
   size?: number;
+  date_from?: string;
+  date_to?: string;
 }
 
 const auditService = {
   getLogs: async (params: AuditFilter): Promise<{ items: AuditLog[]; total: number }> => {
-    const { data } = await api.get(ENDPOINTS.audit.logs, { params });
+    const query: Record<string, any> = {};
+    if (params.username) query.username = params.username;
+    if (params.page) query.page = params.page;
+    if (params.size) query.size = params.size;
+    if (params.from) query.date_from = params.from;
+    if (params.to) query.date_to = params.to;
+    const { data } = await api.get(ENDPOINTS.audit.logs, { params: query });
     return data;
   },
 
@@ -37,8 +45,11 @@ const auditService = {
   },
 
   export: async (params: AuditFilter): Promise<Blob> => {
+    const query: Record<string, any> = {};
+    if (params.from) query.date_from = params.from;
+    if (params.to) query.date_to = params.to;
     const { data } = await api.get(`${ENDPOINTS.audit.logs}/export`, {
-      params,
+      params: query,
       responseType: "blob",
     });
     return data;
