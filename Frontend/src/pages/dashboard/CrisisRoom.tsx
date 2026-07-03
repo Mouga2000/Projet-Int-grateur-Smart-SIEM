@@ -1,11 +1,13 @@
 // src/pages/dashboard/CrisisRoom.tsx
 import { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAlertContext } from "../../context/AlertContext";
 import type { Alert } from "../../types/alert";
 import StatusBadge from "../../components/alerts/StatusBadge";
 import api from "../../services/api";
 
 const CrisisRoom = () => {
+  const navigate = useNavigate();
   const { liveAlerts } = useAlertContext();
   const [criticals, setCriticals] = useState<Alert[]>([]);
   const [lastRefresh, setLastRefresh] = useState<Date>(new Date());
@@ -86,7 +88,8 @@ const CrisisRoom = () => {
           {allCriticals.map((alert) => (
             <div
               key={alert.id}
-              className="bg-gray-900 border border-red-900/40 rounded-lg p-4 flex items-start justify-between gap-4"
+              className="bg-gray-900 border border-red-900/40 rounded-lg p-4 flex items-start justify-between gap-4 cursor-pointer hover:border-red-500/60 transition-colors"
+              onClick={() => navigate(`/alerts/${alert.id}`)}
             >
               <div className="flex flex-col gap-1 min-w-0">
                 <p className="text-sm text-white font-medium truncate">

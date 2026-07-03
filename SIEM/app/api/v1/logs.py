@@ -6,12 +6,15 @@ from datetime import datetime
 from typing import Optional
 
 from elasticsearch import ConnectionError as ESConnectionError
+import json
+
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.dependencies import get_current_user
 from app.core.database import get_db
 from app.core.elasticsearch import get_es
+from app.core.redis import get_redis
 from app.repositories.log_repo import LogRepository
 from app.schemas.log_schemas import LogListResponse, LogResponse, LogSearchRequest
 from app.services.normalization import NormalizationService
@@ -121,8 +124,58 @@ async def list_logs(
     es=Depends(get_es),
 ):
     """Liste les logs avec pagination (du plus récent au plus ancien)."""
+    from elasticsearch import ConnectionError as ESConnError
+
+    # Cache Redis 15s : éviter de saturer ES sur les refreshes rapides
+    cache_key = f"dashboard:logs:{page}:{size}"
+    redis = None
+    try:
+        redis = await get_redis()
+        cached = await redis.get(cache_key)
+        if cached:
+            return json.loads(cached)
+    except Exception:
+        pass  # Redis indisponible → on passe sans cache
+
     repo = LogRepository(es)
-    return await repo.search(page=page, size=size)
+    try:
+        result = await repo.search(page=page, size=size)
+        if redis:
+            try:
+                await redis.setex(cache_key, 15, json.dumps(result, default=str))
+            except Exception:
+                pass
+        return result
+    except ESConnError:
+        return {"items": [], "total": 0, "page": page, "size": size, "pages": 0}
+
+
+@router.get("/severity-distribution")
+async def get_severity_distribution(
+    current_user: dict = Depends(get_current_user),
+    es=Depends(get_es),
+):
+    """Retourne la répartition des logs par sévérité (sur TOUS les logs)."""
+    repo = LogRepository(es)
+    result = await repo.severity_distribution()
+    return result
+
+
+@router.get("/top/{field}")
+async def get_top_field(
+    field: str,
+    size: int = Query(10, ge=1, le=100),
+    current_user: dict = Depends(get_current_user),
+    es=Depends(get_es),
+):
+    """
+    Retourne les N valeurs les plus fréquentes d'un champ.
+    Utilisé par le Dashboard : top hosts, top IPs, top log_types.
+    Exemples : /logs/top/host?size=6, /logs/top/source_ip?size=6
+    """
+    repo = LogRepository(es)
+    result = await repo.top_field(field, size)
+    return result
 
 
 @router.post("/search", response_model=LogListResponse)
@@ -258,16 +311,37 @@ async def get_timeline(
         "bucket_count": 24
     }
     """
-    repo = LogRepository(es)
+    from elasticsearch import ConnectionError as ESConnError
 
+    # Cache Redis 30s : la timeline est la requête la plus lourde
+    cache_key = f"dashboard:timeline:{interval}:{severities or 'all'}"
+    redis = None
+    try:
+        redis = await get_redis()
+        cached = await redis.get(cache_key)
+        if cached:
+            return json.loads(cached)
+    except Exception:
+        pass
+
+    repo = LogRepository(es)
     severity_list = severities.split(",") if severities else None
 
-    return await repo.search_timeline(
-        interval=interval,
-        date_from=date_from,
-        date_to=date_to,
-        severity_filter=severity_list,
-    )
+    try:
+        result = await repo.search_timeline(
+            interval=interval,
+            date_from=date_from,
+            date_to=date_to,
+            severity_filter=severity_list,
+        )
+        if redis:
+            try:
+                await redis.setex(cache_key, 30, json.dumps(result, default=str))
+            except Exception:
+                pass
+        return result
+    except ESConnError:
+        return {"timeline": [], "total": 0, "interval": interval, "bucket_count": 0}
 
 
 @router.get("/{log_id}", response_model=LogResponse)

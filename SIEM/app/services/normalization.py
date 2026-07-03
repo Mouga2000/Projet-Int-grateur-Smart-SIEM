@@ -101,8 +101,8 @@ class NormalizationService:
 
         # --- Tagging automatique (criticité, type) ---
         tags_info = NormalizationService.auto_tag(raw_message, log_data.get("severity"))
-        severity = tags_info["severity"]
-        log_type = tags_info["log_type"]
+        severity = tags_info["severity"].lower()
+        log_type = tags_info["log_type"].lower()
         tags = tags_info["tags"]
 
         # --- Enrichissement ---
@@ -111,7 +111,7 @@ class NormalizationService:
         # --- Mapping des champs agent → SIEM ---
         # Si l'agent a fourni event_type, on l'utilise (surclasse le tagging auto)
         if log_data.get("event_type"):
-            log_type = log_data["event_type"]
+            log_type = log_data["event_type"].lower()
 
         # Si l'agent a fourni hostname, on l'utilise comme host
         host = log_data.get("host") or log_data.get("hostname") or "unknown"

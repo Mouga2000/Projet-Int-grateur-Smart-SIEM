@@ -57,6 +57,8 @@ async def lifespan(app: FastAPI):
     # À l'arrêt : fermer les connexions
     await close_db()
     await close_redis()
+    from app.core.elasticsearch import close_es as close_elasticsearch
+    await close_elasticsearch()
 
 
 app = FastAPI(

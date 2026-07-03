@@ -1,22 +1,34 @@
 # app/tasks/notification_tasks.py
 # -------------------------------
 # Taches Celery pour les notifications et la purge
+#
+# ATTENTION : les workers Celery sont forké depuis le processus parent.
+# L'engine asyncpg ne survit pas proprement au fork (pool de connexions corrompu).
+# On utilise donc les sessions synchrones (psycopg2) pour toutes les operations
+# PostgreSQL dans les taches Celery.
 
 import asyncio
+import ssl
 import smtplib
+from datetime import datetime, timedelta, timezone
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 import httpx
+from sqlalchemy import delete
 
 from app.core.config import settings
-from app.core.database import async_session_factory
-from app.core.elasticsearch import ElasticsearchClient
-from app.repositories.audit_repo import AuditRepository
+from app.core.database import sync_session_factory
+from app.core.elasticsearch import get_es
+from app.models.sql_models import AuditLog, Notification
 from app.repositories.log_repo import LogRepository
-from app.repositories.notification_repo import NotificationRepository
 from app.services.email_templating import render_alert_email
 from app.tasks.celery import celery_app
+
+
+# =============================================================================
+# EMAIL
+# =============================================================================
 
 
 @celery_app.task(bind=True, max_retries=3, autoretry_for=(Exception,))
@@ -54,11 +66,39 @@ def send_email_notification(self, to: str, subject: str, alert_data: dict):
     except Exception as e:
         print(f"[EMAIL] Impossible de generer le HTML, envoi en texte seul : {e}")
 
-    with smtplib.SMTP(settings.SMTP_HOST, settings.SMTP_PORT or 587) as server:
-        if settings.SMTP_USER:
-            server.starttls()
-            server.login(settings.SMTP_USER, settings.SMTP_PASSWORD or "")
-        server.send_message(msg)
+    # Contexte TLS standard pour compatibilité maximale
+    tls_context = ssl.create_default_context()
+    tls_context.check_hostname = False
+    tls_context.verify_mode = ssl.CERT_NONE
+
+    try:
+        with smtplib.SMTP(
+            settings.SMTP_HOST,
+            settings.SMTP_PORT or 587,
+            timeout=15,
+        ) as server:
+            server.set_debuglevel(0)
+            if settings.SMTP_USER:
+                server.starttls(context=tls_context)
+                server.login(settings.SMTP_USER, settings.SMTP_PASSWORD or "")
+            server.send_message(msg)
+    except smtplib.SMTPServerDisconnected:
+        print(
+            f"[EMAIL] Connexion SMTP fermee par le serveur "
+            f"({settings.SMTP_HOST}:{settings.SMTP_PORT}). "
+            f"Nouvelle tentative apres delai."
+        )
+        raise
+    except (smtplib.SMTPException, OSError) as e:
+        print(
+            f"[EMAIL] Erreur SMTP vers {settings.SMTP_HOST}:{settings.SMTP_PORT} : {e}"
+        )
+        raise
+
+
+# =============================================================================
+# SLACK
+# =============================================================================
 
 
 @celery_app.task(bind=True, max_retries=3, autoretry_for=(Exception,))
@@ -67,48 +107,87 @@ def send_slack_notification(self, channel: str, message: str):
     if not settings.SLACK_WEBHOOK_URL:
         raise ValueError("Slack non configure (SLACK_WEBHOOK_URL manquant)")
 
-    httpx.post(
-        settings.SLACK_WEBHOOK_URL,
-        json={"channel": channel, "text": message, "username": "Smart SIEM"},
-        timeout=10,
-    )
+    try:
+        resp = httpx.post(
+            settings.SLACK_WEBHOOK_URL,
+            json={"channel": channel, "text": message, "username": "Smart SIEM"},
+            timeout=10,
+        )
+        resp.raise_for_status()
+    except httpx.HTTPError as e:
+        print(f"[SLACK] Erreur d'envoi vers {channel} : {e}")
+        raise
+
+
+# =============================================================================
+# NOTIFICATION IN-APP (PostgreSQL via session synchrone)
+# =============================================================================
 
 
 @celery_app.task
 def send_in_app_notification(user_id: int, title: str, message: str):
-    """Cree une notification en base de donnees."""
+    """
+    Cree une notification en base de donnees.
+    Utilise une session synchrone (psycopg2) pour eviter les conflits
+    de connexion asyncpg dans les workers Celery forke.
+    """
+    with sync_session_factory() as db:
+        notif = Notification(
+            user_id=user_id,
+            title=title,
+            message=message,
+            channel="in_app",
+        )
+        db.add(notif)
+        db.flush()
+        db.refresh(notif)
+        db.commit()
 
-    async def _create():
-        async with async_session_factory() as db:
-            repo = NotificationRepository(db)
-            await repo.create(user_id, title, message, channel="in_app")
-            await db.commit()
+    print(
+        f"[NOTIFICATION] Notification #{notif.id} creee pour l'utilisateur {user_id}"
+    )
 
-    asyncio.run(_create())
+
+# =============================================================================
+# PURGE (retention)
+# =============================================================================
 
 
 @celery_app.task
 def purge_old_logs():
-    """Purge les logs et audits selon la politique de retention."""
+    """
+    Purge les logs (Elasticsearch) et audits (PostgreSQL) selon la politique
+    de retention.
+    - Elasticsearch : asynchrone (client natif, pas de fork issue)
+    - PostgreSQL   : synchrone (psycopg2, evite asyncpg + fork)
+    """
+    result = {}
 
-    async def _purge():
-        result = {}
-
-        es = ElasticsearchClient()
+    # --- Purge Elasticsearch ---
+    async def _purge_es():
+        es = await get_es()
         log_repo = LogRepository(es)
-        deleted_logs = await log_repo.delete_older_than(settings.LOG_RETENTION_DAYS)
-        result["logs_deleted"] = deleted_logs
-        result["log_retention_days"] = settings.LOG_RETENTION_DAYS
+        return await log_repo.delete_older_than(settings.LOG_RETENTION_DAYS)
 
-        async with async_session_factory() as session:
-            audit_repo = AuditRepository(session)
-            deleted_audits = await audit_repo.delete_older_than(
-                settings.AUDIT_RETENTION_DAYS
-            )
-            await session.commit()
-            result["audits_deleted"] = deleted_audits
-            result["audit_retention_days"] = settings.AUDIT_RETENTION_DAYS
+    deleted_logs = asyncio.run(_purge_es())
+    result["logs_deleted"] = deleted_logs
+    result["log_retention_days"] = settings.LOG_RETENTION_DAYS
 
-        return result
+    # --- Purge PostgreSQL (synchrone) ---
+    cutoff = datetime.now(timezone.utc) - timedelta(days=settings.AUDIT_RETENTION_DAYS)
 
-    return asyncio.run(_purge())
+    with sync_session_factory() as session:
+        stmt = delete(AuditLog).where(AuditLog.created_at < cutoff)
+        result_proxy = session.execute(stmt)
+        session.flush()
+        session.commit()
+        deleted_audits = result_proxy.rowcount
+
+    result["audits_deleted"] = deleted_audits
+    result["audit_retention_days"] = settings.AUDIT_RETENTION_DAYS
+
+    print(
+        f"[PURGE] Supprime : {deleted_logs} logs (ES), "
+        f"{deleted_audits} audits (PG)"
+    )
+    return result

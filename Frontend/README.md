@@ -22,6 +22,8 @@ npm install
 npm run dev        # → http://localhost:5173
 ```
 
+**WebSocket temps réel** — Les actions SOAR (block-ip, disable-user, isolate-host) peuvent être suivies en temps réel via le WebSocket `/api/v1/actions/ws`. Le frontend reçoit un `action_id` immédiatement et écoute le résultat sur le WS.
+
 ## Structure
 
 ```
@@ -66,3 +68,12 @@ src/
 | Logs d'audit | `/audit/logs` | Auditeur, Admin |
 | Vérification | `/audit/verify` | Auditeur, Admin |
 | Profil | `/profile` | Tous |
+
+## Endpoints SOAR (Actions)
+
+| Méthode | Endpoint | Description |
+|---------|----------|-------------|
+| GET | `/api/v1/actions/execute?action=block-ip&agent_ip=...&ip=...` | Exécuter une action sur un agent distant |
+| POST | `/api/v1/actions/notify-slack` | Notification Slack (Celery) |
+| POST | `/api/v1/actions/notify-email` | Email d'alerte (Celery) |
+| WS | `/api/v1/actions/ws` | Suivi temps réel des actions |

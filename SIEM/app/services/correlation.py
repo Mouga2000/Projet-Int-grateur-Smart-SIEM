@@ -241,21 +241,9 @@ class CorrelationEngine:
         #     "value": "login_failed"
         # }
         # --------------------------------------------------
-        condition = rule["condition"]
-
-        # --------------------------------------------------
-        # Comparaison entre
-        # la valeur du log
-        # et la valeur attendue.
-        #
-        # Si elles sont identiques :
-        #
-        # True
-        #
-        # Sinon :
-        #
-        # False
-        # --------------------------------------------------
+        condition = rule.get("condition", {})
+        if not condition or "field" not in condition or "value" not in condition:
+            return False  # Condition invalide ou vide
         return log.get(condition["field"]) == condition["value"]
 
     # ------------------------------------------------------

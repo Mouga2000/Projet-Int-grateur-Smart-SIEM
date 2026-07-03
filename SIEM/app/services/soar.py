@@ -1,17 +1,38 @@
 # app/services/soar.py
 # -------------------------------
 # Service SOAR : orchestration des actions sur les agents distants
+#
+# Pour contacter un agent, le service utilise d'abord le WebSocket
+# si l'agent est connecte, sinon il tombe en repli HTTP.
 
+import re
 from typing import Optional
 
 import httpx
 
 from app.core.config import settings
 from app.repositories.playbook_repo import PlaybookRepository
+from app.services.agent_ws import agent_ws_manager
 from app.tasks.notification_tasks import (
     send_email_notification,
     send_slack_notification,
 )
+
+
+def _resolve_template(value, context: dict):
+    """
+    Remplace les variables {{var}} par les valeurs du contexte.
+    Exemple : "{{source_ip}}" → "10.0.0.5"
+    """
+    if isinstance(value, str):
+        for key, val in context.items():
+            value = value.replace("{{" + key + "}}", str(val) if val else "")
+    return value
+
+
+def _resolve_params(params: dict, context: dict) -> dict:
+    """Applique _resolve_template sur tous les valeurs d'un dict de parametres."""
+    return {k: _resolve_template(v, context) for k, v in params.items()}
 
 
 class SOARService:
@@ -57,7 +78,7 @@ class SOARService:
     async def execute_step(self, step: dict, context: dict) -> dict:
         """Execute une action individuelle du playbook."""
         action = step.get("action", "")
-        params = step.get("params", {})
+        params = _resolve_params(step.get("params", {}), context)
         agent_ip = context.get("agent_ip") or context.get("host")
 
         try:
@@ -111,6 +132,9 @@ class SOARService:
         """
         Appelle l'agent sur la machine cible.
 
+        Priorise le WebSocket (connexion persistante initiee par l'agent).
+        Si l'agent n'est pas connecte en WS, tombe en repli HTTP.
+
         Args:
             agent_ip: IP ou hostname de la machine cible
             action: 'block-ip', 'disable-user', 'isolate-host'
@@ -122,6 +146,17 @@ class SOARService:
         if not agent_ip:
             return {"success": False, "action": action, "error": "IP agent manquante"}
 
+        # ---- 1. Tentative WebSocket ----
+        hostname = agent_ws_manager.get_hostname_by_ip(agent_ip)
+        if hostname and agent_ws_manager.is_connected(hostname):
+            return await agent_ws_manager.send_command(
+                hostname=hostname,
+                action=action,
+                params=payload,
+                timeout=settings.AGENT_TIMEOUT_SECONDS,
+            )
+
+        # ---- 2. Repli HTTP ----
         url = f"http://{agent_ip}:{settings.AGENT_DEFAULT_PORT}/action/{action}"
 
         async with httpx.AsyncClient(timeout=settings.AGENT_TIMEOUT_SECONDS) as client:

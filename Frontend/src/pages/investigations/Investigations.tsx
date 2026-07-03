@@ -212,9 +212,21 @@ const Investigations = () => {
           <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(page - 1)}>
             <ChevronLeft className="h-4 w-4" /> Précédent
           </Button>
-          <span className="text-xs text-muted-foreground">
-            Page {page} / {pages}
-          </span>
+          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <span>Page</span>
+            <input
+              type="number"
+              min={1}
+              max={pages}
+              value={page}
+              onChange={(e) => {
+                const p = parseInt(e.target.value);
+                if (p >= 1 && p <= pages) setPage(p);
+              }}
+              className="w-12 h-7 rounded-md border border-input bg-transparent text-center text-xs text-foreground [&::-webkit-inner-spin-button]:appearance-none"
+            />
+            <span>/ {pages}</span>
+          </div>
           <Button variant="outline" size="sm" disabled={page >= pages} onClick={() => setPage(page + 1)}>
             Suivant <ChevronRight className="h-4 w-4" />
           </Button>

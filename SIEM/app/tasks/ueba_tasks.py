@@ -12,8 +12,9 @@
 import asyncio
 from collections import defaultdict
 
+from app.core.config import settings
 from app.core.database import async_session_factory
-from app.core.elasticsearch import ElasticsearchClient
+from app.core.elasticsearch import get_es as get_es_client
 from app.repositories.log_repo import LogRepository
 from app.services import ueba as ueba_service
 from app.tasks.celery import celery_app
@@ -33,7 +34,7 @@ def train_anomaly_model(self, days: int = None, index: str = None):
     """
 
     async def _run():
-        es = ElasticsearchClient()
+        es = await get_es_client()
         repo = LogRepository(es)
 
         # Déterminer la requête : tout l'historique par défaut
@@ -44,9 +45,7 @@ def train_anomaly_model(self, days: int = None, index: str = None):
         else:
             query = {"match_all": {}}
 
-        # logs-[0-9]* exclut logs-clue (donnees CLUE de 2019)
-        # tout en incluant les index dates comme logs-2026-06-29
-        target_index = index or "logs-[0-9]*"
+        target_index = index or settings.ELASTICSEARCH_INDEX_LOGS
 
         # Utiliser scroll pour charger tous les résultats
         raw_es = es  # ElasticsearchClient renvoie l'instance AsyncElasticsearch
