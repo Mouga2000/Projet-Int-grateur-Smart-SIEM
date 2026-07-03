@@ -69,3 +69,16 @@ output/
 # Datasets d'exemple / tests
 botsv3_data_set/
 botsv3_data_set.tgz
+
+# Celery (fichiers de synchronisation)
+celerybeat-schedule
+celerybeat.pid
+*.pid
+
+# Agent SIEM (logs generes par l'agent distant)
+agent/*.log
+agent/__pycache__/
+agent/.env
+
+# CLI local
+.claude/settings.local.json

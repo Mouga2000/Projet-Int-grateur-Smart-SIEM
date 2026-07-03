@@ -197,6 +197,50 @@ class LogRepository:
         )
         return response.get("deleted", 0)
 
+    async def top_field(self, field: str, size: int = 10) -> list:
+        """
+        Agrégation ES : retourne les N valeurs les plus fréquentes d'un champ.
+        Utilisé par le Dashboard pour les top hosts, top IPs, top types.
+        """
+        try:
+            response = await self.es.search(
+                index=self.index_prefix,
+                body={
+                    "size": 0,
+                    "aggs": {
+                        "top_values": {
+                            "terms": {"field": field, "size": size}
+                        }
+                    },
+                },
+            )
+            buckets = response.get("aggregations", {}).get("top_values", {}).get("buckets", [])
+            return [{"name": b["key"], "value": b["doc_count"]} for b in buckets]
+        except Exception:
+            return []
+
+    async def severity_distribution(self) -> dict:
+        """
+        Agrégation ES : compte les logs par sévérité sur TOUT l'index.
+        Utilise une aggregation terms, bien plus performante que de tout charger.
+        """
+        try:
+            response = await self.es.search(
+                index=self.index_prefix,
+                body={
+                    "size": 0,
+                    "aggs": {
+                        "by_severity": {
+                            "terms": {"field": "severity", "size": 20}
+                        }
+                    },
+                },
+            )
+            buckets = response.get("aggregations", {}).get("by_severity", {}).get("buckets", [])
+            return {b["key"]: b["doc_count"] for b in buckets}
+        except Exception:
+            return {"info": 0, "warning": 0, "error": 0, "critical": 0, "debug": 0}
+
     async def search_timeline(
         self,
         interval: str = "1h",

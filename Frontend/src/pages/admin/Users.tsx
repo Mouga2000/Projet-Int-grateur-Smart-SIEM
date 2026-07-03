@@ -79,19 +79,22 @@ const Users = () => {
             </DialogHeader>
             <div className="flex flex-col gap-4">
               <div className="space-y-1.5">
-                <Label>Identifiant</Label>
+                <Label>Identifiant <span className="text-destructive">*</span></Label>
                 <Input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="nom.prenom" />
               </div>
               <div className="space-y-1.5">
-                <Label>Email</Label>
+                <Label>Email <span className="text-destructive">*</span></Label>
                 <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="nom@domaine.com" />
               </div>
               <div className="space-y-1.5">
-                <Label>Mot de passe</Label>
+                <Label>Mot de passe <span className="text-destructive">*</span></Label>
                 <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="min. 8 caractères" />
+                {password.length > 0 && password.length < 8 && (
+                  <p className="text-xs text-destructive">Minimum 8 caractères</p>
+                )}
               </div>
               <div className="space-y-1.5">
-                <Label>Rôle</Label>
+                <Label>Rôle <span className="text-destructive">*</span></Label>
                 <Select value={role} onValueChange={setRole}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>

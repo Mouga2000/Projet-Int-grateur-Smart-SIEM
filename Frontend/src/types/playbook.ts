@@ -1,25 +1,28 @@
 // src/types/playbook.ts
+// Types alignés avec le backend (SQLAlchemy) :
+//   name, description, trigger, enabled, steps, variables,
+//   timeout_seconds, max_retries, last_executed_at, execution_count, created_by
 
-export type PlaybookMode    = "AUTO" | "CONFIRM";
-export type PlaybookStatus  = "ACTIVE" | "INACTIVE" | "DRAFT";
-export type PlaybookTrigger = "ALERT_CRITICAL" | "ALERT_HIGH" | "LOGIN_FAILED" | "ANOMALY" | "CUSTOM";
+export type PlaybookTrigger = "manual" | "alert_created" | "alert_escalated" | "scheduled" | "webhook";
 
-export interface PlaybookAction {
-  id: string;
-  order: number;
-  name: string;
-  type: "BLOCK_IP" | "ISOLATE_HOST" | "NOTIFY" | "CREATE_TICKET" | "RUN_SCRIPT";
-  params: Record<string, string>;
+export interface PlaybookStep {
+  action: "block_ip" | "disable_user" | "isolate_host" | "notify_slack" | "notify_email" | "create_ticket";
+  params: Record<string, any>;
 }
 
 export interface Playbook {
-  id: string;
+  id: number;
   name: string;
-  description: string;
+  description: string | null;
   trigger: PlaybookTrigger;
-  mode: PlaybookMode;
-  status: PlaybookStatus;
-  actions: PlaybookAction[];
-  createdAt: string;
-  updatedAt: string;
+  enabled: boolean;
+  steps: PlaybookStep[];
+  variables: Record<string, any>;
+  timeout_seconds: number;
+  max_retries: number;
+  last_executed_at: string | null;
+  execution_count: number;
+  created_by: string | null;
+  created_at: string;
+  updated_at: string;
 }

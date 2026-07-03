@@ -6,26 +6,40 @@ import { Button } from "../../components/ui/Button";
 import Modal from "../../components/ui/Modal";
 import { Input } from "../../components/ui/Input";
 import { Label } from "../../components/ui/label";
+import type { Playbook } from "../../types/playbook";
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
 } from "../../components/ui/dialog";
 
-const TRIGGERS = ["manual", "alert_created", "scheduled", "webhook"];
+const TRIGGERS: Playbook["trigger"][] = ["manual", "alert_created", "scheduled", "webhook"];
+
+const emptyForm: Partial<Playbook> = {
+  name: "",
+  description: "",
+  trigger: "manual",
+  enabled: true,
+  steps: [],
+  variables: {},
+  timeout_seconds: 300,
+  max_retries: 3,
+};
 
 const Playbooks = () => {
-  const [playbooks, setPlaybooks] = useState<any[]>([]);
+  const [playbooks, setPlaybooks] = useState<Playbook[]>([]);
   const [loading, setLoading]     = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
-  const [editing, setEditing]     = useState<any>(null);
-  const [form, setForm]           = useState<any>({});
+  const [editing, setEditing]     = useState<Playbook | null>(null);
+  const [form, setForm]           = useState<Partial<Playbook>>(emptyForm);
   const [saving, setSaving]       = useState(false);
 
   // Execution
   const [executeOpen, setExecuteOpen] = useState(false);
   const [executing, setExecuting]     = useState(false);
-  const [execPb, setExecPb]           = useState<any>(null);
+  const [execPb, setExecPb]           = useState<Playbook | null>(null);
   const [execTargetIp, setExecTargetIp] = useState("");
-  const [execContext, setExecContext]  = useState(JSON.stringify({ agent_ip: "", user: "" }, null, 2));
+  const [execAgentIp, setExecAgentIp]   = useState("");
+  const [execUsername, setExecUsername] = useState("");
+  const [execAgents, setExecAgents]     = useState<any[]>([]);
   const [execResult, setExecResult]   = useState<string | null>(null);
 
   const fetchPlaybooks = async () => {
@@ -73,23 +87,28 @@ const Playbooks = () => {
     setPlaybooks((prev) => prev.filter((p) => p.id !== id));
   };
 
-  const openExecute = (pb: any) => {
+  const openExecute = async (pb: any) => {
     setExecPb(pb);
     setExecTargetIp("");
-    setExecContext(JSON.stringify({ agent_ip: "", user: "" }, null, 2));
+    setExecAgentIp("");
+    setExecUsername("");
     setExecResult(null);
     setExecuteOpen(true);
+    try {
+      const { data } = await api.get("/agents/");
+      setExecAgents(data ?? []);
+    } catch {
+      setExecAgents([]);
+    }
   };
 
   const handleExecute = async () => {
     if (!execPb) return;
-    if (!execTargetIp.trim()) return;
+    if (!execTargetIp.trim() || !execAgentIp.trim()) return;
     setExecuting(true);
     setExecResult(null);
     try {
-      let extra = {};
-      try { extra = JSON.parse(execContext); } catch { extra = {}; }
-      const context = { source_ip: execTargetIp.trim(), ...extra };
+      const context = { source_ip: execTargetIp.trim(), agent_ip: execAgentIp.trim(), user: execUsername.trim() };
       const { data } = await api.post(ENDPOINTS.playbooks.execute(execPb.id), context);
       setExecResult(JSON.stringify(data, null, 2));
     } catch (e: any) {
@@ -97,17 +116,6 @@ const Playbooks = () => {
     } finally {
       setExecuting(false);
     }
-  };
-
-  const STATUS_COLORS: Record<string, string> = {
-    ACTIVE:   "text-green-400",
-    INACTIVE: "text-gray-500",
-    DRAFT:    "text-yellow-400",
-  };
-
-  const MODE_COLORS: Record<string, string> = {
-    AUTO:    "bg-red-900/40 text-red-400 border-red-800",
-    CONFIRM: "bg-yellow-900/40 text-yellow-400 border-yellow-800",
   };
 
   return (
@@ -130,10 +138,9 @@ const Playbooks = () => {
             <div className="flex flex-col gap-1.5 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <p className="text-sm text-white font-medium">{pb.name}</p>
-                <span className={`text-xs px-1.5 py-0.5 border rounded ${MODE_COLORS[pb.mode]}`}>
-                  {pb.mode}
-                </span>
-                <span className={`text-xs ${STATUS_COLORS[pb.status]}`}>{pb.status}</span>
+                {pb.enabled === false && (
+                  <span className="text-xs text-gray-500">(désactivé)</span>
+                )}
               </div>
               <p className="text-xs text-gray-500">{pb.description}</p>
               <div className="flex items-center gap-2 text-xs text-gray-600">
@@ -184,48 +191,21 @@ const Playbooks = () => {
             <label className="text-xs text-gray-400 block mb-1">Déclencheur</label>
             <select
               value={form.trigger ?? "manual"}
-              onChange={(e) => setForm({ ...form, trigger: e.target.value })}
+              onChange={(e) => setForm({ ...form, trigger: e.target.value as Playbook["trigger"] })}
               className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-cyan-500"
             >
               {TRIGGERS.map((t) => <option key={t} value={t}>{t}</option>)}
             </select>
           </div>
-          <div>
-            <label className="text-xs text-gray-400 block mb-1">Mode d'exécution</label>
-            <div className="flex gap-2">
-              {(["AUTO", "CONFIRM"] as string[]).map((m) => (
-                <button
-                  key={m}
-                  onClick={() => setForm({ ...form, mode: m })}
-                  className={`flex-1 py-1.5 rounded-lg border text-sm transition-colors ${
-                    form.mode === m
-                      ? m === "AUTO"
-                        ? "border-red-700 bg-red-900/30 text-red-400"
-                        : "border-yellow-700 bg-yellow-900/30 text-yellow-400"
-                      : "border-gray-700 bg-gray-800 text-gray-400"
-                  }`}
-                >
-                  {m}
-                </button>
-              ))}
-            </div>
-            {form.mode === "AUTO" && (
-              <p className="text-xs text-red-400 mt-1">
-                ⚠ Mode AUTO : les actions s'exécutent sans confirmation.
-              </p>
-            )}
-          </div>
-          <div>
-            <label className="text-xs text-gray-400 block mb-1">Statut</label>
-            <select
-              value={form.status ?? "DRAFT"}
-              onChange={(e) => setForm({ ...form, status: e.target.value })}
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-cyan-500"
-            >
-              {(["DRAFT", "ACTIVE", "INACTIVE"] as string[]).map((s) => (
-                <option key={s} value={s}>{s}</option>
-              ))}
-            </select>
+          <div className="flex items-center gap-2 pb-1">
+            <input
+              type="checkbox"
+              id="pb-enabled"
+              checked={form.enabled ?? true}
+              onChange={(e) => setForm({ ...form, enabled: e.target.checked })}
+              className="accent-cyan-500"
+            />
+            <label htmlFor="pb-enabled" className="text-xs text-gray-400">Playbook actif</label>
           </div>
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="ghost" size="sm" onClick={() => setModalOpen(false)}>Annuler</Button>
@@ -253,20 +233,50 @@ const Playbooks = () => {
                 placeholder="10.0.0.5"
               />
               {!execTargetIp.trim() && (
-                <p className="text-[11px] text-destructive">
-                  L'IP de la machine à bloquer, isoler ou analyser est obligatoire.
-                </p>
+                <p className="text-[11px] text-destructive">IP de la machine à bloquer, isoler ou analyser.</p>
               )}
             </div>
             <div className="space-y-1.5">
-              <Label>Contexte supplémentaire (JSON, optionnel)</Label>
-              <textarea
-                rows={4}
-                value={execContext}
-                onChange={(e) => setExecContext(e.target.value)}
-                className="w-full bg-muted border rounded-md p-2 text-xs font-mono resize-none"
-                placeholder='{"agent_ip": "192.168.1.50", "user": "admin"}'
+              <Label className="font-medium">
+                Nom d'utilisateur
+              </Label>
+              <Input
+                value={execUsername}
+                onChange={(e) => setExecUsername(e.target.value)}
+                placeholder="admin, bstoll... (optionnel)"
               />
+              <p className="text-[11px] text-muted-foreground">Requis uniquement pour les actions de désactivation de compte.</p>
+            </div>
+            <div className="space-y-1.5">
+              <Label className="font-medium">
+                Agent <span className="text-destructive">*</span>
+              </Label>
+              {execAgents.length > 0 ? (
+                <select
+                  value={execAgentIp}
+                  onChange={(e) => setExecAgentIp(e.target.value)}
+                  className="flex h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm text-white [&>option]:text-black"
+                >
+                  <option value="">Sélectionner un agent...</option>
+                  {execAgents.map((a: any) => (
+                    <option key={a.id} value={a.ip_address}>
+                      {a.hostname} ({a.ip_address}) — {a.operating_system || "?"}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <Input
+                  value={execAgentIp}
+                  onChange={(e) => setExecAgentIp(e.target.value)}
+                  placeholder="192.168.1.50"
+                />
+              )}
+              {!execAgentIp.trim() && (
+                <p className="text-[11px] text-destructive">Machine qui exécute les actions (blocage, isolation...).</p>
+              )}
+              {execAgents.length > 0 && (
+                <p className="text-[11px] text-muted-foreground">Ou saisis une IP manuellement si l'agent n'est pas listé.</p>
+              )}
             </div>
             {execResult && (
               <div className="space-y-1.5">
@@ -279,7 +289,7 @@ const Playbooks = () => {
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={() => setExecuteOpen(false)}>Fermer</Button>
-            <Button disabled={executing || !execTargetIp.trim()} onClick={handleExecute}>
+            <Button disabled={executing || !execTargetIp.trim() || !execAgentIp.trim()} onClick={handleExecute}>
               {executing ? "Exécution en cours..." : "Exécuter"}
             </Button>
           </DialogFooter>

@@ -129,12 +129,24 @@ const Alerts = () => {
       </Card>
 
       {total > pageSize && (
-        <div className="flex items-center justify-between text-sm">
-          <span className="text-white/60">Page {page} / {Math.ceil(total / pageSize)}</span>
-          <div className="flex gap-2">
-            <Button variant="ghost" disabled={page === 1} onClick={() => setPage(page - 1)}>← Précédent</Button>
-            <Button variant="ghost" disabled={page >= Math.ceil(total / pageSize)} onClick={() => setPage(page + 1)}>Suivant →</Button>
+        <div className="flex items-center justify-center gap-3">
+          <Button variant="outline" size="sm" disabled={page === 1} onClick={() => setPage(page - 1)}>← Précédent</Button>
+          <div className="flex items-center gap-1.5 text-xs text-white/60">
+            <span>Page</span>
+            <input
+              type="number"
+              min={1}
+              max={Math.ceil(total / pageSize)}
+              value={page}
+              onChange={(e) => {
+                const p = parseInt(e.target.value);
+                if (p >= 1 && p <= Math.ceil(total / pageSize)) setPage(p);
+              }}
+              className="w-12 h-7 rounded-md border border-input bg-transparent text-center text-xs text-foreground [&::-webkit-inner-spin-button]:appearance-none"
+            />
+            <span>/ {Math.ceil(total / pageSize)}</span>
           </div>
+          <Button variant="outline" size="sm" disabled={page >= Math.ceil(total / pageSize)} onClick={() => setPage(page + 1)}>Suivant →</Button>
         </div>
       )}
     </div>
