@@ -8,8 +8,8 @@ Windows: net user {username} /active:no
 import platform
 import subprocess
 
-from actions.base_action import BaseAction
-from actions.result import ActionResult
+from code.actions.base_action import BaseAction
+from code.actions.result import ActionResult
 
 
 class DisableUserAction(BaseAction):

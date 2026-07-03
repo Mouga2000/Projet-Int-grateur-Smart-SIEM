@@ -2,12 +2,11 @@
 Gestionnaire de la file d'attente.
 """
 
-from network.manager import NetworkManager
+from code.network.manager import NetworkManager
+from code.storage.repositories.event_repository import EventRepository
 
-from storage.repositories.event_repository import EventRepository
-
-from communication import CommunicationClient
-from logger import AgentLogger
+from code.communication import CommunicationClient
+from code.logger import AgentLogger
 
 
 class QueueManager:

@@ -2,8 +2,8 @@
 Gestionnaire des lots d'événements.
 """
 
-from config import Config
-from storage.repositories.event_repository import EventRepository
+from code.config import Config
+from code.storage.repositories.event_repository import EventRepository
 
 
 class BatchManager:

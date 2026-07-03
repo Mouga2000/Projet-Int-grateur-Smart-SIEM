@@ -7,9 +7,9 @@ Auteur : Nehemie Mouga
 import socket
 import psutil
 
-from config import Config
-from logger import AgentLogger
-from models.event import Event
+from code.config import Config
+from code.logger import AgentLogger
+from code.models.event import Event
 
 
 class NetworkCollector:

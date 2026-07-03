@@ -3,15 +3,14 @@
 Gestionnaire des collecteurs.
 """
 
-from scheduler import ScheduledTask
-from storage.repositories.manager import QueueManager
+from code.scheduler import ScheduledTask
+from code.storage.repositories.manager import QueueManager
 
 
 class CollectorManager:
 
-    def __init__(self, scheduler, client):
+    def __init__(self, scheduler):
         self.scheduler = scheduler
-        self.client = client
         self.collectors = []
         self.queue = QueueManager()
 

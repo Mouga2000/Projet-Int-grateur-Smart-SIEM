@@ -9,21 +9,21 @@ agent:
 
 server:
 
-  protocol: https
+  protocol: http
 
-  host: 192.168.1.198   #169.254.170.76                     
+  host:  192.168.1.110  #169.254.170.76     #192.168.1.198                
 
   port: 8000
 
   api:
 
-    ping: "/api/v1/ping"
+    ping: "/health"
 
     heartbeat: "/api/v1/heartbeat"
 
-    events: "/api/v1/events"
+    logs: "/api/v1/logs/ingest"
 
-    commands: "/api/v1/agents/{agent_id}/commands"
+    ws_commands: "/api/v1/agents/ws"
 
     command_result: "/api/v1/commands/{command_id}/result"
 
@@ -202,14 +202,14 @@ commands:
 
 tls:
 
-  enabled: true
+  enabled: false
 
-  verify_server: true
+  verify_server: false
 
-  ca_cert: code/security/ca-root.crt
+  certificate: certs/agent.crt
 
-  client_cert: code/security/agent.crt
+  private_key: certs/agent.key
 
-  client_key: code/security/agent.key
+  ca_certificate: certs/ca.crt
 
 

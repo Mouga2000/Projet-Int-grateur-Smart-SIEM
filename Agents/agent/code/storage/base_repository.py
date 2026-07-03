@@ -4,7 +4,7 @@ Classe mère de tous les repositories.
 
 from abc import ABC
 
-from storage.database import Database
+from code.storage.database import Database
 
 
 class BaseRepository(ABC):

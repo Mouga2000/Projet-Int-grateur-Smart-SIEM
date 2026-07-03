@@ -17551,3 +17551,96 @@ requests.exceptions.SSLError: HTTPSConnectionPool(host='192.168.1.198', port=800
 2026-07-02 07:55:25,333 | INFO     | Task stopped.
 2026-07-02 07:55:25,333 | INFO     | Task stopped.
 2026-07-02 07:55:25,334 | INFO     | Task stopped.
+2026-07-03 15:46:00,500 | INFO     | Migration existante
+2026-07-03 15:46:00,533 | INFO     | Initialisation du Smart Agent...
+2026-07-03 15:46:00,788 | INFO     | Tâche enregistrée : CPU
+2026-07-03 15:46:00,806 | INFO     | Tâche enregistrée : Memory
+2026-07-03 15:46:00,826 | INFO     | Tâche enregistrée : Logs
+2026-07-03 15:46:00,846 | INFO     | Tâche enregistrée : Network
+2026-07-03 15:46:01,147 | INFO     | Tâche enregistrée : Services
+2026-07-03 15:46:01,181 | INFO     | Tâche enregistrée : Filesystem
+2026-07-03 15:46:01,197 | INFO     | Tâche enregistrée : Transfer
+2026-07-03 15:46:01,198 | INFO     | Démarrage du Smart Agent...
+2026-07-03 15:46:01,198 | INFO     | Demarage du WebSocket
+2026-07-03 15:46:01,199 | INFO     | Connexion WebSocket...
+2026-07-03 15:46:01,199 | INFO     | Démarrage du scheduler...
+2026-07-03 15:46:01,258 | INFO     | Task started.
+2026-07-03 15:46:01,269 | INFO     | Task started.
+2026-07-03 15:46:01,319 | INFO     | Task started.
+2026-07-03 15:46:01,330 | INFO     | Task started.
+2026-07-03 15:46:01,348 | INFO     | Scheduler démarré.
+2026-07-03 15:46:03,900 | INFO     | Task started.
+2026-07-03 15:46:03,906 | INFO     | CPU : 21.5%
+2026-07-03 15:46:03,911 | INFO     | Task started.
+2026-07-03 15:46:03,925 | INFO     | Task started.
+2026-07-03 15:46:03,925 | INFO     | RAM : 91.8%
+2026-07-03 15:46:04,013 | INFO     | 0 nouveaux événements collectés.
+2026-07-03 15:46:04,022 | INFO     | 2 partitions collectées
+2026-07-03 15:46:04,400 | INFO     | WebSocket connecté.
+2026-07-03 15:46:04,481 | INFO     | Agent enregistré : agent-cb46f8
+2026-07-03 15:46:04,518 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:04,526 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:04,534 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:04,737 | ERROR    | [WinError 2] Le fichier spécifié est introuvable: '(originated from QueryServiceConfig2W)'
+2026-07-03 15:46:04,813 | INFO     | 100 événements en attente de synchronisation.
+2026-07-03 15:46:04,820 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:04,883 | INFO     | 4 services collectés
+2026-07-03 15:46:04,943 | INFO     | 168 connexions réseau collectées
+2026-07-03 15:46:05,002 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,021 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,091 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,128 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,155 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,259 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,261 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,413 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,424 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,427 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,481 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,539 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,547 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,595 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,650 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,691 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,806 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,811 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,884 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,913 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:05,977 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:06,020 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:06,077 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:06,126 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:06,167 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:06,285 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:06,319 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:06,404 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:06,416 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:06,502 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:06,531 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:06,601 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:06,637 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:06,697 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:06,741 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:06,787 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:06,843 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:06,875 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:06,959 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:06,968 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:07,046 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:07,068 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:07,122 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:07,167 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:07,213 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:07,277 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:07,326 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:07,390 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:07,414 | INFO     | POST /api/v1/logs/ingest -> 200
+2026-07-03 15:46:07,478 | INFO     | Signal d'arrêt reçu.
+2026-07-03 15:46:07,479 | INFO     | Arrêt du Smart Agent...
+2026-07-03 15:46:07,481 | INFO     | Arrêt du scheduler...
+2026-07-03 15:46:07,482 | INFO     | Scheduler arrêté.
+2026-07-03 15:46:07,482 | INFO     | Task stopped.
+2026-07-03 15:46:07,482 | INFO     | Task stopped.
+2026-07-03 15:46:07,482 | INFO     | Task stopped.
+2026-07-03 15:46:07,483 | INFO     | Task stopped.
+2026-07-03 15:46:07,483 | INFO     | Task stopped.

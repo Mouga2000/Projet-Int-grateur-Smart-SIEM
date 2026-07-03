@@ -3,7 +3,7 @@ Planificateur principal.
 """
 import threading
 import time
-from logger import AgentLogger
+from code.logger import AgentLogger
 
 
 

@@ -11,8 +11,8 @@ Le serveur SIEM reste accessible afin que l'agent continue
 import platform
 import subprocess
 
-from actions.base_action import BaseAction
-from actions.result import ActionResult
+from code.actions.base_action import BaseAction
+from code.actions.result import ActionResult
 
 
 class IsolateHostAction(BaseAction):

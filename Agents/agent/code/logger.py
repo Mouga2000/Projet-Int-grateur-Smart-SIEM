@@ -3,7 +3,7 @@ import os
 from logging.handlers import RotatingFileHandler
 import socket
 
-from config import Config
+from code.config import Config
 
 
 class AgentLogger:

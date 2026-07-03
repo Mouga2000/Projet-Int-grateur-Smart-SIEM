@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from actions.result import ActionResult
+from code.actions.result import ActionResult
 
 
 class BaseAction(ABC):

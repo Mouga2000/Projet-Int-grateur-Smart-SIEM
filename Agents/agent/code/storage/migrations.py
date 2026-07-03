@@ -2,8 +2,8 @@
 Gestionnaire des migrations SQLite.
 """
 
-from storage.database import Database
-from logger import AgentLogger
+from code.storage.database import Database
+from code.logger import AgentLogger
 
 
 

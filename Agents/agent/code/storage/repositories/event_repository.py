@@ -1,6 +1,6 @@
 import json
 import threading 
-from storage.base_repository import BaseRepository
+from code.storage.base_repository import BaseRepository
 
 
 db_lock = threading.Lock()

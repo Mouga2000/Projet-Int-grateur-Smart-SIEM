@@ -2,7 +2,7 @@
 Gestionnaire des transferts.
 """
 
-from synchronisation.events_syndro import EventSync
+from code.synchronisation.events_syndro import EventSync
 
 
 class TransferManager:

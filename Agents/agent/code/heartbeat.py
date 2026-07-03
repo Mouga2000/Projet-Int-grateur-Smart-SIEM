@@ -6,10 +6,10 @@ import time
 
 import psutil
 
-from config import Config
-from communication import CommunicationClient
-from logger import AgentLogger
-from models.heartbeat import Heartbeat
+from code.config import Config
+from code.communication import CommunicationClient
+from code.logger import AgentLogger
+from code.models.heartbeat import Heartbeat
 
 
 class HeartbeatService:

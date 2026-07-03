@@ -8,8 +8,8 @@ Windows: netsh advfirewall firewall add rule ...
 import platform
 import subprocess
 
-from actions.base_action import BaseAction
-from actions.result import ActionResult
+from code.actions.base_action import BaseAction
+from code.actions.result import ActionResult
 
 
 class BlockIPAction(BaseAction):
@@ -34,6 +34,7 @@ class BlockIPAction(BaseAction):
             system = platform.system().lower()
 
             if system == "windows":
+                print(f"Ip à bloquer : {ip}")
                 return self._windows(ip, comment)
 
             if system == "linux":

@@ -2,7 +2,7 @@
 Gestionnaire de la connectivité réseau.
 """
 
-from communication import CommunicationClient
+from code.communication import CommunicationClient
 
 
 class NetworkManager:

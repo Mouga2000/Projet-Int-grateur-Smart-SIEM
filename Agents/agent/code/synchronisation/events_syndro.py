@@ -4,11 +4,11 @@ Synchronisation des événements.
 
 import json
 
-from logger import AgentLogger
-from network.manager import NetworkManager
-from storage.repositories.batch.batch_manager import BatchManager
-from communication import CommunicationClient
-from storage.repositories.event_repository import EventRepository
+from code.logger import AgentLogger
+from code.network.manager import NetworkManager
+from code.storage.repositories.batch.batch_manager import BatchManager
+from code.communication import CommunicationClient
+from code.storage.repositories.event_repository import EventRepository
 
 
 class EventSync:

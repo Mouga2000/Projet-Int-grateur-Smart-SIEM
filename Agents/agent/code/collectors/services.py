@@ -5,9 +5,9 @@ Collecteur des services système.
 import psutil
 import platform
 import subprocess
-from config import Config
-from logger import AgentLogger
-from models.event import Event
+from code.config import Config
+from code.logger import AgentLogger
+from code.models.event import Event
 
 
 class ServicesCollector:

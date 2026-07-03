@@ -5,30 +5,35 @@ Point d'entrée du Smart Agent.
 """
 
 import signal
-import sys
 import time
 
-from config import Config
-from logger import AgentLogger
-from scheduler import Scheduler, ScheduledTask
-from heartbeat import HeartbeatService
-from collectors.logs import LogsCollector
-from communication import CommunicationClient
-from collectors.cpu import CPUCollector
-from collectors.memory import MemoryCollector
-from collectors.process import ProcessCollector
-from collectors.network import NetworkCollector
-from collectors.services import ServicesCollector
-from collectors.filesystem import FilesystemCollector
+import sys
+from pathlib import Path
 
-from communication_serveur import CommandService
-from collectors.manager import CollectorManager
-
-from storage.migrations import MigrationManager
-
-from synchronisation.manager import TransferManager
+# Si le programme est figé (.exe), la racine est sys._MEIPASS
+if getattr(sys, 'frozen', False):
+    sys.path.insert(0, sys._MEIPASS)
 
 
+
+from code.config import Config
+from code.logger import AgentLogger
+from code.scheduler import Scheduler, ScheduledTask
+from code.heartbeat import HeartbeatService
+from code.collectors.logs import LogsCollector
+from code.collectors.cpu import CPUCollector
+from code.collectors.memory import MemoryCollector
+from code.collectors.process import ProcessCollector
+from code.collectors.network import NetworkCollector
+from code.collectors.services import ServicesCollector
+from code.collectors.filesystem import FilesystemCollector
+
+from code.communication_serveur import CommandService
+from code.collectors.manager import CollectorManager
+
+from code.storage.migrations import MigrationManager
+
+from code.synchronisation.manager import TransferManager
 
 
 MigrationManager().migrate()
@@ -46,13 +51,9 @@ class SmartAgent:
         logger.info("Initialisation du Smart Agent...")
 
         self.scheduler = Scheduler()
-        self.client = CommunicationClient()
         self.heartbeat = HeartbeatService()
         self.logs_collector = LogsCollector()
-        self.collector_manager = CollectorManager(
-            self.scheduler,
-            self.client
-        )
+        self.collector_manager = CollectorManager(self.scheduler)
 
         self.transfer_manager = TransferManager()
 
@@ -119,7 +120,7 @@ class SmartAgent:
                 callback=self.transfer_manager.run
             )
         )
-
+        """
         self.scheduler.register(
             ScheduledTask(
                 name="Commands",
@@ -127,11 +128,13 @@ class SmartAgent:
                 callback=self.command_service.run
             )
         )
+        """
         
 
 
     def start(self):
         logger.info("Démarrage du Smart Agent...")
+        self.command_service.start()
         self.scheduler.start()
 
 
