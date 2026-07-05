@@ -24,9 +24,10 @@ export const useWebSocket = ({ onMessage, enabled = true }: UseWebSocketOptions)
     if (!enabled) return;
 
     const token = localStorage.getItem("access_token");
-    const url   = `${ENDPOINTS.ws.alerts}?token=${token}`;
+    const wsBaseUrl = (ENDPOINTS as any).ws?.alerts;
+    if (!wsBaseUrl) return; // WebSocket non configuré
 
-    const ws = new WebSocket(url);
+    const ws = new WebSocket(`${wsBaseUrl}?token=${token}`);
     wsRef.current = ws;
 
     ws.onmessage = (e) => {

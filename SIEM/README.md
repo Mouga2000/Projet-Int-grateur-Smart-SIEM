@@ -1,4 +1,3 @@
-
 # Smart SIEM — Backend
 
 Plateforme SIEM (Security Information and Event Management) intelligente avec ingestion universelle de logs, normalisation automatique, analyses comportementales (UEBA/ML), investigations croisées, archivage conforme et orchestration SOAR.
@@ -43,7 +42,7 @@ Projet académique dans le cadre du cursus **UCAC ICAM — X3 PROJET INTÉGRATEU
 **Architecture duale :**
 
 - **PostgreSQL** — données structurées : utilisateurs, règles, audits, investigations, archives, profils UEBA
-- **Elasticsearch** — données volumineuses : logs de sécurité (index `logs-YYYY-MM-DD`) + dataset CLUE-LDS (index `logs-clue`)
+- **Elasticsearch** — données volumineuses : logs de sécurité (index `logs-clue`) + datasets BOTSv3/CLUE
 
 ---
 
@@ -109,9 +108,11 @@ SIEM/
 │   │       ├── investigations.py# CRUD investigations + logs + verdicts
 │   │       ├── notifications.py # Notifications in-app (liste, lecture)
 │   │       ├── playbooks.py     # CRUD playbooks SOAR + execution
+│   │       ├── actions.py       # Actions SOAR directes (GET /execute) + WebSocket WS /ws
 │   │       ├── mitre.py         # Endpoints MITRE ATT&CK
 │   │       ├── admin.py         # Purge logs/audit + rétention
 │   │       ├── archive.py       # Archive certifiée (créer, lister, vérifier, exporter)
+│   │       ├── audit.py         # Logs d'audit PostgreSQL (GET + export CSV)
 │   │       └── ueba.py          # Profils UEBA, scores de risque
 │   │
 │   ├── models/
@@ -129,6 +130,7 @@ SIEM/
 │   │   ├── archiver.py          # SHA-256, Merkle tree, chaîne, signature RSA
 │   │   ├── correlation.py       # 5 types : single, threshold, sequence, correlation, UEBA
 │   │   ├── soar.py              # SOAR (block_ip, disable_user, isolate_host, notifications)
+│   │   ├── agent_ws.py          # Gestionnaire WebSocket des agents connectés
 │   │   ├── notification_service.py # Multi-canal (in-app, email, Slack)
 │   │   ├── email_templating.py  # Rendu HTML des emails d'alerte
 │   │   └── ueba.py              # Isolation Forest, feature extraction, scoring 0-100
@@ -143,11 +145,15 @@ SIEM/
 │   │   ├── alert_repo.py        # Alertes PostgreSQL
 │   │   ├── rule_repo.py         # Règles PostgreSQL
 │   │   ├── playbook_repo.py     # Playbooks PostgreSQL
+│   │   ├── agent_repo.py        # Agents SOAR PostgreSQL
 │   │   └── notification_repo.py # Notifications PostgreSQL
 │   │
 │   ├── tasks/
+│   │   ├── archive_tasks.py     # auto_archive_logs (Celery Beat dimanche 3h)
 │   │   ├── celery.py            # Config Celery + Beat schedule
 │   │   ├── notification_tasks.py # purge_old_logs, send_email, send_slack
+│   │   ├── soar_tasks.py        # Tâches SOAR asynchrones
+│   │   ├── report_tasks.py      # Génération de rapports
 │   │   └── ueba_tasks.py        # train_anomaly_model, score_single_event
 │   │
 │   ├── utils/
@@ -280,6 +286,26 @@ Types : `single_event`, `threshold` (Redis), `sequence` (Redis), `correlation` (
 
 Actions : `block_ip`, `disable_user`, `isolate_host`, `notify_slack`, `notify_email`, `create_ticket`
 
+**Documentation détaillée :** [`docs/SOAR_MODULE.md`](docs/SOAR_MODULE.md) (protocole agent) et [`docs/AGENT_CONFIGURATION.md`](docs/AGENT_CONFIGURATION.md) (configuration déploiement).
+
+### ⚡ Actions SOAR (directes)
+
+| Méthode | Endpoint | Auth | Description |
+|---------|----------|------|-------------|
+| GET | `/api/v1/actions/execute?action=block-ip&agent_ip=...&ip=...` | Analyste+ | Exécuter une action sur un agent distant |
+| POST | `/api/v1/actions/notify-slack` | Analyste+ | Notification Slack via Celery |
+| POST | `/api/v1/actions/notify-email` | Analyste+ | Email d'alerte via Celery |
+| WS | `/api/v1/actions/ws` | — | WebSocket de suivi temps réel des actions |
+
+### 🤖 Agents SOAR
+
+| Méthode | Endpoint | Auth | Description |
+|---------|----------|------|-------------|
+| POST | `/api/v1/agents/register` | Public | Auto-enregistrement d'un agent |
+| GET | `/api/v1/agents/` | Admin | Liste des agents en base |
+| GET | `/api/v1/agents/connected` | Admin | Liste des agents connectés en temps réel (WebSocket) |
+| WS | `/api/v1/agents/ws` | — | WebSocket de connexion des agents distants |
+
 ### 🔔 Notifications
 
 | Méthode | Endpoint                               | Auth  | Description                      |
@@ -289,16 +315,23 @@ Actions : `block_ip`, `disable_user`, `isolate_host`, `notify_slack`, `notify_em
 | PATCH    | `/api/v1/notifications/{id}/read`    | Token | Marquer comme lue                |
 | POST     | `/api/v1/notifications/read-all`     | Token | Tout marquer comme lu            |
 
+### 📋 Audit
+
+| Méthode | Endpoint                      | Auth     | Description                     |
+| -------- | ----------------------------- | -------- | ------------------------------- |
+| GET      | `/api/v1/audit/logs`        | Auditeur | Lister les logs d'audit         |
+| GET      | `/api/v1/audit/logs/export` | Auditeur | Exporter les logs d'audit (CSV) |
+
 ### 🗄️ Archivage (Admin)
 
-| Méthode | Endpoint                              | Auth  | Description                           |
-| -------- | ------------------------------------- | ----- | ------------------------------------- |
-| POST     | `/api/v1/admin/archive/create`      | Admin | Créer une archive certifiée         |
-| GET      | `/api/v1/admin/archive/list`        | Admin | Lister les archives                   |
-| GET      | `/api/v1/admin/archive/chain`       | Admin | Chaîne de confiance des archives     |
-| GET      | `/api/v1/admin/archive/{id}`        | Admin | Détail d'une archive                 |
-| POST     | `/api/v1/admin/archive/verify/{id}` | Admin | Vérifier l'intégrité d'une archive |
-| GET      | `/api/v1/admin/archive/{id}/export` | Admin | Export pour audit réglementaire      |
+| Méthode | Endpoint                              | Auth           | Description                           |
+| -------- | ------------------------------------- | -------------- | ------------------------------------- |
+| POST     | `/api/v1/admin/archive/create`      | Admin/Auditeur | Créer une archive certifiée         |
+| GET      | `/api/v1/admin/archive/list`        | Admin/Auditeur | Lister les archives                   |
+| GET      | `/api/v1/admin/archive/chain`       | Admin/Auditeur | Chaîne de confiance des archives     |
+| GET      | `/api/v1/admin/archive/{id}`        | Admin/Auditeur | Détail d'une archive                 |
+| POST     | `/api/v1/admin/archive/verify/{id}` | Admin/Auditeur | Vérifier l'intégrité d'une archive |
+| GET      | `/api/v1/admin/archive/{id}/export` | Admin/Auditeur | Export pour audit réglementaire      |
 
 ### 🛠️ Administration
 
@@ -430,14 +463,16 @@ Actions disponibles (`app/services/soar.py`) :
 
 | Action            | Commande                                    | Cible              |
 | ----------------- | ------------------------------------------- | ------------------ |
-| `block_ip`      | Bloque une IP sur le pare-feu               | Agent distant HTTP |
-| `disable_user`  | Désactive un compte utilisateur            | Agent distant HTTP |
-| `isolate_host`  | Isole une machine du réseau                | Agent distant HTTP |
+| `block_ip`      | Bloque une IP sur le pare-feu               | Agent distant (WS/HTTP) |
+| `disable_user`  | Désactive un compte utilisateur            | Agent distant (WS/HTTP) |
+| `isolate_host`  | Isole une machine du réseau                | Agent distant (WS/HTTP) |
 | `notify_slack`  | Envoie une notification Slack               | Slack Webhook      |
 | `notify_email`  | Envoie un email                             | SMTP               |
 | `create_ticket` | Crée un ticket d'incident (ID: SIEM-XXXXX) | Interne            |
 
-Les playbooks supportent : 4 triggers (manual, alert_created, scheduled, webhook), retry automatique, timeout configurable.
+**Communication agent :** les agents se connectent au serveur via **WebSocket** (`/api/v1/agents/ws`). Le serveur envoie les commandes sur cette connexion persistante et reçoit les résultats en temps réel. Si l'agent n'est pas connecté en WS, le serveur tombe en **repli HTTP** (port 9000). Les notifications (Slack, email) sont déléguées à des tâches **Celery** asynchrones.
+
+Les playbooks supportent : 4 triggers (manual, alert_created, scheduled, webhook), retry automatique, timeout configurable. Résolution des templates `{{var}}` dans les paramètres (ex: `{{source_ip}}` → valeur réelle).
 
 #### Tableau de suivi des incidents
 

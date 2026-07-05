@@ -2,20 +2,18 @@
 import type { AlertStatus, AlertSeverity } from "../../types/alert";
 
 const STATUS_STYLES: Record<AlertStatus, string> = {
-  NEW:          "bg-blue-900/40 text-blue-400 border-blue-800",
-  ACKNOWLEDGED: "bg-yellow-900/40 text-yellow-400 border-yellow-800",
-  IN_PROGRESS:  "bg-orange-900/40 text-orange-400 border-orange-800",
-  ESCALATED:    "bg-red-900/40 text-red-400 border-red-800",
-  RESOLVED:     "bg-green-900/40 text-green-400 border-green-800",
-  CLOSED:       "bg-gray-800 text-gray-500 border-gray-700",
+  ouverte:  "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 border-blue-300 dark:border-blue-700",
+  en_cours: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border-yellow-300 dark:border-yellow-700",
+  resolue:  "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-300 dark:border-green-700",
+  classee:  "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400 border-gray-300 dark:border-gray-700",
 };
 
 const SEVERITY_STYLES: Record<AlertSeverity, string> = {
-  CRITICAL: "bg-red-900/60 text-red-300 border-red-700",
-  HIGH:     "bg-orange-900/60 text-orange-300 border-orange-700",
-  MEDIUM:   "bg-yellow-900/60 text-yellow-300 border-yellow-700",
-  LOW:      "bg-blue-900/40 text-blue-300 border-blue-700",
-  INFO:     "bg-gray-800 text-gray-400 border-gray-700",
+  critical: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-300 dark:border-red-700",
+  high:     "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 border-orange-300 dark:border-orange-700",
+  medium:   "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border-yellow-300 dark:border-yellow-700",
+  low:      "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 border-blue-300 dark:border-blue-700",
+  info:     "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400 border-gray-300 dark:border-gray-700",
 };
 
 interface StatusBadgeProps {

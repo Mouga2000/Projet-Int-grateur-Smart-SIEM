@@ -16,9 +16,34 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# TypeScript
+*.tsbuildinfo
+
+# Vite
+.vite/
+
+# Docker
+.docker/
+docker-compose.override.yml
+*.docker
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE (user-specific)
+*.swp
+*.swo
+*~

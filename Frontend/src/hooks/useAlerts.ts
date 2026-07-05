@@ -13,7 +13,7 @@ interface UseAlertsReturn {
   filter: AlertFilter;
   setFilter: (f: AlertFilter) => void;
   refresh: () => void;
-  updateStatus: (id: string, status: Alert["status"]) => Promise<void>;
+  updateStatus: (id: number, status: Alert["status"]) => Promise<void>;
 }
 
 const PAGE_SIZE = 20;
@@ -42,7 +42,7 @@ export const useAlerts = (): UseAlertsReturn => {
 
   useEffect(() => { fetchAlerts(); }, [fetchAlerts]);
 
-  const updateStatus = async (id: string, status: Alert["status"]) => {
+  const updateStatus = async (id: number, status: Alert["status"]) => {
     await alertService.updateStatus(id, status);
     setAlerts((prev) =>
       prev.map((a) => (a.id === id ? { ...a, status } : a))
@@ -57,8 +57,8 @@ export const useAlerts = (): UseAlertsReturn => {
     page,
     setPage,
     filter,
-    setFilter: (f) => { setFilter(f); setPage(1); },
+    setFilter: (f: AlertFilter) => { setFilter(f); setPage(1); },
     refresh: fetchAlerts,
-    updateStatus,
+    updateStatus: updateStatus as any,
   };
 };

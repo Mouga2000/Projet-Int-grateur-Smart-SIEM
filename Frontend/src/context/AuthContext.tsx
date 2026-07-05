@@ -1,5 +1,5 @@
 // src/context/AuthContext.tsx
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, useMemo, useCallback, type ReactNode } from "react";
 import type { AuthUser } from "../types/user";
 import type { Role } from "../config/roles";
 import authService from "../services/authService";
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     init();
   }, []);
 
-  const login = async (username: string, password: string, mfa_code?: string) => {
+  const login = useCallback(async (username: string, password: string, mfa_code?: string) => {
     const result = await authService.login(username, password, mfa_code);
 
     localStorage.setItem("access_token", result.access_token);
@@ -56,22 +56,30 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       created_at: "",
       access_token: result.access_token,
     });
-  };
+  }, []);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     await authService.logout();
     setUser(null);
     localStorage.clear();
     window.location.href = "/login";
-  };
+  }, []);
 
-  const hasRole    = (role: Role)   => user?.role === role;
-  const hasAnyRole = (roles: Role[]) => roles.some((r) => r === user?.role);
+  const hasRole    = useCallback((role: Role)   => user?.role === role, [user]);
+  const hasAnyRole = useCallback((roles: Role[]) => roles.some((r) => r === user?.role), [user]);
+
+  const contextValue = useMemo(() => ({
+    user,
+    isAuthenticated: !!user,
+    isLoading,
+    login,
+    logout,
+    hasRole,
+    hasAnyRole,
+  }), [user, isLoading, login, logout, hasRole, hasAnyRole]);
 
   return (
-    <AuthContext.Provider
-      value={{ user, isAuthenticated: !!user, isLoading, login, logout, hasRole, hasAnyRole }}
-    >
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );

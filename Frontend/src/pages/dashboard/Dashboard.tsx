@@ -2,9 +2,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import api from "../../services/api";
 import logService from "../../services/logService";
 import type { LogEntry, TimelineResponse } from "../../types/log";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+
+// Cache timeline 30s entre les refreshes du Dashboard
+let _timelineCache: { data: TimelineResponse; ts: number } | null = null;
 import { Button } from "../../components/ui/Button";
 import LogTable from "../../components/logs/LogTable";
 import {
@@ -46,12 +50,13 @@ function countBy<T>(arr: T[], key: keyof T): { name: string; value: number }[] {
     .sort((a, b) => b.value - a.value);
 }
 
-function topN<T>(arr: T[], key: keyof T, n = 5) {
-  return countBy(arr, key).slice(0, n);
-}
-
 function formatHour(ts: string) {
-  try { return new Date(ts).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }); }
+  try {
+    const d = new Date(ts);
+    // Inclure le jour pour différencier les dates dans le graphique
+    return d.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit" })
+      + " " + d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+  }
   catch { return ts; }
 }
 
@@ -82,41 +87,92 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const [logs, setLogs]         = useState<LogEntry[]>([]);
-  const [allLogs, setAllLogs]   = useState<LogEntry[]>([]);
-  const [timeline, setTimeline] = useState<TimelineResponse | null>(null);
-  const [loading, setLoading]   = useState(true);
+  const [allLogs, setAllLogs]     = useState<LogEntry[]>([]);
+  const [timeline, setTimeline]   = useState<TimelineResponse | null>(null);
+  const [severityDist, setSeverityDist] = useState<Record<string, number> | null>(null);
+  const [topHosts, setTopHosts]   = useState<{ name: string; value: number }[]>([]);
+  const [topIPs, setTopIPs]       = useState<{ name: string; value: number }[]>([]);
+  const [typeData, setTypeData]   = useState<{ name: string; value: number }[]>([]);
+  const [loading, setLoading]     = useState(true);
 
   useEffect(() => {
-    Promise.all([
-      logService.list(1, 10),
-      logService.list(1, 200),
-      logService.timeline({ interval: "1h" }),
-    ])
-      .then(([recent, full, tl]) => {
+    let cancelled = false;
+
+    const fetchAll = async () => {
+      try {
+        // Étape 1 : logs récents (rapide)
+        const recent = await logService.list(1, 10);
+        if (cancelled) return;
         setLogs(recent.items);
+
+        // Étape 2 : logs pour les métriques (taille réduite)
+        const full = await logService.list(1, 50);
+        if (cancelled) return;
         setAllLogs(full.items);
-        setTimeline(tl);
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
+
+        // Étape 2b : répartition des sévérités (tous les logs via agrégation)
+        try {
+          const dist = await api.get("/logs/severity-distribution");
+          if (!cancelled) setSeverityDist(dist.data);
+        } catch {} // Ignorer si l'endpoint échoue
+
+        // Étape 2c : top hosts, top IPs & types (via agrégations)
+        try {
+          const [hosts, ips, types] = await Promise.all([
+            api.get("/logs/top/host", { params: { size: 6 } }),
+            api.get("/logs/top/source_ip", { params: { size: 6 } }),
+            api.get("/logs/top/log_type", { params: { size: 10 } }),
+          ]);
+          if (!cancelled) {
+            setTopHosts(hosts.data);
+            setTopIPs(ips.data);
+            setTypeData(types.data);
+          }
+        } catch {}
+
+        // Étape 3 : timeline avec cache 30s
+        if (_timelineCache && Date.now() - _timelineCache.ts < 30000) {
+          setTimeline(_timelineCache.data);
+        } else {
+          const tl = await logService.timeline({ interval: "1h" });
+          if (!cancelled) {
+            _timelineCache = { data: tl, ts: Date.now() };
+            setTimeline(tl);
+          }
+        }
+      } catch {
+        // Requête individuelle échouée → on continue avec les données partielles
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
+    fetchAll();
+    return () => { cancelled = true; };
   }, []);
 
   // ── Métriques ──
-  const criticalCount = allLogs.filter((l) => l.severity === "critical").length;
-  const errorCount    = allLogs.filter((l) => l.severity === "error").length;
-  const warnCount     = allLogs.filter((l) => l.severity === "warning").length;
+  const criticalCount = severityDist?.critical ?? allLogs.filter((l) => l.severity === "critical").length;
+  const errorCount    = severityDist?.error ?? allLogs.filter((l) => l.severity === "error").length;
+  const warnCount     = severityDist?.warning ?? allLogs.filter((l) => l.severity === "warning").length;
   const total         = timeline?.total ?? allLogs.length;
 
   // ── Données graphes ──
-  const severityData  = countBy(allLogs, "severity");
-  const typeData      = countBy(allLogs, "log_type");
-  const topHosts      = topN(allLogs, "host", 6);
-  const topIPs        = topN(allLogs, "source_ip", 6);
+  const severityData  = severityDist
+    ? Object.entries(severityDist)
+        .filter(([, v]) => v > 0)
+        .map(([name, value]) => ({ name, value }))
+        .sort((a, b) => b.value - a.value)
+    : countBy(allLogs, "severity");
 
-  // Radar: sévérités normalisées
-  const radarData = ["critical","error","warning","info","debug"].map((sev) => ({
+  // Radar: sévérités normalisées (via agrégation ES, en %)
+  const radarValues = ["critical", "error", "warning", "info", "debug"].map((sev) =>
+    severityDist?.[sev] ?? allLogs.filter((l) => l.severity === sev).length
+  );
+  const radarMax = Math.max(...radarValues, 1);
+  const radarData = ["critical", "error", "warning", "info", "debug"].map((sev, i) => ({
     sev,
-    count: allLogs.filter((l) => l.severity === sev).length,
+    count: Math.round((radarValues[i] / radarMax) * 100),
   }));
 
   // Timeline avec formatage

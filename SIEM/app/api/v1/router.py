@@ -5,9 +5,12 @@
 from fastapi import APIRouter
 
 from app.api.v1 import (
+    actions,
     admin,
+    agents,
     alerts,
     archive,
+    audit,
     auth,
     incidents,
     investigations,
@@ -29,14 +32,17 @@ api_router.include_router(users.router)
 api_router.include_router(logs.router)
 api_router.include_router(rules.router)
 api_router.include_router(admin.router)
+api_router.include_router(agents.router)
 api_router.include_router(incidents.router)
 api_router.include_router(alerts.router)
 api_router.include_router(investigations.router)
 api_router.include_router(notifications.router)
 api_router.include_router(playbooks.router)
 api_router.include_router(archive.router)
+api_router.include_router(audit.router)
 api_router.include_router(mitre.router)
 api_router.include_router(ueba.router)
+api_router.include_router(actions.router)
 # api_router.include_router(health.router, prefix="/health", tags=["Health"])
 # api_router.include_router(search.router, prefix="/search", tags=["Search"])
 # api_router.include_router(alerts.router, prefix="/alerts", tags=["Alerts"])

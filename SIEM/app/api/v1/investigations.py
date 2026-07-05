@@ -12,6 +12,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.dependencies import get_current_user, require_role
 from app.core.database import get_db
 from app.core.elasticsearch import get_es
+from app.repositories.audit_repo import AuditRepository
 from app.repositories.investigation_repo import InvestigationRepository
 from app.utils.tags import Role
 
@@ -64,6 +65,13 @@ async def create_investigation(
     """Cree une nouvelle investigation pour regrouper des logs suspects."""
     repo = InvestigationRepository(db)
     inv = await repo.create({**data.model_dump(), "created_by": current_user["id"]})
+    audit = AuditRepository(db)
+    await audit.log_action({
+        "user_id": current_user["id"], "username": current_user.get("username", ""),
+        "action": "create_investigation", "result": "success",
+        "resource_type": "investigation", "resource_id": str(inv.get("id", "")),
+        "details": {"title": data.title, "severity": data.severity},
+    })
     return inv
 
 
@@ -165,6 +173,13 @@ async def update_investigation_status(
     success = await repo.update_status(investigation_id, status, notes)
     if not success:
         raise HTTPException(status_code=404, detail="Investigation non trouvee")
+    audit = AuditRepository(db)
+    await audit.log_action({
+        "user_id": current_user["id"], "username": current_user.get("username", ""),
+        "action": f"investigation_{status}", "result": "success",
+        "resource_type": "investigation", "resource_id": str(investigation_id),
+        "details": {"notes": notes} if notes else {},
+    })
     return {"message": f"Statut mis a jour : {status}"}
 
 

@@ -1,31 +1,26 @@
 // src/types/alert.ts
 
-export type AlertSeverity = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "INFO";
-export type AlertStatus   = "NEW" | "ACKNOWLEDGED" | "IN_PROGRESS" | "ESCALATED" | "RESOLVED" | "CLOSED";
+export type AlertSeverity = "info" | "low" | "medium" | "high" | "critical";
+export type AlertStatus   = "ouverte" | "en_cours" | "resolue" | "classee";
 
 export interface Alert {
-  id: string;
+  id: number;
+  rule_id?: number;
   title: string;
-  description: string;
+  description?: string;
   severity: AlertSeverity;
+  source_ip?: string;
+  host?: string;
   status: AlertStatus;
-  source: string;
-  sourceIp?: string;
-  destinationIp?: string;
-  ruleId?: string;
-  ruleName?: string;
-  assignedTo?: string;
-  createdAt: string;
-  updatedAt: string;
-  acknowledgedAt?: string;
-  resolvedAt?: string;
+  confidence?: number;
+  mitre?: Record<string, any>;
+  created_at?: string;
 }
 
 export interface AlertFilter {
   severity?: AlertSeverity;
   status?: AlertStatus;
-  source?: string;
+  search?: string;
   from?: string;
   to?: string;
-  search?: string;
 }

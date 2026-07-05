@@ -40,21 +40,48 @@
 # Note : Elasticsearch sert de base de données centralisée pour tout le projet
 #         (utilisateurs, audit, logs, alertes, règles, etc.)
 
+import asyncio
 from elasticsearch import AsyncElasticsearch
 from app.core.config import settings
 
-class ElasticsearchClient:
-    _instance = None
-    
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = AsyncElasticsearch(
-                hosts=[f"{settings.ELASTICSEARCH_SCHEME}://{settings.ELASTICSEARCH_HOST}:{settings.ELASTICSEARCH_PORT}"]
-            )
-        return cls._instance
+# Pool de connexions partagé pour Elasticsearch
+_es_instance: AsyncElasticsearch | None = None
+_es_lock = asyncio.Lock()
+
 
 async def get_es() -> AsyncElasticsearch:
-    return ElasticsearchClient()
+    """
+    Retourne un client ES avec pool de connexions optimal.
+    """
+    global _es_instance
+    if _es_instance is None:
+        async with _es_lock:
+            if _es_instance is None:
+                _es_instance = AsyncElasticsearch(
+                    hosts=[
+                        f"{settings.ELASTICSEARCH_SCHEME}://{settings.ELASTICSEARCH_HOST}:{settings.ELASTICSEARCH_PORT}"
+                    ],
+                    maxsize=20,
+                    request_timeout=30,
+                    retry_on_timeout=True,
+                    max_retries=2,
+                    sniff_on_start=False,
+                    sniff_on_connection_fail=False,
+                )
+                # Ping de démarrage pour initialiser le transport
+                try:
+                    await _es_instance.info()
+                except Exception:
+                    pass  # ES peut ne pas être prêt, on continue
+    return _es_instance
+
+
+async def close_es():
+    """Ferme proprement le client ES."""
+    global _es_instance
+    if _es_instance:
+        await _es_instance.close()
+        _es_instance = None
 
 # Fonction utilitaire pour vérifier l'index
 async def ensure_index(es: AsyncElasticsearch, index: str, mapping: dict):

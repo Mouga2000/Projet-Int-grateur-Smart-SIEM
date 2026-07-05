@@ -7,19 +7,28 @@ import { useAuth } from "../hooks/useAuth";
 import Login           from "../pages/Login";
 import Layout          from "../components/layout/Layout";
 import Dashboard       from "../pages/dashboard/Dashboard";
+import CrisisRoom      from "../pages/dashboard/CrisisRoom";
 import Logs            from "../pages/logs/Logs";
 import LogDetail       from "../pages/logs/LogDetail";
 import Investigations  from "../pages/investigations/Investigations";
 import InvestigationDetail from "../pages/investigations/InvestigationDetail";
 import Users           from "../pages/admin/Users";
+import Rules           from "../pages/admin/Rules";
+import Playbooks      from "../pages/admin/Playbooks";
+import System         from "../pages/admin/System";
 import Purge           from "../pages/admin/Purge";
 import Archive         from "../pages/archive/Archive";
 import ArchiveChain    from "../pages/archive/ArchiveChain";
 import Profile         from "../pages/Profile";
+import Alerts         from "../pages/alerts/Alerts";
+import AlertDetail    from "../pages/alerts/AlertDetail";
+import AuditLogs      from "../pages/audit/Logs";
+import AuditVerify    from "../pages/audit/Verify";
 
 const RootRedirect = () => {
   const { isAuthenticated, redirectPath } = useAuth();
-  return <Navigate to={isAuthenticated ? redirectPath() : "/login"} replace />;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  return <Navigate to={redirectPath()} replace />;
 };
 
 const AppRouter = () => (
@@ -30,9 +39,16 @@ const AppRouter = () => (
 
       <Route element={<Layout />}>
         <Route path="/dashboard" element={
-          <ProtectedRoute><Dashboard /></ProtectedRoute>
+          <ProtectedRoute allowedRoles={[Role.ANALYSTE, Role.RSSI, Role.LECTEUR, Role.ADMINISTRATEUR]}>
+            <Dashboard />
+          </ProtectedRoute>
         }/>
 
+        <Route path="/crisis-room" element={
+          <ProtectedRoute allowedRoles={[Role.ANALYSTE, Role.RSSI, Role.ADMINISTRATEUR]}>
+            <CrisisRoom />
+          </ProtectedRoute>
+        }/>
         <Route path="/logs" element={
           <ProtectedRoute allowedRoles={[Role.ANALYSTE, Role.ADMINISTRATEUR, Role.LECTEUR]}>
             <Logs />
@@ -55,6 +71,17 @@ const AppRouter = () => (
           </ProtectedRoute>
         }/>
 
+        <Route path="/alerts" element={
+          <ProtectedRoute allowedRoles={[Role.ANALYSTE, Role.ADMINISTRATEUR, Role.LECTEUR]}>
+            <Alerts />
+          </ProtectedRoute>
+        }/>
+        <Route path="/alerts/:id" element={
+          <ProtectedRoute allowedRoles={[Role.ANALYSTE, Role.ADMINISTRATEUR, Role.LECTEUR]}>
+            <AlertDetail />
+          </ProtectedRoute>
+        }/>
+
         <Route path="/admin/users" element={
           <ProtectedRoute allowedRoles={[Role.ADMINISTRATEUR]}>
             <Users />
@@ -63,6 +90,32 @@ const AppRouter = () => (
         <Route path="/admin/purge" element={
           <ProtectedRoute allowedRoles={[Role.ADMINISTRATEUR]}>
             <Purge />
+          </ProtectedRoute>
+        }/>
+        <Route path="/admin/rules" element={
+          <ProtectedRoute allowedRoles={[Role.ADMINISTRATEUR]}>
+            <Rules />
+          </ProtectedRoute>
+        }/>
+        <Route path="/admin/playbooks" element={
+          <ProtectedRoute allowedRoles={[Role.ADMINISTRATEUR]}>
+            <Playbooks />
+          </ProtectedRoute>
+        }/>
+        <Route path="/admin/system" element={
+          <ProtectedRoute allowedRoles={[Role.ADMINISTRATEUR]}>
+            <System />
+          </ProtectedRoute>
+        }/>
+
+        <Route path="/audit/logs" element={
+          <ProtectedRoute allowedRoles={[Role.AUDITEUR, Role.ADMINISTRATEUR]}>
+            <AuditLogs />
+          </ProtectedRoute>
+        }/>
+        <Route path="/audit/verify" element={
+          <ProtectedRoute allowedRoles={[Role.AUDITEUR, Role.ADMINISTRATEUR]}>
+            <AuditVerify />
           </ProtectedRoute>
         }/>
 
@@ -86,7 +139,7 @@ const AppRouter = () => (
             Accès non autorisé
           </div>
         }/>
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Route>
     </Routes>
   </BrowserRouter>

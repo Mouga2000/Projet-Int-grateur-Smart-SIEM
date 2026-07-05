@@ -5,11 +5,14 @@
 # Les données relationnelles (utilisateurs, règles, audits…) sont stockées ici.
 # Les logs et données volumineuses restent dans Elasticsearch.
 
+from sqlalchemy import create_engine
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+from sqlalchemy.orm import sessionmaker
+
 from app.core.config import settings
 from app.models.sql_models import Base
 
-# Moteur asynchrone PostgreSQL
+# Moteur asynchrone PostgreSQL (pour FastAPI)
 engine = create_async_engine(
     settings.DATABASE_URL,
     echo=False,
@@ -18,10 +21,27 @@ engine = create_async_engine(
     pool_timeout=30,
 )
 
-# Factory de sessions asynchrones
+# Factory de sessions asynchrones (pour FastAPI)
 async_session_factory = async_sessionmaker(
     engine,
     class_=AsyncSession,
+    expire_on_commit=False,
+)
+
+# --- Session synchrone pour les workers Celery ---
+# Les tâches Celery tournent dans des processus fork().
+# asyncpg + fork = corruption du pool de connexions.
+# On utilise donc psycopg2 (synchrone) dans Celery.
+sync_engine = create_engine(
+    settings.DATABASE_SYNC_URL,
+    echo=False,
+    pool_size=5,
+    max_overflow=2,
+    pool_pre_ping=True,  # Vérifie la connexion avant de l'utiliser
+)
+
+sync_session_factory = sessionmaker(
+    bind=sync_engine,
     expire_on_commit=False,
 )
 

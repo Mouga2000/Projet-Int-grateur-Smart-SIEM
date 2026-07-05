@@ -5,7 +5,9 @@
 from datetime import datetime, timezone
 from typing import List, Optional
 
-from sqlalchemy import desc, select
+from datetime import datetime
+
+from sqlalchemy import desc, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.sql_models import Alert
@@ -46,9 +48,52 @@ class AlertRepository:
                 stmt = stmt.where(Alert.niveau == filters["niveau"])
             if filters.get("statut"):
                 stmt = stmt.where(Alert.statut == filters["statut"])
+            if filters.get("search"):
+                q = f"%{filters['search']}%"
+                stmt = stmt.where(
+                    or_(Alert.titre.ilike(q), Alert.description.ilike(q))
+                )
+            if filters.get("date_from"):
+                try:
+                    dt = datetime.fromisoformat(filters["date_from"])
+                    stmt = stmt.where(Alert.cree_le >= dt)
+                except (ValueError, TypeError):
+                    pass
+            if filters.get("date_to"):
+                try:
+                    dt = datetime.fromisoformat(filters["date_to"])
+                    stmt = stmt.where(Alert.cree_le <= dt)
+                except (ValueError, TypeError):
+                    pass
         result = await self.db.execute(stmt.offset((page - 1) * size).limit(size))
         items = [self._to_dict(a) for a in result.scalars().all()]
-        return {"items": items, "total": len(items), "page": page, "size": size}
+        count_stmt = select(Alert)
+        # Re-appliquer les filtres pour le count
+        if filters:
+            if filters.get("niveau"):
+                count_stmt = count_stmt.where(Alert.niveau == filters["niveau"])
+            if filters.get("statut"):
+                count_stmt = count_stmt.where(Alert.statut == filters["statut"])
+            if filters.get("search"):
+                q = f"%{filters['search']}%"
+                count_stmt = count_stmt.where(
+                    or_(Alert.titre.ilike(q), Alert.description.ilike(q))
+                )
+            if filters.get("date_from"):
+                try:
+                    dt = datetime.fromisoformat(filters["date_from"])
+                    count_stmt = count_stmt.where(Alert.cree_le >= dt)
+                except (ValueError, TypeError):
+                    pass
+            if filters.get("date_to"):
+                try:
+                    dt = datetime.fromisoformat(filters["date_to"])
+                    count_stmt = count_stmt.where(Alert.cree_le <= dt)
+                except (ValueError, TypeError):
+                    pass
+        count_result = await self.db.execute(count_stmt)
+        total = len(count_result.scalars().all())
+        return {"items": items, "total": total, "page": page, "size": size}
 
     async def update(self, alert_id: int, update_data: dict) -> bool:
         result = await self.db.execute(select(Alert).where(Alert.id == alert_id))

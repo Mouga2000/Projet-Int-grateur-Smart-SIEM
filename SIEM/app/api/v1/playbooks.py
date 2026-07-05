@@ -10,6 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.dependencies import get_current_user, require_role
 from app.core.database import get_db
+from app.repositories.audit_repo import AuditRepository
 from app.repositories.playbook_repo import PlaybookRepository
 from app.services.soar import SOARService
 from app.utils.tags import Role
@@ -67,7 +68,15 @@ async def create_playbook(
 ):
     """Cree un nouveau playbook."""
     repo = PlaybookRepository(db)
-    return await repo.create({**data.dict(), "created_by": current_user["username"]})
+    pb = await repo.create({**data.dict(), "created_by": current_user["username"]})
+    audit = AuditRepository(db)
+    await audit.log_action({
+        "user_id": current_user["id"], "username": current_user.get("username", ""),
+        "action": "create_playbook", "result": "success",
+        "resource_type": "playbook", "resource_id": str(pb.get("id", "")),
+        "details": {"name": data.name, "trigger": data.trigger},
+    })
+    return pb
 
 
 @router.get("/{playbook_id}")
@@ -99,7 +108,15 @@ async def update_playbook(
     success = await repo.update(playbook_id, update_data)
     if not success:
         raise HTTPException(status_code=404, detail="Playbook non trouve")
-    return await repo.get_by_id(playbook_id)
+    pb = await repo.get_by_id(playbook_id)
+    audit = AuditRepository(db)
+    await audit.log_action({
+        "user_id": current_user["id"], "username": current_user.get("username", ""),
+        "action": "update_playbook", "result": "success",
+        "resource_type": "playbook", "resource_id": str(playbook_id),
+        "details": {"changes": list(update_data.keys())},
+    })
+    return pb
 
 
 @router.delete("/{playbook_id}", status_code=204)
@@ -113,6 +130,12 @@ async def delete_playbook(
     success = await repo.delete(playbook_id)
     if not success:
         raise HTTPException(status_code=404, detail="Playbook non trouve")
+    audit = AuditRepository(db)
+    await audit.log_action({
+        "user_id": current_user["id"], "username": current_user.get("username", ""),
+        "action": "delete_playbook", "result": "success",
+        "resource_type": "playbook", "resource_id": str(playbook_id),
+    })
 
 
 @router.post("/{playbook_id}/execute")
@@ -134,4 +157,12 @@ async def execute_playbook(
     """
     repo = PlaybookRepository(db)
     soar = SOARService(repo)
-    return await soar.execute_playbook(playbook_id, context)
+    result = await soar.execute_playbook(playbook_id, context)
+    audit = AuditRepository(db)
+    await audit.log_action({
+        "user_id": current_user["id"], "username": current_user.get("username", ""),
+        "action": "execute_playbook", "result": "success" if result.get("success") else "failed",
+        "resource_type": "playbook", "resource_id": str(playbook_id),
+        "details": {"target_ip": context.get("source_ip", ""), "success": result.get("success")},
+    })
+    return result

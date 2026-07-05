@@ -16,7 +16,7 @@ export const useAuth = () => {
     const defaults: Record<string, string> = {
       lecteur:        "/dashboard",
       analyste:       "/dashboard",
-      auditeur:       "/admin/archive",
+      auditeur:       "/audit/logs",
       rssi:           "/dashboard",
       administrateur: "/dashboard",
     };

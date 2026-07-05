@@ -17,20 +17,29 @@ router = APIRouter(prefix="/alerts", tags=["Alertes"])
 
 @router.get("/")
 async def list_alerts(
-    severity: Optional[str] = Query(None, pattern="^(info|low|medium|high|critical)$"),
-    status: Optional[str] = Query(None, pattern="^(ouverte|en_cours|resolue|classee)$"),
+    severity: Optional[str] = Query(None, description="Filtrer par severite"),
+    status: Optional[str] = Query(None, description="Filtrer par statut"),
+    search: Optional[str] = Query(None, description="Recherche dans le titre et la description"),
+    date_from: Optional[str] = Query(None, description="Date debut (ISO)"),
+    date_to: Optional[str] = Query(None, description="Date fin (ISO)"),
     page: int = Query(1, ge=1),
     size: int = Query(50, ge=1, le=200),
     current_user: dict = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
-    """Liste les alertes avec filtres par severite et statut."""
+    """Liste les alertes avec filtres."""
     repo = AlertRepository(db)
     filters = {}
     if severity:
         filters["niveau"] = severity
     if status:
         filters["statut"] = status
+    if search:
+        filters["search"] = search
+    if date_from:
+        filters["date_from"] = date_from
+    if date_to:
+        filters["date_to"] = date_to
     return await repo.search(filters=filters, page=page, size=size)
 
 

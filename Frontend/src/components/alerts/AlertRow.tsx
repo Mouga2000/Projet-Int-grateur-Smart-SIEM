@@ -13,12 +13,12 @@ const AlertRow = ({ alert }: AlertRowProps) => {
   return (
     <tr
       onClick={() => navigate(`/alerts/${alert.id}`)}
-      className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/60 cursor-pointer transition-colors group"
+      className="border-b border-border/40 hover:bg-muted/30 cursor-pointer transition-colors"
     >
-      <td className="px-4 py-3 text-xs text-gray-400 font-mono">
-        {alert.id.slice(0, 8)}
+      <td className="px-4 py-3 text-xs text-white/50 font-mono">
+        #{alert.id}
       </td>
-      <td className="px-4 py-3 text-sm text-gray-900 dark:text-white max-w-xs truncate group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors">
+      <td className="px-4 py-3 text-sm text-white max-w-xs truncate transition-colors">
         {alert.title}
       </td>
       <td className="px-4 py-3">
@@ -27,9 +27,10 @@ const AlertRow = ({ alert }: AlertRowProps) => {
       <td className="px-4 py-3">
         <StatusBadge type="status" value={alert.status} />
       </td>
-      <td className="px-4 py-3 text-xs text-gray-500">{alert.source}</td>
-      <td className="px-4 py-3 text-xs text-gray-500">
-        {new Date(alert.createdAt).toLocaleString("fr-FR")}
+      <td className="px-4 py-3 text-xs text-white/50">{alert.host || alert.source_ip || "—"}</td>
+      <td className="px-4 py-3 text-xs text-white/50 font-mono">{alert.source_ip || "—"}</td>
+      <td className="px-4 py-3 text-xs text-white/50">
+        {alert.created_at ? new Date(alert.created_at).toLocaleString("fr-FR") : "—"}
       </td>
     </tr>
   );

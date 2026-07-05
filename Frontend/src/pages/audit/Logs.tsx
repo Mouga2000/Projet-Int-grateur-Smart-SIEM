@@ -1,17 +1,45 @@
 // src/pages/audit/Logs.tsx
 import { useEffect, useState } from "react";
 import auditService from "../../services/auditService";
-import Button from "../../components/ui/Button";
+import { Button } from "../../components/ui/Button";
 
 interface AuditLog {
   id: string;
   userId: string;
   username: string;
   action: string;
-  resource: string;
+  resource?: string;
   resourceId?: string;
-  ip: string;
+  resource_type?: string;
+  resource_id?: string;
+  details?: any;
+  ip_address?: string;
+  ip?: string;
   timestamp: string;
+}
+
+function actionColor(action: string): string {
+  const map: Record<string, string> = {
+    login:          "severity-info",
+    logout:         "severity-debug",
+    create_rule:    "severity-error",
+    update_rule:    "severity-warning",
+    delete_rule:    "severity-critical",
+    create_playbook: "severity-error",
+    update_playbook: "severity-warning",
+    delete_playbook: "severity-critical",
+    execute_playbook: "badge-purple",
+    purge_audit:    "severity-critical",
+    create_investigation: "badge-indigo",
+    investigation_ouverte: "severity-info",
+    investigation_en_cours: "severity-warning",
+    investigation_resolue: "severity-error",
+    investigation_classee: "severity-debug",
+    create_archive: "badge-cyan",
+    create_user:    "severity-error",
+    update_role:    "severity-warning",
+  };
+  return map[action] ?? "severity-debug";
 }
 
 const Logs = () => {
@@ -21,17 +49,28 @@ const Logs = () => {
   const [page, setPage]       = useState(1);
   const [from, setFrom]       = useState("");
   const [to, setTo]           = useState("");
-  const [userId, setUserId]   = useState("");
+  const [searchUser, setSearchUser] = useState("");
   const [exporting, setExporting] = useState(false);
+  const [dateError, setDateError] = useState("");
   const pageSize = 25;
 
+  const validateDates = (): boolean => {
+    if (from && to && from > to) {
+      setDateError("La date de début ne peut pas être postérieure à la date de fin.");
+      return false;
+    }
+    setDateError("");
+    return true;
+  };
+
   const fetchLogs = async () => {
+    if (!validateDates()) return;
     setLoading(true);
     try {
       const data = await auditService.getLogs({
         from: from || undefined,
         to: to || undefined,
-        userId: userId || undefined,
+        username: searchUser || undefined,
         page,
         size: pageSize,
       });
@@ -45,6 +84,7 @@ const Logs = () => {
   useEffect(() => { fetchLogs(); }, [page]);
 
   const handleExport = async () => {
+    if (!validateDates()) return;
     setExporting(true);
     try {
       const blob = await auditService.export({ from: from || undefined, to: to || undefined });
@@ -66,7 +106,7 @@ const Logs = () => {
           <h1 className="text-white font-medium text-lg">Logs d'audit</h1>
           <p className="text-gray-500 text-sm">{total} entrées</p>
         </div>
-        <Button variant="secondary" size="sm" loading={exporting} onClick={handleExport}>
+        <Button variant="secondary" size="sm" disabled={exporting} onClick={handleExport}>
           Exporter CSV
         </Button>
       </div>
@@ -75,27 +115,30 @@ const Logs = () => {
       <div className="flex flex-wrap gap-3 bg-gray-900 border border-gray-800 rounded-xl p-4">
         <input
           type="text"
-          placeholder="ID utilisateur..."
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
+          value={searchUser}
+          onChange={(e) => setSearchUser(e.target.value)}
+          placeholder="Nom d'utilisateur..."
           className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-1.5 text-sm text-gray-300 placeholder-gray-600 focus:outline-none focus:border-cyan-500"
         />
         <input
           type="datetime-local"
           value={from}
-          onChange={(e) => setFrom(e.target.value)}
+          onChange={(e) => { setFrom(e.target.value); setDateError(""); }}
+          max={to || undefined}
           className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-1.5 text-sm text-gray-300 focus:outline-none focus:border-cyan-500"
         />
         <input
           type="datetime-local"
           value={to}
-          onChange={(e) => setTo(e.target.value)}
+          onChange={(e) => { setTo(e.target.value); setDateError(""); }}
+          min={from || undefined}
           className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-1.5 text-sm text-gray-300 focus:outline-none focus:border-cyan-500"
         />
         <Button variant="secondary" size="sm" onClick={() => { setPage(1); fetchLogs(); }}>
           Filtrer
         </Button>
       </div>
+      {dateError && <p className="text-red-400 text-xs">{dateError}</p>}
 
       {loading && <p className="text-gray-500 text-sm">Chargement...</p>}
 
@@ -118,15 +161,20 @@ const Logs = () => {
                 </td>
                 <td className="px-4 py-2.5 text-gray-300">{log.username}</td>
                 <td className="px-4 py-2.5">
-                  <span className="px-1.5 py-0.5 bg-gray-800 border border-gray-700 rounded text-gray-400">
+                  <span className={`px-2 py-0.5 rounded text-xs font-medium ${actionColor(log.action)}`}>
                     {log.action}
                   </span>
                 </td>
                 <td className="px-4 py-2.5 text-gray-400">
-                  {log.resource}
-                  {log.resourceId && <span className="text-gray-600 font-mono"> #{log.resourceId.slice(0, 8)}</span>}
+                  {log.resource || log.resource_type || "—"}
+                  {(log.resourceId || log.resource_id) && (
+                    <span className="text-gray-600 font-mono">#{ (log.resourceId || log.resource_id || "").slice(0, 8)}</span>
+                  )}
+                  {log.details?.method && (
+                    <span className="text-gray-500 text-[10px] ml-1">({log.details.method})</span>
+                  )}
                 </td>
-                <td className="px-4 py-2.5 text-gray-500 font-mono">{log.ip}</td>
+                <td className="px-4 py-2.5 text-gray-500 font-mono">{(log as any).ip_address || log.ip || "—"}</td>
               </tr>
             ))}
           </tbody>

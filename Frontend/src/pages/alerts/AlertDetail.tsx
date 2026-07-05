@@ -4,8 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import type { Alert } from "../../types/alert";
 import alertService from "../../services/alertService";
 import StatusBadge from "../../components/alerts/StatusBadge";
-import Button from "../../components/ui/Button";
-import Modal from "../../components/ui/Modal";
+import { Button } from "../../components/ui/Button";
 import { useAuth } from "../../hooks/useAuth";
 import { Role } from "../../config/roles";
 
@@ -13,18 +12,16 @@ const AlertDetail = () => {
   const { id }     = useParams<{ id: string }>();
   const navigate   = useNavigate();
   const { hasAnyRole } = useAuth();
-  const canEdit    = hasAnyRole([Role.ANALYSTE, Role.ADMIN]);
+  const canEdit    = hasAnyRole([Role.ANALYSTE, Role.ADMINISTRATEUR]);
 
   const [alert, setAlert]               = useState<Alert | null>(null);
   const [loading, setLoading]           = useState(true);
   const [error, setError]               = useState<string | null>(null);
-  const [escalateOpen, setEscalateOpen] = useState(false);
-  const [escalateReason, setEscalateReason] = useState("");
   const [saving, setSaving]             = useState(false);
 
   useEffect(() => {
     if (!id) return;
-    alertService.getAlert(id)
+    alertService.getAlert(parseInt(id))
       .then(setAlert)
       .catch(() => setError("Alerte introuvable."))
       .finally(() => setLoading(false));
@@ -34,21 +31,8 @@ const AlertDetail = () => {
     if (!alert) return;
     setSaving(true);
     try {
-      const updated = await alertService.updateStatus(alert.id, status);
+      const updated = await alertService.updateStatus(Number(alert.id), status);
       setAlert(updated);
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const handleEscalate = async () => {
-    if (!alert) return;
-    setSaving(true);
-    try {
-      const updated = await alertService.escalate(alert.id, escalateReason);
-      setAlert(updated);
-      setEscalateOpen(false);
-      setEscalateReason("");
     } finally {
       setSaving(false);
     }
@@ -58,16 +42,16 @@ const AlertDetail = () => {
   if (error || !alert) return <p className="text-red-400 text-sm">{error ?? "Erreur"}</p>;
 
   const fields: [string, string | undefined][] = [
-    ["ID",            alert.id],
-    ["Source",        alert.source],
-    ["IP source",     alert.sourceIp],
-    ["IP destination",alert.destinationIp],
-    ["Règle",         alert.ruleName],
-    ["Assigné à",     alert.assignedTo],
-    ["Créée le",      new Date(alert.createdAt).toLocaleString("fr-FR")],
-    ["Mise à jour",   new Date(alert.updatedAt).toLocaleString("fr-FR")],
-    ["Accusée le",    alert.acknowledgedAt ? new Date(alert.acknowledgedAt).toLocaleString("fr-FR") : undefined],
-    ["Résolue le",    alert.resolvedAt ? new Date(alert.resolvedAt).toLocaleString("fr-FR") : undefined],
+    ["ID",            String(alert.id)],
+    ["Titre",         alert.title],
+    ["Description",   alert.description],
+    ["Sévérité",      alert.severity],
+    ["Statut",        alert.status],
+    ["Hôte",          alert.host],
+    ["IP source",     alert.source_ip],
+    ["Règle",         alert.rule_id ? `#${alert.rule_id}` : undefined],
+    ["Confiance",     alert.confidence ? `${alert.confidence}%` : undefined],
+    ["Créée le",      alert.created_at ? new Date(alert.created_at).toLocaleString("fr-FR") : undefined],
   ];
 
   return (
@@ -92,43 +76,23 @@ const AlertDetail = () => {
 
         {canEdit && (
           <div className="flex gap-2 shrink-0">
-            {alert.status === "NEW" && (
+            {alert.status === "ouverte" && (
               <Button
                 variant="secondary"
                 size="sm"
-                loading={saving}
-                onClick={() => handleStatus("ACKNOWLEDGED")}
+                disabled={saving}
+                onClick={() => handleStatus("en_cours")}
               >
-                Accuser réception
+                {saving ? "..." : "Prendre en charge"}
               </Button>
             )}
-            {alert.status === "ACKNOWLEDGED" && (
+            {alert.status === "en_cours" && (
               <Button
-                variant="secondary"
                 size="sm"
-                loading={saving}
-                onClick={() => handleStatus("IN_PROGRESS")}
+                disabled={saving}
+                onClick={() => handleStatus("resolue")}
               >
-                Prendre en charge
-              </Button>
-            )}
-            {["NEW", "ACKNOWLEDGED", "IN_PROGRESS"].includes(alert.status) && (
-              <Button
-                variant="danger"
-                size="sm"
-                onClick={() => setEscalateOpen(true)}
-              >
-                Escalader
-              </Button>
-            )}
-            {alert.status === "IN_PROGRESS" && (
-              <Button
-                variant="primary"
-                size="sm"
-                loading={saving}
-                onClick={() => handleStatus("RESOLVED")}
-              >
-                Résoudre
+                {saving ? "..." : "Résoudre"}
               </Button>
             )}
           </div>
@@ -159,46 +123,11 @@ const AlertDetail = () => {
 
       {/* Lien investigation */}
       <button
-        onClick={() => navigate(`/investigation?alertId=${alert.id}`)}
+        onClick={() => navigate(`/investigations?alertId=${alert.id}`)}
         className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors self-start"
       >
         → Investiguer cette alerte
       </button>
-
-      {/* Modal escalade */}
-      <Modal
-        open={escalateOpen}
-        onClose={() => setEscalateOpen(false)}
-        title="Escalader l'alerte"
-        size="sm"
-      >
-        <div className="flex flex-col gap-4">
-          <div>
-            <label className="text-xs text-gray-400 block mb-1">Motif d'escalade</label>
-            <textarea
-              rows={4}
-              value={escalateReason}
-              onChange={(e) => setEscalateReason(e.target.value)}
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-cyan-500 resize-none"
-              placeholder="Décrivez la raison de l'escalade..."
-            />
-          </div>
-          <div className="flex gap-2 justify-end">
-            <Button variant="ghost" size="sm" onClick={() => setEscalateOpen(false)}>
-              Annuler
-            </Button>
-            <Button
-              variant="danger"
-              size="sm"
-              loading={saving}
-              disabled={!escalateReason.trim()}
-              onClick={handleEscalate}
-            >
-              Confirmer l'escalade
-            </Button>
-          </div>
-        </div>
-      </Modal>
     </div>
   );
 };

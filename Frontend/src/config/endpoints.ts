@@ -52,4 +52,24 @@ export const ENDPOINTS = {
     detail:  (id: number) => `${API_BASE}/admin/archive/${id}`,
     export:  (id: number) => `${API_BASE}/admin/archive/${id}/export`,
   },
+
+  audit: {
+    logs: `${API_BASE}/audit/logs`,
+  },
+
+  rules: {
+    list:    `${API_BASE}/rules/`,
+    create:  `${API_BASE}/rules/`,
+    update:  (id: string) => `${API_BASE}/rules/${id}`,
+    delete:  (id: string) => `${API_BASE}/rules/${id}`,
+  },
+
+  playbooks: {
+    list:    `${API_BASE}/playbooks/`,
+    create:  `${API_BASE}/playbooks/`,
+    detail:  (id: number) => `${API_BASE}/playbooks/${id}`,
+    update:  (id: number) => `${API_BASE}/playbooks/${id}`,
+    delete:  (id: number) => `${API_BASE}/playbooks/${id}`,
+    execute: (id: number) => `${API_BASE}/playbooks/${id}/execute`,
+  },
 };

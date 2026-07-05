@@ -121,7 +121,7 @@ const Profile = () => {
                   <p className="text-xs text-muted-foreground">
                     Scanne ce QR Code avec Google Authenticator ou équivalent.
                   </p>
-                  <img src={`data:image/png;base64,${qrCode}`} alt="QR Code MFA" className="w-40 h-40 rounded-md border" />
+                  <img src={qrCode.startsWith("data:") ? qrCode : `data:image/png;base64,${qrCode}`} alt="QR Code MFA" className="w-40 h-40 rounded-md border" />
                   <div className="space-y-1.5">
                     <Label>Code de vérification</Label>
                     <Input

@@ -11,7 +11,7 @@ services:
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -36,6 +36,18 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  redis:
+    image: redis:7-alpine
+    container_name: siem-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
   api:
     build:
       context: .
@@ -44,12 +56,41 @@ services:
     env_file: .env
     environment:
       - ELASTICSEARCH_HOST=elasticsearch
+      - REDIS_HOST=redis
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
       - DATABASE_URL=postgresql+asyncpg://postgres:0901@host.docker.internal:5432/SmartSiem
       - DATABASE_SYNC_URL=postgresql+psycopg2://postgres:0901@host.docker.internal:5432/SmartSiem
     ports:
       - "8000:8000"
     depends_on:
       elasticsearch:
+        condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: siem-celery
+    command: celery -A app.tasks.celery worker --beat --loglevel=info --concurrency=1
+    env_file: .env
+    environment:
+      - REDIS_HOST=redis
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - ELASTICSEARCH_HOST=host.docker.internal
+      - DATABASE_URL=postgresql+asyncpg://postgres:0901@host.docker.internal:5432/SmartSiem
+      - DATABASE_SYNC_URL=postgresql+psycopg2://postgres:0901@host.docker.internal:5432/SmartSiem
+    volumes:
+      - .:/app
+      - ./certs:/app/certs
+      - ./data:/app/data
+      - ./models:/app/models
+    depends_on:
+      redis:
         condition: service_healthy
     extra_hosts:
       - "host.docker.internal:host-gateway"
