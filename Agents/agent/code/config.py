@@ -6,15 +6,25 @@ Charge le fichier YAML de configuration.
 """
 
 from pathlib import Path
-
 import yaml
+
+
+def get_resource_path(relative_path: str) -> Path:
+    if getattr(sys, "_MEIPASS", None):
+        base_path = Path(sys._MEIPASS)
+    else:
+        base_path = Path(__file__).resolve().parent.parent
+
+    return base_path / relative_path
+
 
 
 class Config:
 
     def __init__(self, path: str = "config/agent.yml"):
-        self.path = Path(path)
+        self.path = get_resource_path(path)
         self.data = self.load()
+
 
 
     def load(self) -> dict:
