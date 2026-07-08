@@ -2,33 +2,29 @@
 Configuration Manager
 
 Charge le fichier YAML de configuration.
-
 """
 
 from pathlib import Path
 import yaml
+import os
+import sys
 
-
-def get_resource_path(relative_path: str) -> Path:
-    if getattr(sys, "_MEIPASS", None):
-        base_path = Path(sys._MEIPASS)
-    else:
-        base_path = Path(__file__).resolve().parent.parent
-
-    return base_path / relative_path
-
+def get_resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
 
 
 class Config:
 
-    def __init__(self, path: str = "config/agent.yml"):
-        self.path = get_resource_path(path)
+    def __init__(self):
+        chemin_texte = get_resource_path(os.path.join("config", "agent.yml"))
+        self.path = Path(chemin_texte) 
+        
         self.data = self.load()
 
 
-
     def load(self) -> dict:
-
         if not self.path.exists():
             raise FileNotFoundError(
                 f"Configuration introuvable : {self.path}"
@@ -38,15 +34,11 @@ class Config:
             return yaml.safe_load(file)
 
 
-
     def get(self, *keys):
         value = self.data
-
         for key in keys:
             value = value[key]
-
         return value
-
 
 
     def reload(self):
