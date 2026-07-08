@@ -42,23 +42,26 @@ def service_existe() -> bool:
     return resultat.returncode == 0
 
 
-def enregistrer_ip_serveur(ip_serveur: str) -> None:
+def enregistrer_ip_serveur(protocole: str, hote: str, port: str) -> None:
     """
-    Écrit l'IP du serveur SIEM dans config/agent.yml pour que le Config
-    du reste de l'agent puisse la lire (Config().get("server", "ip")).
-    Fusionne avec le contenu existant du fichier s'il existe déjà.
+        Écrit protocole / hôte / port du serveur SIEM dans config/agent.yml,
+        pour que Config().get("server", "protocol"|"host"|"port") fonctionne
+        partout ailleurs dans l'agent. Fusionne avec le contenu existant.
     """
+    
     chemin_config = get_resource_path("config/agent.yml")
     chemin_config.parent.mkdir(parents=True, exist_ok=True)
-
+ 
     donnees = {}
     if chemin_config.exists():
         with open(chemin_config, "r", encoding="utf-8") as f:
             donnees = yaml.safe_load(f) or {}
-
+ 
     donnees.setdefault("server", {})
-    donnees["server"]["ip"] = ip_serveur
-
+    donnees["server"]["protocol"] = protocole
+    donnees["server"]["host"] = hote
+    donnees["server"]["port"] = int(port)
+ 
     with open(chemin_config, "w", encoding="utf-8") as f:
         yaml.safe_dump(donnees, f, allow_unicode=True, sort_keys=False)
 
@@ -68,10 +71,10 @@ def enregistrer_ip_serveur(ip_serveur: str) -> None:
 def installer_agent_systeme(ip_serveur: str) -> None:
     """Gère toute la configuration Windows automatiquement lors du clic sur le bouton."""
     try:
-        # 1. Enregistrer l'IP du serveur choisie par l'utilisateur
-        enregistrer_ip_serveur(ip_serveur)
+        # Enregistrer l'IP du serveur choisie par l'utilisateur
+        enregistrer_ip_serveur(protocole, hote, port)
 
-        # 2. Copier le binaire actuel et nssm.exe vers le dossier d'installation
+        # Copier le binaire actuel et nssm.exe vers le dossier d'installation
         DOSSIER_INSTALL.mkdir(parents=True, exist_ok=True)
         shutil.copy2(sys.argv[0], CHEMIN_EXEC)
 
@@ -80,11 +83,9 @@ def installer_agent_systeme(ip_serveur: str) -> None:
             shutil.copy2(nssm_source, CHEMIN_NSSM)
 
         if not CHEMIN_NSSM.exists():
-            raise FileNotFoundError(
-                "nssm.exe introuvable : il doit être livré avec l'installateur."
-            )
+            raise FileNotFoundError("nssm.exe introuvable : il doit être livré avec l'installateur.")
 
-        # 3. Créer le service Windows via NSSM
+        # Créer le service Windows via NSSM
         subprocess.run(
             [str(CHEMIN_NSSM), "install", NOM_SERVICE, str(CHEMIN_EXEC)],
             check=True,
@@ -113,10 +114,7 @@ def installer_agent_systeme(ip_serveur: str) -> None:
         # 4. Démarrer le service
         subprocess.run(["sc", "start", NOM_SERVICE], check=True)
 
-        messagebox.showinfo(
-            "Succès",
-            "L'agent SIEM a été installé et démarré avec succès en arrière-plan !",
-        )
+        messagebox.showinfo("Succès", "L'agent SIEM a été installé et démarré avec succès en arrière-plan !")
         sys.exit(0)
     except Exception as e:
         messagebox.showerror("Erreur", f"L'installation a échoué : {str(e)}")

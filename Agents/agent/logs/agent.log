@@ -17644,3 +17644,4 @@ requests.exceptions.SSLError: HTTPSConnectionPool(host='192.168.1.198', port=800
 2026-07-03 15:46:07,482 | INFO     | Task stopped.
 2026-07-03 15:46:07,483 | INFO     | Task stopped.
 2026-07-03 15:46:07,483 | INFO     | Task stopped.
+2026-07-08 13:25:41,613 | INFO     | Migration existante

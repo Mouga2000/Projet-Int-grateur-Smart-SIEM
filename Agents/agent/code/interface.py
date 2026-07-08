@@ -1,209 +1,266 @@
+"""
+interface.py
+
+Assistant graphique Tkinter d'installation du Smart Agent.
+Ne contient aucune logique système : délègue à installation.installer_agent_systeme().
+"""
+
 import os
 import tkinter as tk
+from tkinter import ttk
 from tkinter import messagebox
+
 from code.installation import installer_agent_systeme
 
 
+# ==============================================================
+# Palette
+# ==============================================================
+COLOR_PRIMARY = "#0A2F6F"     # bleu nuit - header
+COLOR_SECONDARY = "#1E88E5"   # bleu accent - focus / liens
+COLOR_ACCENT = "#b19766"      # doré - accent discret
+COLOR_BG = "#F4F7FA"          # fond fenêtre
+COLOR_CARD = "#FFFFFF"        # fond carte
+COLOR_TEXT = "#1E293B"        # texte principal
+COLOR_MUTED = "#5C6773"       # texte secondaire
+COLOR_BORDER = "#D9E2EC"
+COLOR_INFO_BG = "#EDF5FF"
+COLOR_INFO_BORDER = "#C5D9F1"
+COLOR_SUCCESS = "#1B7F4C"
+COLOR_ERROR = "#C62828"
+
+FONT_TITLE = ("Segoe UI", 16, "bold")
+FONT_SUBTITLE = ("Segoe UI", 9)
+FONT_LABEL = ("Segoe UI", 10, "bold")
+FONT_INPUT = ("Segoe UI", 11)
+FONT_BUTTON = ("Segoe UI", 11, "bold")
+FONT_SMALL = ("Segoe UI", 9)
+
+
 def lancer_assistant_graphique() -> None:
-
     fenetre = tk.Tk()
-    fenetre.title("Smart SIEM Agent")
-    fenetre.geometry("560x680")
-    fenetre.resizable(True, True)
-    fenetre.configure(bg="#F4F7FA")
+    fenetre.title("Smart SIEM Agent — Assistant d'installation")
+    fenetre.geometry("520x700")
+    fenetre.minsize(480, 640)
+    fenetre.configure(bg=COLOR_BG)
 
-    # ===========================
-    # Couleurs
-    # ===========================
-
-    COLOR_PRIMARY = "#0A2F6F"
-    COLOR_SECONDARY = "#1E88E5"
-    COLOR_BG = "#F4F7FA"
-    COLOR_CARD = "#FFFFFF"
-    COLOR_TEXT = "#1E293B"
-    COLOR_RED = "#C62828"
-
-    # ===========================
-    # Carte centrale
-    # ===========================
-
-    card = tk.Frame(
-        fenetre,
-        bg=COLOR_CARD,
-        bd=0,
-        highlightthickness=1,
-        highlightbackground="#D9E2EC"
+    # Style ttk pour le Combobox (protocole)
+    style = ttk.Style()
+    style.theme_use("clam")
+    style.configure(
+        "Smart.TCombobox",
+        fieldbackground="white",
+        background="white",
+        foreground=COLOR_TEXT,
+        arrowcolor=COLOR_PRIMARY,
+        padding=4,
     )
 
-    card.place(relx=0.5, rely=0.5, anchor="center", width=500, height=600)
+    # ==========================================================
+    # Carte centrale (scindée en header coloré + corps blanc)
+    # ==========================================================
+    outer = tk.Frame(fenetre, bg=COLOR_BG)
+    outer.pack(expand=True, fill="both", padx=24, pady=24)
 
-    # ===========================
-    # Logo
-    # ===========================
+    card = tk.Frame(
+        outer,
+        bg=COLOR_CARD,
+        highlightthickness=1,
+        highlightbackground=COLOR_BORDER,
+    )
+    card.pack(expand=True, fill="both")
+
+    # ---------- Header ----------
+    header = tk.Frame(card, bg=COLOR_PRIMARY)
+    header.pack(fill="x")
 
     logo_path = os.path.join(os.path.dirname(__file__), "logo.png")
-
     if os.path.exists(logo_path):
         try:
             logo = tk.PhotoImage(file=logo_path)
-
-            logo_label = tk.Label(
-                card,
-                image=logo,
-                bg="white"
-            )
-
-            logo_label.image = logo
-            logo_label.pack(pady=(20,8))
-
-        except:
+            logo_label = tk.Label(header, image=logo, bg=COLOR_PRIMARY)
+            logo_label.image = logo  # garder une référence
+            logo_label.pack(pady=(24, 8))
+        except tk.TclError:
             pass
 
-    # ===========================
-    # Titre
-    # ===========================
+    tk.Label(
+        header,
+        text="Smart SIEM Agent",
+        bg=COLOR_PRIMARY,
+        fg="white",
+        font=FONT_TITLE,
+    ).pack(pady=(0, 4))
 
     tk.Label(
-        card,
-        text="AGENT SMART SIEM",
-        bg="white",
-        fg=COLOR_PRIMARY,
-        font=("Segoe UI",18,"bold")
-    ).pack()
+        header,
+        text="Configuration et installation de l'agent de sécurité",
+        bg=COLOR_PRIMARY,
+        fg="#C9D8F2",
+        font=FONT_SUBTITLE,
+    ).pack(pady=(0, 22))
+
+    # ---------- Corps ----------
+    body = tk.Frame(card, bg=COLOR_CARD)
+    body.pack(expand=True, fill="both", padx=32, pady=24)
 
     tk.Label(
-        card,
-        text="Assistant d'installation",
-        bg="white",
-        fg=COLOR_SECONDARY,
-        font=("Segoe UI",11)
-    ).pack(pady=(0,20))
+        body,
+        text="CONNEXION AU SERVEUR",
+        bg=COLOR_CARD,
+        fg=COLOR_MUTED,
+        font=("Segoe UI", 9, "bold"),
+        anchor="w",
+    ).pack(fill="x", pady=(0, 8))
 
-    # ===========================
+    # Ligne de formulaire : protocole / hôte / port, alignée avec grid()
+    frame_formulaire = tk.Frame(body, bg=COLOR_CARD)
+    frame_formulaire.pack(fill="x")
+    frame_formulaire.columnconfigure(0, weight=0)
+    frame_formulaire.columnconfigure(1, weight=1)
+    frame_formulaire.columnconfigure(2, weight=0)
 
-    tk.Label(
-        card,
-        text="Adresse IP du serveur SIEM",
-        bg="white",
-        fg=COLOR_TEXT,
-        font=("Segoe UI",11,"bold")
-    ).pack()
+    def champ_label(parent, texte):
+        tk.Label(
+            parent, text=texte, bg=COLOR_CARD, fg=COLOR_TEXT,
+            font=FONT_LABEL, anchor="w",
+        ).pack(fill="x", pady=(0, 4))
 
-    champ_ip = tk.Entry(
-        card,
-        width=30,
-        justify="center",
-        font=("Segoe UI",12),
-        relief="solid",
-        bd=1
+    # Protocole
+    col_proto = tk.Frame(frame_formulaire, bg=COLOR_CARD)
+    col_proto.grid(row=0, column=0, sticky="ew", padx=(0, 8))
+    champ_label(col_proto, "Protocole")
+    combo_protocol = ttk.Combobox(
+        col_proto, values=["http", "https"], width=7,
+        font=FONT_INPUT, state="readonly", style="Smart.TCombobox",
     )
+    combo_protocol.set("http")
+    combo_protocol.pack(ipady=4, fill="x")
 
-    champ_ip.insert(0, "192.168.204.132")
-    champ_ip.pack(ipady=6,pady=12)
+    # Hôte
+    col_hote = tk.Frame(frame_formulaire, bg=COLOR_CARD)
+    col_hote.grid(row=0, column=1, sticky="ew", padx=8)
+    champ_label(col_hote, "Adresse hôte (IP / domaine)")
+    champ_hote = tk.Entry(
+        col_hote, justify="center", font=FONT_INPUT,
+        relief="solid", bd=1, highlightthickness=1,
+        highlightbackground=COLOR_BORDER, highlightcolor=COLOR_SECONDARY,
+    )
+    champ_hote.insert(0, "192.168.1.110")
+    champ_hote.pack(ipady=6, fill="x")
 
-    # ===========================
-    # Description
-    # ===========================
+    # Port
+    col_port = tk.Frame(frame_formulaire, bg=COLOR_CARD)
+    col_port.grid(row=0, column=2, sticky="ew", padx=(8, 0))
+    champ_label(col_port, "Port")
+    champ_port = tk.Entry(
+        col_port, width=7, justify="center", font=FONT_INPUT,
+        relief="solid", bd=1, highlightthickness=1,
+        highlightbackground=COLOR_BORDER, highlightcolor=COLOR_SECONDARY,
+    )
+    champ_port.insert(0, "8000")
+    champ_port.pack(ipady=6, fill="x")
 
     tk.Label(
-        card,
-        text="L'agent sera installé comme un service système\n"
-             "et démarrera automatiquement à chaque démarrage.",
-        bg="white",
-        fg="#5C6773",
+        body,
+        text="L'agent sera installé comme un service système\net démarrera automatiquement à chaque redémarrage.",
+        bg=COLOR_CARD,
+        fg=COLOR_MUTED,
         justify="center",
-        font=("Segoe UI",10)
-    ).pack(pady=(0,20))
+        font=FONT_SMALL,
+    ).pack(pady=(18, 16))
 
-    # ===========================
-    # Conditions
-    # ===========================
-
+    # ---------- Bloc conditions ----------
     frame_conditions = tk.Frame(
-        card,
-        bg="#EDF5FF",
-        highlightbackground="#C5D9F1",
-        highlightthickness=1
+        body, bg=COLOR_INFO_BG,
+        highlightbackground=COLOR_INFO_BORDER, highlightthickness=1,
     )
+    frame_conditions.pack(fill="x", pady=(0, 4))
 
-    frame_conditions.pack(
-        padx=20,
-        fill="x",
-        pady=10
+    texte_conditions = (
+        " En poursuivant l'installation, vous acceptez que Smart SIEM Agent puisse :\n\n"
+        " ✓ Collecter les journaux système\n"
+        " ✓ Surveiller les processus actifs\n"
+        " ✓ Analyser les connexions réseau\n"
+        " ✓ Recevoir des actions SOAR du serveur\n"
+        " ✓ Fonctionner en arrière-plan avec les privilèges administrateur"
     )
-
-    texte = (
-        "En poursuivant l'installation vous acceptez que "
-        "Smart SIEM Agent puisse :\n\n"
-
-        "✓ Collecter les journaux système\n"
-        "✓ Surveiller les processus actifs\n"
-        "✓ Analyser les connexions réseau\n"
-        "✓ Recevoir des actions SOAR du serveur\n"
-        "✓ Fonctionner en arrière-plan avec les privilèges administrateur"
+    label_conditions = tk.Label(
+        frame_conditions, text=texte_conditions, bg=COLOR_INFO_BG, fg=COLOR_TEXT,
+        justify="left", 
+        anchor="w",       
+        wraplength=380,    
+        font=FONT_SMALL,
     )
+    label_conditions.pack( padx=16, pady=14, fill="x" )
 
-    tk.Label(
-        frame_conditions,
-        text=texte,
-        bg="#EDF5FF",
-        fg=COLOR_TEXT,
-        justify="left",
-        wraplength=420,
-        font=("Segoe UI",9)
-    ).pack(
-        padx=15,
-        pady=15
-    )
+    # ---------- Statut (retour visuel avant messagebox) ----------
+    label_statut = tk.Label(body, text="", bg=COLOR_CARD, font=FONT_SMALL,)
+    label_statut.pack(pady=(10, 0))
 
-    # ===========================
-    # Bouton
-    # ===========================
+    # ---------- Bouton d'action ----------
+    def au_survol(_e):
+        bouton_installer.configure(bg="#0d3d8f")
+
+    def au_depart(_e):
+        bouton_installer.configure(bg=COLOR_PRIMARY)
 
     def au_clic_bouton():
+        protocole = combo_protocol.get()
+        hote = champ_hote.get().strip()
+        port = champ_port.get().strip()
 
-        ip = champ_ip.get().strip()
-
-        if not ip:
-            messagebox.showwarning(
-                "Attention",
-                "Veuillez renseigner une adresse IP."
-            )
+        if not hote:
+            messagebox.showwarning("Attention", "Veuillez renseigner l'adresse hôte du serveur.")
+            return
+        if not port:
+            messagebox.showwarning("Attention", "Veuillez renseigner le port d'écoute.")
+            return
+        if not port.isdigit():
+            messagebox.showwarning("Attention", "Le port doit être un nombre entier valide (ex: 8000).")
             return
 
-        installer_agent_systeme(ip)
-        fenetre.destroy()
+        bouton_installer.configure(state="disabled", text="Installation en cours...")
+        label_statut.configure(text="Configuration du service en cours, merci de patienter...", fg=COLOR_MUTED)
+        fenetre.update_idletasks()
 
-    bouton = tk.Button(
-        card,
-        text="Installer l'Agent",
+        try:
+            installer_agent_systeme(hote)
+            label_statut.configure(text="Installation réussie.", fg=COLOR_SUCCESS)
+            messagebox.showinfo(
+                "Succès",
+                "L'agent Smart SIEM a été configuré et installé en arrière-plan avec succès !",
+            )
+            fenetre.destroy()
+        except Exception as e:
+            label_statut.configure(text="Échec de l'installation.", fg=COLOR_ERROR)
+            bouton_installer.configure(state="normal", text="Installer & Démarrer l'agent")
+            messagebox.showerror("Erreur d'installation", f"Impossible d'installer le service :\n{str(e)}")
+
+    bouton_installer = tk.Button(
+        body,
+        text="Installer & Démarrer l'agent",
         command=au_clic_bouton,
         bg=COLOR_PRIMARY,
         fg="white",
-        activebackground=COLOR_SECONDARY,
+        activebackground="#0d3d8f",
         activeforeground="white",
+        font=FONT_BUTTON,
         relief="flat",
+        bd=0,
         cursor="hand2",
-        font=("Segoe UI",11,"bold"),
-        padx=25,
-        pady=10
     )
+    bouton_installer.pack(fill="x", ipady=10, pady=(14, 0))
+    bouton_installer.bind("<Enter>", au_survol)
+    bouton_installer.bind("<Leave>", au_depart)
 
-    bouton.pack(pady=25)
-
-    # ===========================
-    # Footer
-    # ===========================
-
+    # ---------- Footer ----------
     tk.Label(
-        card,
-        text="Smart SIEM © 2026",
-        bg="white",
-        fg="#7C8793",
-        font=("Segoe UI",9)
-    ).pack(side="bottom", pady=15)
+        card, text="Smart SIEM © 2026", bg=COLOR_CARD, fg="#9AA5B1", font=FONT_SMALL,
+    ).pack(side="bottom", pady=12)
 
     fenetre.mainloop()
+
 
 
 
