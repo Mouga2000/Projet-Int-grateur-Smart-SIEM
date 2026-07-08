@@ -72,7 +72,9 @@ SIEM/
 ├── .gitignore
 ├── .dockerignore
 ├── requirements.txt             # Dépendances Python
-├── docker-compose.yml           # Elasticsearch + Kibana + API
+├── docker-compose.yml           # Elasticsearch + Kibana + API (dev)
+│                                # Le docker-compose.yml de production (Traefik)
+│                                # se trouve à la racine du projet
 ├── Dockerfile                   # Image Docker de l'API
 ├── alembic.ini                  # Configuration migrations
 ├── README.md
@@ -726,12 +728,57 @@ curl -X POST http://localhost:8000/api/v1/users/setup \
 | -------------------------- | ------------------------------------- | ------------------- |
 | `SECRET_KEY`             | *(obligatoire)*                     | Clé secrète JWT   |
 | `DATABASE_URL`           | `postgresql+asyncpg://…/SmartSiem` | URL PostgreSQL      |
+| `DB_USER`               | `postgres`                          | Utilisateur PostgreSQL |
+| `DB_PASSWORD`           | `changeme`                          | Mot de passe PostgreSQL |
 | `ELASTICSEARCH_HOST`     | `localhost`                         | Hôte Elasticsearch |
 | `REDIS_HOST`             | `localhost`                         | Hôte Redis         |
+| `FRONTEND_URL`          | `http://localhost:5173`            | URL du frontend (CORS) |
 | `LOG_RETENTION_DAYS`     | `90`                                | Rétention logs     |
 | `UEBA_ENABLED`           | `True`                              | Activer UEBA        |
 | `UEBA_ANOMALY_THRESHOLD` | `70`                                | Seuil d'alerte UEBA |
 | `SMTP_HOST`              | *(optionnel)*                       | Serveur SMTP email  |
+
+### Configuration CORS
+
+Le CORS est configuré dans [`app/main.py`](app/main.py#L74-L84) :
+
+```python
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",                    # Frontend local
+        "http://localhost:3000",
+        "http://127.0.0.1:5173",
+        "https://smart-siem.vercel.app",            # Frontend Vercel
+        "https://api.smart-siem.strife-cyber.com",  # API via Traefik
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+```
+
+Pense à ajouter l'URL de ton frontend (Vercel ou autre) dans `allow_origins` pour éviter les erreurs CORS en production.
+
+### Déploiement production (VPS + Traefik)
+
+Le projet inclut un `docker-compose.yml` à la racine pour le déploiement avec Traefik :
+
+```bash
+# 1. Créer le réseau Traefik
+docker network create traefik-net
+
+# 2. Connecter PostgreSQL au réseau internal
+docker network connect smart-siem_internal postgres
+
+# 3. Lancer la stack
+docker compose up -d
+```
+
+Services déployés :
+- **API** → `api.smart-siem.strife-cyber.com` (via Traefik, HTTPS)
+- **Kibana** → `kibana.smart-siem.strife-cyber.org` (via Traefik, HTTPS)
+- **Elasticsearch** / **Redis** / **Celery** → réseau interne uniquement
 
 ### Entraînement du modèle UEBA
 
