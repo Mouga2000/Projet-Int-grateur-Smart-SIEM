@@ -37,7 +37,7 @@
 #
 # Point d'entrée uvicorn : uvicorn app.main:app --reload
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
@@ -70,6 +70,15 @@ app = FastAPI(
     openapi_url="/openapi.json",
     lifespan=lifespan,
 )
+
+# --- Middleware : forcer HTTPS sur les Location header (pour les redirects) ---
+@app.middleware("http")
+async def upgrade_location_to_https(request: Request, call_next):
+    response = await call_next(request)
+    if response.status_code in (301, 302, 303, 307, 308) and response.headers.get("location", "").startswith("http://"):
+        response.headers["location"] = response.headers["location"].replace("http://", "https://", 1)
+    return response
+
 
 app.add_middleware(
     CORSMiddleware,
