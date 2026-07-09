@@ -1,7 +1,7 @@
 // src/components/logs/LogTable.tsx
 import { useNavigate } from "react-router-dom";
 import type  { LogEntry } from "../../types/log";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
 import SeverityBadge from "@/components/logs/SeverityBadge";
 import { Loader2 } from "lucide-react";
 

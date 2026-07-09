@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import auditService from "../../services/auditService";
 import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/Table";
 import { cn } from "../../lib/utils";
 import {
   Download, Filter, Search, X, Loader2, ScrollText, ChevronLeft, ChevronRight,
