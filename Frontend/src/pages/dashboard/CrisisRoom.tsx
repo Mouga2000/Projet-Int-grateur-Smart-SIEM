@@ -57,10 +57,14 @@ const CrisisRoom = () => {
 
   const fetchCriticals = useCallback(async () => {
     try {
+      console.log("🔍 CrisisRoom: appel API /alerts...");
       const { data } = await api.get("/alerts", { params: { severity: "critical", size: 50 } });
+      console.log("✅ CrisisRoom: données reçues", data);
       setCriticals(data.items);
       setLastRefresh(new Date());
-    } catch {}
+    } catch (err) {
+      console.log("❌ CrisisRoom: erreur", err);
+    }
   }, []);
 
   useEffect(() => {
