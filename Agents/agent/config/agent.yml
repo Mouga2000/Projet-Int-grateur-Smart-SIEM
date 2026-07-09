@@ -9,11 +9,11 @@ agent:
 
 server:
 
-  protocol: http
+  protocol: https
 
-  host:  192.168.1.110  #169.254.170.76     #192.168.1.198                
+  host: api.smart-siem.strife-cyber.org     #192.168.1.110  #169.254.170.76     #192.168.1.198                
 
-  port: 8000
+  port: 443  #8000
 
   api:
 

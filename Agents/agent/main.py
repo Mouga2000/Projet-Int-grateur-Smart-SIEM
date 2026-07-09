@@ -29,9 +29,6 @@ if getattr(sys, "frozen", False):
 
 
 
-# --------------------------------------------------------------------------
-# Partie "assistant d'installation"
-# --------------------------------------------------------------------------
 
 def est_admin() -> bool:
     """Vérifie si le script est exécuté avec les privilèges administrateur."""
@@ -44,18 +41,18 @@ def est_admin() -> bool:
 
 
 
-# --------------------------------------------------------------------------
-# Point d'entrée principal
-# --------------------------------------------------------------------------
+
 
 if __name__ == "__main__":
+
+    lancer_smart_agent()
+
+    """
     if not service_existe():
-        # Premier lancement sur le poste : on ouvre l'assistant graphique.
         if not est_admin():
             elever_privileges()
         lancer_assistant_graphique()
     else:
-        # Déjà installé : on démarre directement la boucle SIEM.
         lancer_smart_agent()
        
-
+    """

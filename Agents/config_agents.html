@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Guide Technique & Manuel de Déploiement — Smart SIEM Agent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+           DESIGN TOKENS — thème "console de télémétrie SOC" modernisé
+           ============================================================ */
+        :root {
+            --ink: #0B1220;
+            --paper: #F5F7FA;
+            --card: #FFFFFF;
+            --line: #E2E7EE;
+            --slate: #5B6B82;
+            --slate-dark: #33415C;
+
+            --signal: #0EA5A0;
+            --signal-bright: #14C9C3;
+            --signal-dim: #E3F5F3;
+            --alert: #D97B29;
+            --alert-dim: #FBEEE0;
+            --danger: #C2483B;
+            --danger-dim: #F7E7E4;
+
+            --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+            --font-body: 'IBM Plex Sans', 'Segoe UI', sans-serif;
+            --font-mono: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+
+            --gutter-x: 5vw;
+            --hero-pad-top: 34px;
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-card: 0 1px 2px rgba(15, 23, 42, .05), 0 8px 24px -12px rgba(15, 23, 42, .18);
+            --shadow-card-hover: 0 4px 8px rgba(15, 23, 42, .08), 0 16px 40px -16px rgba(15, 23, 42, .28);
+            --shadow-elevated: 0 1px 2px rgba(15, 23, 42, .05), 0 30px 70px -30px rgba(15, 23, 42, .30);
+        }
+
+        @media screen and (min-width: 640px) {
+            :root {
+                --gutter-x: 40px;
+            }
+        }
+        @media screen and (min-width: 960px) {
+            :root {
+                --gutter-x: 56px;
+            }
+        }
+
+        @page {
+            size: A4;
+            margin: 16mm 10mm 20mm 10mm;
+            @bottom-right {
+                content: "PAGE " counter(page) " / " counter(pages);
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 8pt;
+                letter-spacing: 0.05em;
+                color: #9AA7BA;
+            }
+            @bottom-left {
+                content: "SMART-SIEM-AGENT · DOC TECHNIQUE";
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 8pt;
+                letter-spacing: 0.05em;
+                color: #9AA7BA;
+            }
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--slate-dark);
+            background: var(--paper);
+            line-height: 1.7;
+            font-size: 12pt; /* augmenté de 10.4pt à 12pt */
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        @media screen {
+            body {
+                background: #E7ECF2;
+                padding: 32px 12px;
+                background-image:
+                    radial-gradient(ellipse at 20% 0%, rgba(14, 165, 160, 0.04) 0%, transparent 60%),
+                    radial-gradient(ellipse at 80% 100%, rgba(217, 123, 41, 0.03) 0%, transparent 60%);
+            }
+        }
+
+        .page {
+            width: 100%;
+            background: var(--paper);
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-elevated);
+            transition: box-shadow var(--transition-smooth);
+        }
+        .page:hover {
+            box-shadow: 0 2px 4px rgba(15, 23, 42, .08), 0 40px 90px -35px rgba(15, 23, 42, .40);
+        }
+
+        .page-body {
+            padding: 0 var(--gutter-x) 48px var(--gutter-x);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============================================================
+           ANIMATIONS KEYFRAMES
+           ============================================================ */
+        @keyframes pulse-dot {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(14, 165, 160, 0.55); }
+            50% { box-shadow: 0 0 0 10px rgba(14, 165, 160, 0); }
+        }
+        @keyframes borderGlow {
+            0%, 100% { border-color: rgba(14, 165, 160, 0.55); }
+            50% { border-color: rgba(14, 165, 160, 0.9); }
+        }
+        @keyframes flowPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        @keyframes terminalBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal-scale.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+        .reveal-delay-5 { transition-delay: 0.5s; }
+        .reveal-delay-6 { transition-delay: 0.6s; }
+
+        /* ============================================================
+           HERO — pleine largeur
+           ============================================================ */
+        .hero-banner {
+            position: relative;
+            padding: var(--hero-pad-top) var(--gutter-x) 56px var(--gutter-x);
+            background:
+                radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.07) 1px, transparent 0) 0 0/18px 18px,
+                linear-gradient(160deg, #0B1220 0%, #0E1A30 40%, #101B32 70%, #0B1220 100%);
+            color: #F4F7FB;
+            overflow: hidden;
+            z-index: 2;
+            clip-path: ellipse(160% 100% at 50% 0%);
+        }
+        @media screen and (max-width: 640px) {
+            .hero-banner {
+                clip-path: ellipse(200% 100% at 50% 0%);
+                padding-bottom: 48px;
+            }
+        }
+        @media print { .hero-banner { clip-path: none; } }
+
+        .hero-banner::after {
+            content: "";
+            position: absolute;
+            right: -70px; top: -70px;
+            width: 260px; height: 260px;
+            border: 1.5px solid rgba(14, 165, 160, 0.3);
+            border-radius: 50%;
+            animation: borderGlow 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .hero-banner::before {
+            content: "";
+            position: absolute;
+            right: -30px; top: -30px;
+            width: 170px; height: 170px;
+            border: 1.5px solid rgba(217, 123, 41, 0.25);
+            border-radius: 50%;
+            animation: borderGlow 5s ease-in-out infinite 1s;
+            pointer-events: none;
+        }
+        .hero-orb {
+            position: absolute;
+            left: 10%; bottom: -40px;
+            width: 100px; height: 100px;
+            background: radial-gradient(circle, rgba(14, 165, 160, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: pulse-dot 6s ease-in-out infinite;
+        }
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-mono);
+            font-size: 10pt; /* augmenté */
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--signal);
+            margin-bottom: 16px;
+            position: relative; z-index: 1;
+        }
+        .hero-eyebrow .dot {
+            width: 9px; height: 9px;
+            border-radius: 50%;
+            background: var(--signal-bright);
+            box-shadow: 0 0 0 4px rgba(14, 165, 160, 0.25);
+            display: inline-block;
+            flex: none;
+            animation: pulse-dot 2.4s ease-in-out infinite;
+        }
+        .hero-banner h1 {
+            font-family: var(--font-display);
+            font-size: 34pt; /* augmenté de 27pt */
+            font-weight: 700;
+            margin: 0 0 12px 0;
+            letter-spacing: -0.015em;
+            color: #FAFCFF;
+            max-width: 100%;
+            position: relative; z-index: 1;
+            line-height: 1.15;
+        }
+        .hero-banner .subtitle {
+            font-size: 14pt; /* augmenté de 11.5pt */
+            color: #9FB0C9;
+            margin: 0 0 28px 0;
+            font-weight: 400;
+            max-width: 46em;
+            position: relative; z-index: 1;
+            line-height: 1.55;
+        }
+
+        .flow-track {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-mono);
+            font-size: 10pt; /* augmenté */
+            color: #C6D2E4;
+            margin-top: 6px;
+            position: relative; z-index: 1;
+        }
+        .flow-node {
+            border: 1.5px solid rgba(255, 255, 255, 0.16);
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 6px;
+            padding: 8px 14px;
+            white-space: nowrap;
+            backdrop-filter: blur(4px);
+            transition: all var(--transition-fast);
+            cursor: default;
+        }
+        .flow-node:hover {
+            border-color: rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.07);
+            transform: translateY(-1px);
+        }
+        .flow-node.on {
+            border-color: rgba(14, 165, 160, 0.6);
+            color: #7EEAE2;
+            background: rgba(14, 165, 160, 0.08);
+            box-shadow: 0 0 20px rgba(14, 165, 160, 0.1);
+        }
+        .flow-arrow {
+            flex: 1;
+            height: 2px;
+            min-width: 20px;
+            background: linear-gradient(90deg, rgba(14, 165, 160, 0.6) 0%, rgba(14, 165, 160, 0.1) 100%);
+            margin: 0 2px;
+            position: relative;
+            border-radius: 1px;
+            animation: flowPulse 2.5s ease-in-out infinite;
+        }
+        .flow-arrow::after {
+            content: "›";
+            position: absolute;
+            right: -6px; top: 50%;
+            transform: translateY(-50%);
+            color: rgba(14, 165, 160, 0.8);
+            font-size: 14pt;
+            line-height: 1;
+        }
+        @media screen and (max-width: 560px) {
+            .flow-track { flex-direction: column; align-items: stretch; gap: 4px; }
+            .flow-node { width: 100%; text-align: center; }
+            .flow-arrow {
+                width: 2px; min-width: 2px; height: 16px;
+                margin: 0 auto;
+                background: linear-gradient(180deg, rgba(14, 165, 160, 0.6) 0%, rgba(14, 165, 160, 0.1) 100%);
+                animation: flowPulse 2.5s ease-in-out infinite 0.5s;
+            }
+            .flow-arrow::after {
+                right: auto; bottom: -8px; top: auto;
+                left: 50%; transform: translateX(-50%) rotate(90deg);
+            }
+        }
+
+        .quicknav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 16px var(--gutter-x);
+            background: #0F1929;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            position: relative; z-index: 3;
+            backdrop-filter: blur(10px);
+            justify-content: center;
+        }
+        .quicknav a {
+            font-family: var(--font-mono);
+            font-size: 9pt; /* augmenté */
+            letter-spacing: 0.05em;
+            color: #AEC1DD;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            padding: 6px 14px;
+            white-space: nowrap;
+            transition: all var(--transition-fast);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .quicknav a:hover {
+            border-color: var(--signal);
+            color: #7EEAE2;
+            background: rgba(14, 165, 160, 0.08);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(14, 165, 160, 0.12);
+        }
+        @media print { .quicknav { display: none; } }
+
+        .spec-strip {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: -36px 0 34px 0;
+            position: relative; z-index: 4;
+            max-width: 1200px;
+            margin-left: auto; margin-right: auto;
+            padding: 0 var(--gutter-x);
+        }
+        @media screen and (min-width: 560px) { .spec-strip { grid-template-columns: repeat(4, 1fr); } }
+        .spec-chip {
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 10px;
+            padding: 12px 14px;
+            box-shadow: var(--shadow-card);
+            backdrop-filter: blur(10px);
+            transition: all var(--transition-smooth);
+            cursor: default;
+        }
+        .spec-chip:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-card-hover);
+            border-color: rgba(14, 165, 160, 0.25);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        .spec-chip .k {
+            font-family: var(--font-mono);
+            font-size: 9pt; /* augmenté */
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--slate);
+            display: block;
+            margin-bottom: 4px;
+        }
+        .spec-chip .v {
+            font-family: var(--font-display);
+            font-size: 12pt; /* augmenté */
+            font-weight: 600;
+            color: var(--ink);
+        }
+        @media print { .spec-strip { margin-top: 20px; } .spec-chip { box-shadow: none; backdrop-filter: none; } }
+
+        .intro-box {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--signal);
+            padding: 18px 20px;
+            margin-bottom: 32px;
+            border-radius: 0 10px 10px 0;
+            font-size: 12pt; /* augmenté */
+            color: var(--slate-dark);
+            box-shadow: var(--shadow-card);
+            transition: all var(--transition-smooth);
+        }
+        .intro-box:hover {
+            border-left-color: var(--signal-bright);
+            box-shadow: var(--shadow-card-hover);
+        }
+        .intro-box strong { color: var(--ink); }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: 22pt; /* augmenté */
+            font-weight: 700;
+            color: var(--ink);
+            margin-top: 40px;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--line);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 10px;
+            page-break-after: avoid;
+            scroll-margin-top: 24px;
+            transition: border-color var(--transition-smooth);
+        }
+        h2:hover { border-bottom-color: var(--signal); }
+        h2 .num {
+            font-family: var(--font-mono);
+            font-size: 12pt; /* augmenté */
+            font-weight: 500;
+            color: var(--signal);
+            border: 1.5px solid var(--signal);
+            border-radius: 5px;
+            padding: 2px 8px;
+            transition: all var(--transition-fast);
+        }
+        h2:hover .num { background: var(--signal-dim); border-color: var(--signal-bright); }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: 15pt; /* augmenté */
+            font-weight: 600;
+            color: var(--slate-dark);
+            margin-top: 24px;
+            margin-bottom: 12px;
+            page-break-after: avoid;
+            transition: color var(--transition-fast);
+        }
+        h3::before {
+            content: "▸";
+            color: var(--signal);
+            margin-right: 7px;
+            font-size: 12pt;
+            transition: color var(--transition-fast), transform var(--transition-fast);
+            display: inline-block;
+        }
+        h3:hover::before { color: var(--signal-bright); transform: translateX(3px); }
+
+        p { margin: 0 0 14px 0; text-align: justify; }
+        ul, ol { margin: 0 0 16px 0; padding-left: 22px; }
+        li { margin-bottom: 7px; transition: color var(--transition-fast); }
+        li:hover { color: var(--ink); }
+
+        pre {
+            background: var(--ink);
+            color: #E7EDF7;
+            padding: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 12px 0 20px 0;
+            page-break-inside: avoid;
+            border: 1px solid #1C2740;
+            box-shadow: 0 4px 20px rgba(11, 18, 32, 0.3);
+            transition: box-shadow var(--transition-smooth);
+        }
+        pre:hover { box-shadow: 0 8px 32px rgba(11, 18, 32, 0.45); }
+        .term-bar {
+            display: flex;
+            gap: 7px;
+            padding: 10px 14px;
+            background: #0F1929;
+            border-bottom: 1px solid #1C2740;
+            align-items: center;
+        }
+        .term-bar span {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            background: #33415C;
+            transition: all var(--transition-fast);
+        }
+        .term-bar span:nth-child(1) { background: #C2483B; animation: terminalBlink 3s ease-in-out infinite; }
+        .term-bar span:nth-child(2) { background: #D97B29; animation: terminalBlink 3s ease-in-out infinite 0.6s; }
+        .term-bar span:nth-child(3) { background: #0EA5A0; animation: terminalBlink 3s ease-in-out infinite 1.2s; }
+        pre code {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 11pt; /* augmenté */
+            line-height: 1.6;
+            padding: 14px 16px;
+            background: transparent;
+            color: #E7EDF7;
+            overflow-x: auto;
+            white-space: pre;
+            border: none;
+        }
+        code {
+            font-family: var(--font-mono);
+            background: #EDF1F7;
+            color: var(--ink);
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 11pt; /* augmenté */
+            border: 1px solid var(--line);
+            word-break: break-word;
+            transition: all var(--transition-fast);
+        }
+        code:hover { background: #E0E5EF; border-color: #C0C8D4; }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+        @media screen and (min-width: 640px) { .features-grid { grid-template-columns: 1fr 1fr; } }
+        .feature-card {
+            display: flex;
+            gap: 14px;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--signal);
+            border-radius: 10px;
+            padding: 16px 18px;
+            page-break-inside: avoid;
+            box-shadow: var(--shadow-card);
+            transition: all var(--transition-smooth);
+            cursor: default;
+        }
+        .feature-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-card-hover);
+            border-left-color: var(--signal-bright);
+            border-top-color: rgba(14, 165, 160, 0.2);
+            border-right-color: rgba(14, 165, 160, 0.2);
+            border-bottom-color: rgba(14, 165, 160, 0.2);
+        }
+        .feature-card.accent-alert { border-left-color: var(--alert); }
+        .feature-card.accent-alert:hover {
+            border-left-color: #F09030;
+            border-top-color: rgba(217, 123, 41, 0.2);
+            border-right-color: rgba(217, 123, 41, 0.2);
+            border-bottom-color: rgba(217, 123, 41, 0.2);
+        }
+        .feature-icon {
+            flex: none;
+            width: 38px; height: 38px;
+            border-radius: 8px;
+            background: var(--signal-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-smooth);
+        }
+        .feature-card:hover .feature-icon { transform: scale(1.08); background: #D0F0ED; }
+        .feature-card.accent-alert .feature-icon { background: var(--alert-dim); }
+        .feature-card.accent-alert:hover .feature-icon { background: #F8E4D0; }
+        .feature-icon svg { width: 19px; height: 19px; }
+        .feature-card-title {
+            font-family: var(--font-display);
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 7px;
+            font-size: 13pt; /* augmenté */
+            transition: color var(--transition-fast);
+        }
+        .feature-card:hover .feature-card-title { color: #0A5E5A; }
+        .feature-card.accent-alert:hover .feature-card-title { color: #96541A; }
+        .feature-card ul { margin-bottom: 0; }
+
+        .table-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 16px 0 28px 0;
+            border-radius: 10px;
+            box-shadow: var(--shadow-card);
+            transition: box-shadow var(--transition-smooth);
+        }
+        .table-scroll:hover { box-shadow: var(--shadow-card-hover); }
+        table {
+            width: 100%;
+            min-width: 560px;
+            border-collapse: collapse;
+            page-break-inside: avoid;
+            font-size: 11pt; /* augmenté */
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        @media screen and (min-width: 640px) { table { min-width: 0; } }
+        th {
+            background: var(--ink);
+            color: #F2F5FA;
+            font-family: var(--font-display);
+            font-weight: 600;
+            text-align: left;
+            padding: 11px 14px;
+            font-size: 11pt;
+            border: 1px solid var(--ink);
+            letter-spacing: 0.02em;
+        }
+        td {
+            padding: 11px 14px;
+            border: 1px solid var(--line);
+            vertical-align: top;
+            transition: background var(--transition-fast);
+        }
+        tr:nth-child(even) td { background: #F7F9FC; }
+        tbody tr:hover td { background: #EEF4FA !important; cursor: default; }
+        .status-pill {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 9pt; /* augmenté */
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            padding: 3px 9px;
+            border-radius: 20px;
+            margin-bottom: 4px;
+            transition: all var(--transition-fast);
+        }
+        .status-ok { background: var(--signal-dim); color: #0A6E6A; }
+        .status-fail { background: var(--danger-dim); color: #9A362B; }
+        .status-pill:hover { transform: scale(1.05); filter: brightness(0.95); }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 10px;
+            font-family: var(--font-mono);
+            font-size: 9pt; /* augmenté */
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            border-radius: 20px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition: all var(--transition-fast);
+        }
+        .badge:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .badge-linux { background: var(--alert-dim); color: #96541A; }
+        .badge-windows { background: var(--signal-dim); color: #0A6E6A; }
+
+        .section-lede {
+            font-size: 12pt; /* augmenté */
+            color: var(--slate);
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .divider-flow {
+            height: 1px;
+            background: repeating-linear-gradient(90deg, var(--line) 0 6px, transparent 6px 11px);
+            margin: 34px 0;
+            position: relative;
+        }
+        .divider-flow::after {
+            content: "◆";
+            position: absolute;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--signal);
+            font-size: 9pt;
+            background: var(--paper);
+            padding: 0 8px;
+            animation: pulse-dot 3s ease-in-out infinite;
+        }
+
+        .footer-note {
+            margin-top: 48px;
+            padding-top: 18px;
+            border-top: 1px solid var(--line);
+            font-size: 11pt; /* augmenté */
+            color: var(--slate);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            transition: color var(--transition-fast);
+        }
+        .footer-note:hover { color: var(--slate-dark); }
+        .footer-note .bar {
+            width: 4px;
+            height: 36px;
+            background: linear-gradient(180deg, var(--signal), var(--alert));
+            border-radius: 2px;
+            flex: none;
+            transition: all var(--transition-smooth);
+        }
+        .footer-note:hover .bar { box-shadow: 0 0 12px rgba(14,165,160,0.3); height: 40px; }
+        .footer-note em { font-style: normal; line-height: 1.6; }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 28px; right: 28px;
+            z-index: 99;
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            background: var(--ink);
+            color: #F2F5FA;
+            border: 2px solid rgba(255,255,255,0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18pt;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: all var(--transition-smooth);
+            box-shadow: 0 4px 16px rgba(11,18,32,0.4);
+        }
+        .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .back-to-top:hover {
+            background: #1A2940;
+            border-color: var(--signal);
+            color: #7EEAE2;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(14,165,160,0.3);
+        }
+
+        /* ============================================================
+           AJUSTEMENTS MOBILE (conserve une taille lisible)
+           ============================================================ */
+        @media screen and (max-width: 480px) {
+            body { font-size: 11pt; }
+            .hero-banner h1 { font-size: 26pt; }
+            .hero-banner .subtitle { font-size: 12pt; }
+            h2 { font-size: 18pt; }
+            h3 { font-size: 13pt; }
+            .feature-card-title { font-size: 12pt; }
+            .spec-strip { grid-template-columns: 1fr 1fr; gap: 8px; }
+            .spec-chip { padding: 10px; }
+            .spec-chip .v { font-size: 11pt; }
+            .quicknav a { font-size: 8pt; }
+            table { font-size: 10pt; }
+            .hero-banner { padding-left: 16px; padding-right: 16px; }
+            .quicknav { padding: 12px 16px; gap: 6px; }
+            .page-body { padding: 0 16px 32px 16px; }
+        }
+        @media screen and (max-width: 380px) {
+            .hero-banner h1 { font-size: 22pt; }
+            .spec-strip { grid-template-columns: 1fr; }
+            .feature-card { flex-direction: column; gap: 10px; }
+            .feature-icon { width: 32px; height: 32px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="hero-banner">
+            <div class="hero-orb"></div>
+            <span class="hero-eyebrow"><span class="dot"></span> AGENT DE SÉCURITÉ · TÉLÉMÉTRIE TEMPS RÉEL</span>
+            <h1>Manuel Technique &amp; Guide de Déploiement</h1>
+            <p class="subtitle">Smart SIEM Agent — Installation, architecture de collecte et administration, pour environnements Linux et Windows.</p>
+            <div class="flow-track">
+                <span class="flow-node on">ENDPOINT</span>
+                <span class="flow-arrow"></span>
+                <span class="flow-node on">SMART-SIEM-AGENT</span>
+                <span class="flow-arrow"></span>
+                <span class="flow-node">CANAL mTLS / SOAR</span>
+                <span class="flow-arrow"></span>
+                <span class="flow-node">SERVEUR SIEM</span>
+            </div>
+        </div>
+
+        <nav class="quicknav">
+            <a href="#sec-fonctionnalites">I. Fonctionnalités</a>
+            <a href="#sec-linux">II. Linux</a>
+            <a href="#sec-windows">III. Windows</a>
+            <a href="#sec-validation">IV. Validation réseau</a>
+        </nav>
+
+        <div class="page-body">
+            <div class="spec-strip reveal-scale">
+                <div class="spec-chip reveal-delay-1"><span class="k">Plateformes</span><span class="v">Linux · Windows</span></div>
+                <div class="spec-chip reveal-delay-2"><span class="k">Format</span><span class="v">Binaire unique</span></div>
+                <div class="spec-chip reveal-delay-3"><span class="k">Élévation</span><span class="v">pkexec · UAC</span></div>
+                <div class="spec-chip reveal-delay-4"><span class="k">Persistance</span><span class="v">systemd · NSSM</span></div>
+            </div>
+
+            <div class="intro-box reveal">
+                Le <strong>Smart SIEM Agent</strong> est un composant logiciel de sécurité léger et autonome conçu pour s'exécuter en arrière-plan avec des privilèges élevés (<code>root</code> / <code>SYSTEM</code>). Son rôle est de collecter en temps réel les données de télémétrie d'un point de terminaison (endpoint), de les structurer, et de les transmettre de manière sécurisée à un serveur SIEM centralisé pour analyse et corrélation.
+            </div>
+
+            <h2 id="sec-fonctionnalites" class="reveal"><span class="num">I</span> Fonctionnalités de l'Agent</h2>
+            <p class="section-lede reveal">L'agent exécute plusieurs tâches modulaires de surveillance et de collecte de données, orchestrées par un ordonnanceur interne (<em>Scheduler</em>). Chaque module est conçu pour être cross-platform (compatible Windows et Linux via des abstractions système) :</p>
+
+            <div class="features-grid">
+                <div class="feature-card reveal reveal-delay-1">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0EA5A0" stroke-width="1.6"><rect x="6" y="6" width="12" height="12" rx="1.5"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></div>
+                    <div>
+                        <div class="feature-card-title">1. Collecte de Métriques de Performance</div>
+                        <ul>
+                            <li><strong>Moniteur CPU :</strong> analyse la charge globale de calcul du processeur en temps réel pour détecter des pics anormaux.</li>
+                            <li><strong>Moniteur Mémoire (RAM) :</strong> surveille le taux d'utilisation de la mémoire physique et détecte les fuites ou les allocations massives suspectes.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="feature-card reveal reveal-delay-2">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0EA5A0" stroke-width="1.6"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/></svg></div>
+                    <div>
+                        <div class="feature-card-title">2. Surveillance du Stockage et du Système de Fichiers</div>
+                        <ul>
+                            <li><strong>Filesystem &amp; Partitions :</strong> recense l'espace disque disponible, les points de montage (Linux) et les lettres de lecteurs (Windows).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="feature-card accent-alert reveal reveal-delay-3">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#D97B29" stroke-width="1.6"><circle cx="6" cy="12" r="2.2"/><circle cx="18" cy="6" r="2.2"/><circle cx="18" cy="18" r="2.2"/><path d="M8 12h4M14 8l2-1M14 16l2 1"/></svg></div>
+                    <div>
+                        <div class="feature-card-title">3. Télémétrie Réseau &amp; Connexions</div>
+                        <ul>
+                            <li><strong>Network Collector :</strong> énumère et analyse l'intégralité des connexions réseau actives (sockets TCP/UDP, adresses IP sources/destinations, ports ouverts).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="feature-card reveal reveal-delay-4">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0EA5A0" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg></div>
+                    <div>
+                        <div class="feature-card-title">4. Inventaire des Processus et Services</div>
+                        <ul>
+                            <li><strong>Process Monitor :</strong> liste l'activité des processus en cours d'exécution, leurs identifiants (PID) et les ressources consommées.</li>
+                            <li><strong>Services Monitor :</strong> assure le suivi de l'état des services système (Systemd sous Linux, Gestionnaire de services sous Windows).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="feature-card reveal reveal-delay-5">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0EA5A0" stroke-width="1.6"><path d="M4 19V5a1 1 0 0 1 1-1h9l6 6v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><path d="M14 4v5h6M8 13h8M8 16h5"/></svg></div>
+                    <div>
+                        <div class="feature-card-title">5. Collecte et Centralisation des Événements (Logs)</div>
+                        <ul>
+                            <li><strong>Logs Collector :</strong> récupère les journaux d'authentification et de sécurité du système.</li>
+                            <li><strong>Transfer Manager :</strong> compresse, structure au format JSON et synchronise les événements collectés.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="feature-card accent-alert reveal reveal-delay-6">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#D97B29" stroke-width="1.6"><path d="M4 4h16v12H8l-4 4Z"/><path d="M8 9h8M8 12h5"/></svg></div>
+                    <div>
+                        <div class="feature-card-title">6. Canal de Communication Bidirectionnel (SOAR &amp; Réponses Actives)</div>
+                        <ul>
+                            <li><strong>Command Service (WebSocket App) :</strong> maintient une connexion persistante et bidirectionnelle avec le serveur SIEM.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider-flow reveal"></div>
+
+            <h2 id="sec-linux" class="reveal"><span class="num">II</span> Installation &amp; Configuration <span class="badge badge-linux">Linux · Ubuntu</span></h2>
+            <p class="section-lede reveal">L'agent Linux est packagé sous la forme d'un fichier binaire unique au format ELF (généré via PyInstaller).</p>
+            <h3 class="reveal">1. Prérequis Système</h3>
+            <ul class="reveal">
+                <li><strong>Système d'exploitation :</strong> Ubuntu 20.04 LTS / 22.04 LTS / 24.04 LTS (x86_64).</li>
+                <li><strong>Dépendance Graphique :</strong> pour le premier lancement visuel uniquement, l'environnement graphique X11/Wayland doit disposer du paquet Tkinter :</li>
+            </ul>
+            <pre class="reveal"><div class="term-bar"><span></span><span></span><span></span></div><code>sudo apt update && sudo apt install -y python3-tk</code></pre>
+
+            <h3 class="reveal">2. Déploiement et Premier Lancement</h3>
+            <p class="reveal">L'exécutable intègre un mécanisme d'élévation graphique via <code>pkexec</code> permettant le double-clic sécurisé.</p>
+            <ol class="reveal">
+                <li>Déposez le fichier binaire compilé <code>smart-siem-agent</code> sur la machine.</li>
+                <li>Lancez-le sans sudo : <pre><div class="term-bar"><span></span><span></span><span></span></div><code>./smart-siem-agent</code></pre></li>
+                <li>Une fenêtre d'authentification native Ubuntu surgit pour demander le mot de passe administrateur.</li>
+                <li>L'Assistant Graphique Moderne Smart SIEM apparaît à l'écran.</li>
+                <li>Renseignez les informations de connectivité réseau de votre infrastructure.</li>
+                <li>Cliquez sur <strong>« Installer &amp; Démarrer l'agent »</strong>.</li>
+            </ol>
+
+            <h3 class="reveal">3. Sous le capot Linux</h3>
+            <p class="reveal">L'assistant met à jour la configuration, copie le binaire dans <code>/usr/local/bin</code>, crée le service systemd et l'active.</p>
+            <pre class="reveal"><div class="term-bar"><span></span><span></span><span></span></div><code>sudo systemctl daemon-reload
+sudo systemctl enable smart-siem.service
+sudo systemctl start smart-siem.service</code></pre>
+
+            <h3 class="reveal">4. Commandes d'Administration</h3>
+            <ul class="reveal">
+                <li><strong>Statut :</strong> <code>sudo systemctl status smart-siem.service</code></li>
+                <li><strong>Logs :</strong> <code>sudo journalctl -u smart-siem.service -f</code></li>
+                <li><strong>Arrêt :</strong> <code>sudo systemctl stop smart-siem.service</code></li>
+                <li><strong>Désinstallation :</strong> <pre><div class="term-bar"><span></span><span></span><span></span></div><code>sudo systemctl stop smart-siem.service
+sudo systemctl disable smart-siem.service
+sudo rm -f /etc/systemd/system/smart-siem.service
+sudo rm -f /usr/local/bin/smart-siem-agent
+sudo systemctl daemon-reload</code></pre></li>
+            </ul>
+
+            <div class="divider-flow reveal"></div>
+
+            <h2 id="sec-windows" class="reveal"><span class="num">III</span> Installation &amp; Configuration <span class="badge badge-windows">Windows</span></h2>
+            <p class="section-lede reveal">L'agent Windows est packagé sous la forme d'un exécutable unique autonome <code>smart-siem-agent.exe</code>.</p>
+            <h3 class="reveal">1. Prérequis</h3>
+            <ul class="reveal">
+                <li><strong>Système :</strong> Windows 10 / 11 / Server (64-bit).</li>
+                <li><strong>Outil tiers :</strong> <code>nssm.exe</code> (Non-Sucking Service Manager) doit être inclus.</li>
+            </ul>
+            <h3 class="reveal">2. Déploiement</h3>
+            <ol class="reveal">
+                <li>Transférez <code>smart-siem-agent.exe</code> sur la machine (ex. <code>C:\temp</code>).</li>
+                <li>Exécutez en tant qu'administrateur.</li>
+                <li>Remplissez les paramètres réseau dans l'interface.</li>
+                <li>Cliquez sur <strong>« Installer &amp; Démarrer l'agent »</strong>.</li>
+            </ol>
+            <h3 class="reveal">3. Sous le capot Windows</h3>
+            <p class="reveal">L'assistant copie les fichiers dans <code>C:\Program Files\SmartSIEM</code> et crée le service <code>SmartSIEMAgent</code> via nssm.</p>
+            <pre class="reveal"><div class="term-bar"><span></span><span></span><span></span></div><code>nssm.exe install SmartSIEMAgent "C:\Program Files\SmartSIEM\smart-siem-agent.exe"
+nssm.exe set SmartSIEMAgent Start SERVICE_AUTO_START
+sc start SmartSIEMAgent</code></pre>
+            <h3 class="reveal">4. Commandes d'Administration</h3>
+            <ul class="reveal">
+                <li><strong>Statut :</strong> <code>sc query SmartSIEMAgent</code></li>
+                <li><strong>Arrêt :</strong> <code>net stop SmartSIEMAgent</code></li>
+                <li><strong>Désinstallation :</strong> <pre><div class="term-bar"><span></span><span></span><span></span></div><code>sc stop SmartSIEMAgent
+"C:\Program Files\SmartSIEM\nssm.exe" remove SmartSIEMAgent confirm
+rmdir /s /q "C:\Program Files\SmartSIEM"</code></pre></li>
+            </ul>
+
+            <div class="divider-flow reveal"></div>
+
+            <h2 id="sec-validation" class="reveal"><span class="num">IV</span> Matrices de Validation de Connectivité</h2>
+            <p class="section-lede reveal">Pour valider le bon fonctionnement de l'agent et la sécurité réseau :</p>
+            <div class="table-scroll reveal">
+                <table>
+                    <thead><tr><th>Niveau / Couche</th><th>Commande de Validation</th><th>Comportement Attendu</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Couche 2</strong></td>
+                            <td><code>sudo arping -c 3 &lt;IP&gt;</code></td>
+                            <td><span class="status-pill status-ok">TOUJOURS OK</span> (ARP non filtré)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Couche 4</strong></td>
+                            <td><code>nc -w 3 -zv &lt;IP_WINDOWS&gt; 445</code></td>
+                            <td>
+                                <span class="status-pill status-ok">AVANT BLOCAGE</span> succeeded!<br>
+                                <span class="status-pill status-fail">APRÈS BLOCAGE</span> timed out
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="footer-note reveal">
+                <span class="bar"></span>
+                <em>Ce guide d'ingénierie couvre l'ensemble du cycle de vie opérationnel de vos agents. Il garantit un déploiement fluide sur vos parcs informatiques d'entreprise.</em>
+            </div>
+        </div>
+    </div>
+
+    <button class="back-to-top" id="backToTop" title="Retour en haut" aria-label="Retour en haut de page">↑</button>
+
+    <script>
+        (function() {
+            const revealElements = document.querySelectorAll('.reveal, .reveal-scale');
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { root: null, rootMargin: '0px 0px -30px 0px', threshold: 0.12 });
+            revealElements.forEach(el => observer.observe(el));
+
+            const backToTopBtn = document.getElementById('backToTop');
+            if (backToTopBtn) {
+                const toggle = () => {
+                    if (window.scrollY > 500) backToTopBtn.classList.add('visible');
+                    else backToTopBtn.classList.remove('visible');
+                };
+                window.addEventListener('scroll', toggle, { passive: true });
+                backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+                toggle();
+            }
+
+            const heroEls = document.querySelectorAll('.hero-banner h1, .hero-banner .subtitle, .hero-eyebrow, .flow-track');
+            heroEls.forEach((el, i) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1)';
+                el.style.transitionDelay = (i * 0.1) + 's';
+                setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, 150);
+            });
+            setTimeout(() => {
+                const strip = document.querySelector('.spec-strip');
+                if (strip && strip.getBoundingClientRect().top < window.innerHeight) strip.classList.add('visible');
+            }, 300);
+        })();
+    </script>
+</body>
+</html>

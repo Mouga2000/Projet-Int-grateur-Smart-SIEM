@@ -68,7 +68,7 @@ def enregistrer_ip_serveur(protocole: str, hote: str, port: str) -> None:
 
 
 
-def installer_agent_systeme(ip_serveur: str) -> None:
+def installer_agent_systeme(protocole: str, hote: str, port: str) -> None:
     """Gère toute la configuration Windows automatiquement lors du clic sur le bouton."""
     try:
         # Enregistrer l'IP du serveur choisie par l'utilisateur

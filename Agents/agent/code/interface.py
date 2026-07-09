@@ -225,7 +225,7 @@ def lancer_assistant_graphique() -> None:
         fenetre.update_idletasks()
 
         try:
-            installer_agent_systeme(hote)
+            installer_agent_systeme(protocole, hote, port)
             label_statut.configure(text="Installation réussie.", fg=COLOR_SUCCESS)
             messagebox.showinfo(
                 "Succès",
