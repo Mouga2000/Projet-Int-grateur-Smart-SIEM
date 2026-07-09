@@ -1,5 +1,5 @@
 // src/components/login-form.tsx
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
@@ -171,21 +171,17 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
   const [error, setError]       = useState<string | null>(null);
   const [loading, setLoading]   = useState(false);
 
-
-  const usernameRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-
   const from = (location.state as any)?.from?.pathname ?? null;
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
-    // Lecture via FormData : capte l'autofill même sans onChange
+    // Lecture directe du DOM : capte l'autofill même sans onChange
     const form = e.currentTarget as HTMLFormElement;
     const data = new FormData(form);
-    const liveUsername = (data.get("username") as string) || usernameRef.current?.value || username;
-    const livePassword = (data.get("password") as string) || passwordRef.current?.value || password;
+    const liveUsername = (data.get("username") as string) || username;
+    const livePassword = (data.get("password") as string) || password;
     try {
       await login(liveUsername, livePassword);
       navigate(from ?? redirectPath(), { replace: true });
