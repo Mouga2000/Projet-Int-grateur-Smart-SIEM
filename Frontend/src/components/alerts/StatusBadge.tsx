@@ -2,18 +2,18 @@
 import type { AlertStatus, AlertSeverity } from "../../types/alert";
 
 const STATUS_STYLES: Record<AlertStatus, string> = {
-  ouverte:  "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 border-blue-300 dark:border-blue-700",
-  en_cours: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border-yellow-300 dark:border-yellow-700",
-  resolue:  "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-300 dark:border-green-700",
-  classee:  "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400 border-gray-300 dark:border-gray-700",
+  ouverte:  "bg-blue-500/10 text-blue-700 border-blue-200 dark:bg-blue-500/15 dark:text-blue-300 dark:border-blue-900/60",
+  en_cours: "bg-yellow-500/10 text-yellow-700 border-yellow-200 dark:bg-yellow-500/15 dark:text-yellow-300 dark:border-yellow-900/60",
+  resolue:  "bg-green-500/10 text-green-700 border-green-200 dark:bg-green-500/15 dark:text-green-300 dark:border-green-900/60",
+  classee:  "bg-muted text-muted-foreground border-border",
 };
 
 const SEVERITY_STYLES: Record<AlertSeverity, string> = {
-  critical: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-300 dark:border-red-700",
-  high:     "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 border-orange-300 dark:border-orange-700",
-  medium:   "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border-yellow-300 dark:border-yellow-700",
-  low:      "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 border-blue-300 dark:border-blue-700",
-  info:     "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400 border-gray-300 dark:border-gray-700",
+  critical: "bg-red-500/10 text-red-700 border-red-200 dark:bg-red-500/15 dark:text-red-300 dark:border-red-900/60",
+  high:     "bg-orange-500/10 text-orange-700 border-orange-200 dark:bg-orange-500/15 dark:text-orange-300 dark:border-orange-900/60",
+  medium:   "bg-yellow-500/10 text-yellow-700 border-yellow-200 dark:bg-yellow-500/15 dark:text-yellow-300 dark:border-yellow-900/60",
+  low:      "bg-blue-500/10 text-blue-700 border-blue-200 dark:bg-blue-500/15 dark:text-blue-300 dark:border-blue-900/60",
+  info:     "bg-muted text-muted-foreground border-border",
 };
 
 interface StatusBadgeProps {
@@ -29,7 +29,7 @@ const StatusBadge = ({ type, value }: StatusBadgeProps) => {
 
   return (
     <span
-      className={`inline-flex items-center px-2 py-0.5 rounded text-xs border font-medium ${styles}`}
+      className={`inline-flex items-center rounded border px-2 py-0.5 text-xs font-medium ${styles}`}
     >
       {value}
     </span>

@@ -1,4 +1,3 @@
-// src/components/alerts/AlertTable.tsx
 import type { Alert } from "../../types/alert";
 import AlertRow from "./AlertRow";
 
@@ -10,7 +9,7 @@ interface AlertTableProps {
 const AlertTable = ({ alerts, loading }: AlertTableProps) => {
   if (loading) {
     return (
-      <div className="py-12 text-center text-white/50 text-sm">
+      <div className="py-12 text-center text-sm text-muted-foreground">
         Chargement des alertes...
       </div>
     );
@@ -18,7 +17,7 @@ const AlertTable = ({ alerts, loading }: AlertTableProps) => {
 
   if (alerts.length === 0) {
     return (
-      <div className="py-12 text-center text-white/50 text-sm">
+      <div className="py-12 text-center text-sm text-muted-foreground">
         Aucune alerte trouvée.
       </div>
     );
@@ -26,16 +25,16 @@ const AlertTable = ({ alerts, loading }: AlertTableProps) => {
 
   return (
     <div className="overflow-x-auto rounded-lg">
-      <table className="w-full text-left border-collapse">
+      <table className="w-full border-collapse text-left">
         <thead>
           <tr className="bg-muted/30">
-            <th className="px-4 py-3 text-xs text-white/60 font-medium">ID</th>
-            <th className="px-4 py-3 text-xs text-white/60 font-medium">Titre</th>
-            <th className="px-4 py-3 text-xs text-white/60 font-medium">Sévérité</th>
-            <th className="px-4 py-3 text-xs text-white/60 font-medium">Statut</th>
-            <th className="px-4 py-3 text-xs text-white/60 font-medium">Hôte</th>
-            <th className="px-4 py-3 text-xs text-white/60 font-medium">IP source</th>
-            <th className="px-4 py-3 text-xs text-white/60 font-medium">Date</th>
+            <th className="px-4 py-3 text-xs font-medium text-muted-foreground">ID</th>
+            <th className="px-4 py-3 text-xs font-medium text-muted-foreground">Titre</th>
+            <th className="px-4 py-3 text-xs font-medium text-muted-foreground">Sévérité</th>
+            <th className="px-4 py-3 text-xs font-medium text-muted-foreground">Statut</th>
+            <th className="px-4 py-3 text-xs font-medium text-muted-foreground">Hôte</th>
+            <th className="px-4 py-3 text-xs font-medium text-muted-foreground">IP source</th>
+            <th className="px-4 py-3 text-xs font-medium text-muted-foreground">Date</th>
           </tr>
         </thead>
         <tbody>

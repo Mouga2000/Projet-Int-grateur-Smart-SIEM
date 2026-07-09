@@ -5,9 +5,8 @@ const Card = ({ children, className }: { children: React.ReactNode; className?: 
   return (
     <div
       className={cn(
-        "rounded-xl p-8 shadow-xl",
-        "bg-gray-900 border border-gray-800 text-white",
-        "dark:bg-white dark:text-gray-900 dark:border-gray-200",
+        "rounded-xl p-8 shadow-xl border",
+        "bg-card text-card-foreground border-border",
         className
       )}
     >

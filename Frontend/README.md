@@ -22,7 +22,33 @@ npm install
 npm run dev        # → http://localhost:5173
 ```
 
-**WebSocket temps réel** — Les actions SOAR (block-ip, disable-user, isolate-host) peuvent être suivies en temps réel via le WebSocket `/api/v1/actions/ws`. Le frontend reçoit un `action_id` immédiatement et écoute le résultat sur le WS.
+### Variables d'environnement
+
+Créer un fichier `.env` à la racine de `Frontend/` :
+
+```env
+VITE_API_BASE_URL=http://localhost:8000/api/v1
+```
+
+| Variable | Défaut | Description |
+|----------|--------|-------------|
+| `VITE_API_BASE_URL` | `http://localhost:8000/api/v1` | URL de l'API backend |
+
+### Production (build statique)
+
+```bash
+npm run build      # → dist/
+```
+
+Les fichiers sont servis via Nginx (voir `nginx.conf`). Le Dockerfile multi-stage construit l'image pour la production.
+
+### Déploiement
+
+Le frontend est déployé sur **Vercel** (frontend) ou servi via **Nginx** en Docker. L'API backend est déployée sur un VPS derrière **Traefik** (HTTPS).
+
+### Connexion Frontend ↔ Backend
+
+Le CORS est configuré côté backend dans `SIEM/app/main.py`. Les origines autorisées incluent `http://localhost:5173` (développement) et l'URL de production.
 
 ## Structure
 

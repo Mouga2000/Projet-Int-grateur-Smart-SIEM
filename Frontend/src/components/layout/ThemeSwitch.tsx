@@ -1,34 +1,35 @@
 import { useEffect, useState } from "react";
-import { IconSun, IconMoon } from "../../ui/icons";
+import { Moon, Sun } from "lucide-react";
+import { Button } from "@/components/ui/Button";
 
 const ThemeSwitch = () => {
-  const [theme, setTheme] = useState<'light'|'dark'>(() => {
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
     try {
-      return (localStorage.getItem('theme') as 'light'|'dark') ?? 'dark';
+      return (localStorage.getItem("theme") as "light" | "dark") ?? "light";
     } catch {
-      return 'dark';
+      return "light";
     }
   });
 
   useEffect(() => {
-    const root = document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    try {
+      localStorage.setItem("theme", theme);
+    } catch {
+      // Ignore storage errors in private browsing contexts.
     }
-    try { localStorage.setItem('theme', theme); } catch {}
   }, [theme]);
 
   return (
-    <button
-      aria-label="Toggle theme"
-      title="Toggle theme"
-      onClick={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
-      className="inline-flex items-center justify-center w-9 h-9 rounded-md bg-gray-800 dark:bg-gray-200 text-gray-200 dark:text-gray-800 hover:opacity-90 transition-colors"
+    <Button
+      variant="ghost"
+      size="icon-sm"
+      aria-label="Changer le theme"
+      title="Changer le theme"
+      onClick={() => setTheme((current) => (current === "dark" ? "light" : "dark"))}
     >
-      {theme === 'dark' ? <IconSun className="w-4 h-4" /> : <IconMoon className="w-4 h-4" />}
-    </button>
+      {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
+    </Button>
   );
 };
 

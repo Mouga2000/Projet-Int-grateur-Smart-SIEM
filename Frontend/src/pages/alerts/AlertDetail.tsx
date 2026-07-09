@@ -38,8 +38,8 @@ const AlertDetail = () => {
     }
   };
 
-  if (loading) return <p className="text-gray-500 text-sm">Chargement...</p>;
-  if (error || !alert) return <p className="text-red-400 text-sm">{error ?? "Erreur"}</p>;
+  if (loading) return <p className="text-sm text-muted-foreground">Chargement...</p>;
+  if (error || !alert) return <p className="text-sm text-destructive">{error ?? "Erreur"}</p>;
 
   const fields: [string, string | undefined][] = [
     ["ID",            String(alert.id)],
@@ -59,7 +59,7 @@ const AlertDetail = () => {
       {/* Breadcrumb */}
       <button
         onClick={() => navigate("/alerts")}
-        className="text-xs text-gray-500 hover:text-gray-300 transition-colors self-start"
+        className="self-start text-xs text-muted-foreground transition-colors hover:text-foreground"
       >
         ← Retour aux alertes
       </button>
@@ -67,7 +67,7 @@ const AlertDetail = () => {
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div className="flex flex-col gap-2">
-          <h1 className="text-white font-medium text-lg leading-snug">{alert.title}</h1>
+          <h1 className="text-lg font-semibold leading-snug text-foreground">{alert.title}</h1>
           <div className="flex gap-2">
             <StatusBadge type="severity" value={alert.severity} />
             <StatusBadge type="status"   value={alert.status}   />
@@ -100,21 +100,21 @@ const AlertDetail = () => {
       </div>
 
       {/* Description */}
-      <div className="bg-gray-900 border border-gray-800 rounded-xl p-4">
-        <p className="text-xs text-gray-500 mb-2">Description</p>
-        <p className="text-sm text-gray-200 leading-relaxed">{alert.description}</p>
+      <div className="rounded-xl border border-border bg-card p-4 text-card-foreground">
+        <p className="mb-2 text-xs text-muted-foreground">Description</p>
+        <p className="text-sm leading-relaxed text-foreground">{alert.description}</p>
       </div>
 
       {/* Champs détaillés */}
-      <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
+      <div className="overflow-hidden rounded-xl border border-border bg-card text-card-foreground">
         <table className="w-full text-sm">
           <tbody>
             {fields
               .filter(([, val]) => val)
               .map(([label, val]) => (
-                <tr key={label} className="border-b border-gray-800 last:border-0">
-                  <td className="px-4 py-2.5 text-gray-500 w-40 text-xs">{label}</td>
-                  <td className="px-4 py-2.5 text-gray-200 font-mono text-xs break-all">{val}</td>
+                <tr key={label} className="border-b border-border last:border-0">
+                  <td className="w-40 px-4 py-2.5 text-xs text-muted-foreground">{label}</td>
+                  <td className="break-all px-4 py-2.5 font-mono text-xs text-foreground">{val}</td>
                 </tr>
               ))}
           </tbody>
@@ -124,7 +124,7 @@ const AlertDetail = () => {
       {/* Lien investigation */}
       <button
         onClick={() => navigate(`/investigations?alertId=${alert.id}`)}
-        className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors self-start"
+        className="self-start text-xs text-primary transition-colors hover:text-primary/80"
       >
         → Investiguer cette alerte
       </button>
