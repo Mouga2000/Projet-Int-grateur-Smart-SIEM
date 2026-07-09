@@ -181,11 +181,11 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
     e.preventDefault();
     setError(null);
     setLoading(true);
-    // Lecture directe du DOM : contourne le cas où l'autofill du navigateur
-    // remplit les champs sans déclencher onChange, ce qui laisserait le
-    // state React vide au premier submit (bug du "il faut cliquer 2 fois").
-    const liveUsername = usernameRef.current?.value ?? username;
-    const livePassword = passwordRef.current?.value ?? password;
+    // Lecture via FormData : capte l'autofill même sans onChange
+    const form = e.currentTarget as HTMLFormElement;
+    const data = new FormData(form);
+    const liveUsername = (data.get("username") as string) || usernameRef.current?.value || username;
+    const livePassword = (data.get("password") as string) || passwordRef.current?.value || password;
     try {
       await login(liveUsername, livePassword);
       navigate(from ?? redirectPath(), { replace: true });
@@ -259,6 +259,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                           <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                           <Input
                             id="username"
+                            name="username"
                             autoComplete="username"
                             required
                             value={username}
@@ -274,6 +275,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                           <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                           <Input
                             id="password"
+                            name="password"
                             type="password"
                             autoComplete="current-password"
                             required
