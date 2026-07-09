@@ -202,6 +202,9 @@ class LogRepository:
         Agrégation ES : retourne les N valeurs les plus fréquentes d'un champ.
         Utilisé par le Dashboard pour les top hosts, top IPs, top types.
         """
+        # Les champs texte en ES 8.x utilisent '.keyword' pour les aggregations
+        text_fields = {"host", "source_ip", "log_type", "severity", "event_type", "tags"}
+        es_field = f"{field}.keyword" if field in text_fields else field
         try:
             response = await self.es.search(
                 index=self.index_prefix,
@@ -209,7 +212,7 @@ class LogRepository:
                     "size": 0,
                     "aggs": {
                         "top_values": {
-                            "terms": {"field": field, "size": size}
+                            "terms": {"field": es_field, "size": size}
                         }
                     },
                 },
@@ -231,7 +234,7 @@ class LogRepository:
                     "size": 0,
                     "aggs": {
                         "by_severity": {
-                            "terms": {"field": "severity", "size": 20}
+                            "terms": {"field": "severity.keyword", "size": 20}
                         }
                     },
                 },
