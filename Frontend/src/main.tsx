@@ -5,9 +5,8 @@ import App from './App.tsx'
 
 // Initialize theme early to avoid flash
 try {
-  const theme = localStorage.getItem('theme') ?? 'dark';
-  if (theme === 'dark') document.documentElement.classList.add('dark');
-  else document.documentElement.classList.remove('dark');
+  const theme = localStorage.getItem("theme") ?? "light";
+  document.documentElement.classList.toggle("dark", theme === "dark");
 } catch {}
 
 createRoot(document.getElementById('root')!).render(
