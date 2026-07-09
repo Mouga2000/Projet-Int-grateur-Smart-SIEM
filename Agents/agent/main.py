@@ -45,9 +45,6 @@ def est_admin() -> bool:
 
 if __name__ == "__main__":
 
-    lancer_smart_agent()
-
-    """
     if not service_existe():
         if not est_admin():
             elever_privileges()
@@ -55,4 +52,4 @@ if __name__ == "__main__":
     else:
         lancer_smart_agent()
        
-    """
+  
