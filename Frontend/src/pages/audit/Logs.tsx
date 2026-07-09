@@ -1,5 +1,5 @@
 // src/pages/audit/Logs.tsx
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import auditService from "../../services/auditService";
@@ -20,7 +20,7 @@ interface AuditLog {
   resourceId?: string;
   resource_type?: string;
   resource_id?: string;
-  details?: any;
+  details?: unknown;
   ip_address?: string;
   ip?: string;
   timestamp: string;
@@ -93,7 +93,7 @@ const Logs = () => {
     return true;
   };
 
-  const fetchLogs = async () => {
+  const fetchLogs = useCallback(async () => {
     if (!validateDates()) return;
     setLoading(true);
     try {
@@ -109,9 +109,10 @@ const Logs = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, from, to, searchUser]);
 
-  useEffect(() => { fetchLogs(); }, [page]);
+  useEffect(() => { fetchLogs(); // eslint-disable-line react-hooks/set-state-in-effect
+  }, [fetchLogs]);
 
   const handleExport = async () => {
     if (!validateDates()) return;
@@ -367,11 +368,11 @@ const Logs = () => {
                       {(log.resourceId || log.resource_id) && (
                         <span className="font-mono text-muted-foreground/70">#{ (log.resourceId || log.resource_id || "").slice(0, 8)}</span>
                       )}
-                      {log.details?.method && (
-                        <span className="ml-1 text-[10px] text-muted-foreground/80">({log.details.method})</span>
+                      {(log.details as Record<string, string>)?.method && (
+                        <span className="ml-1 text-[10px] text-muted-foreground/80">({(log.details as Record<string, string>).method})</span>
                       )}
                     </TableCell>
-                    <TableCell className="font-mono text-muted-foreground">{(log as any).ip_address || log.ip || "—"}</TableCell>
+                    <TableCell className="font-mono text-muted-foreground">{log.ip_address || log.ip || "—"}</TableCell>
                   </motion.tr>
                 ))}
               </AnimatePresence>
