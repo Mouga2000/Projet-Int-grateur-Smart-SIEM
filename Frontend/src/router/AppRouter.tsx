@@ -72,12 +72,12 @@ const AppRouter = () => (
         }/>
 
         <Route path="/alerts" element={
-          <ProtectedRoute allowedRoles={[Role.ANALYSTE, Role.ADMINISTRATEUR, Role.LECTEUR]}>
+          <ProtectedRoute allowedRoles={[Role.ANALYSTE, Role.ADMINISTRATEUR, Role.LECTEUR, Role.RSSI]}>
             <Alerts />
           </ProtectedRoute>
         }/>
         <Route path="/alerts/:id" element={
-          <ProtectedRoute allowedRoles={[Role.ANALYSTE, Role.ADMINISTRATEUR, Role.LECTEUR]}>
+          <ProtectedRoute allowedRoles={[Role.ANALYSTE, Role.ADMINISTRATEUR, Role.LECTEUR, Role.RSSI]}>
             <AlertDetail />
           </ProtectedRoute>
         }/>
