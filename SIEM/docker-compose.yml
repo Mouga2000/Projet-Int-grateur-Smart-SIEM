@@ -59,8 +59,8 @@ services:
       - REDIS_HOST=redis
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
-      - DATABASE_URL=postgresql+asyncpg://postgres:0901@host.docker.internal:5432/SmartSiem
-      - DATABASE_SYNC_URL=postgresql+psycopg2://postgres:0901@host.docker.internal:5432/SmartSiem
+      - DATABASE_URL=postgresql+asyncpg://postgres:Eve-2006%40@host.docker.internal:5432/SmartSiem
+      - DATABASE_SYNC_URL=postgresql+psycopg2://postgres:Eve-2006%40@host.docker.internal:5432/SmartSiem
     ports:
       - "8000:8000"
     depends_on:

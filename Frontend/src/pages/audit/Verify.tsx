@@ -1,11 +1,13 @@
 // src/pages/audit/Verify.tsx
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import api from "../../services/api";
 import { ENDPOINTS } from "../../config/endpoints";
 import { Button } from "../../components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
-import { Loader2, CheckCircle2, XCircle, Link2 } from "lucide-react";
+import { cn } from "../../lib/utils";
+import { Loader2, CheckCircle2, XCircle, Link2, Archive as ArchiveIcon, Check, X } from "lucide-react";
 
 interface Archive {
   id: number;
@@ -37,9 +39,26 @@ interface ChainEntry {
 }
 
 const STATUS_STYLES: Record<string, string> = {
-  certified:   "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
-  verified:    "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
-  compromised: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400",
+  certified:   "status-certified",
+  verified:    "status-verified",
+  compromised: "status-compromised",
+};
+
+// ─── Motion presets ──────────────────────────────────────────────────────────
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0 },
+};
+
+const staggerContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.06 } },
+};
+
+const rowItem = {
+  hidden: { opacity: 0, y: 8 },
+  show: { opacity: 1, y: 0 },
 };
 
 const Verify = () => {
@@ -81,6 +100,7 @@ const Verify = () => {
   };
 
   const loadChain = async () => {
+    if (showChain) { setShowChain(false); return; }
     setChainLoading(true);
     try {
       const { data } = await api.get(ENDPOINTS.archive.chain);
@@ -91,18 +111,15 @@ const Verify = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center py-16 text-muted-foreground gap-2">
-        <Loader2 className="h-4 w-4 animate-spin" /> Chargement...
-      </div>
-    );
-  }
-
   return (
-    <div className="flex flex-col gap-6">
+    <motion.div
+      variants={staggerContainer}
+      initial="hidden"
+      animate="show"
+      className="flex flex-col gap-6"
+    >
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <motion.div variants={fadeUp} transition={{ duration: 0.3, ease: "easeOut" }} className="flex items-center justify-between">
         <div>
           <h1 className="text-lg font-semibold">Vérification des archives</h1>
           <p className="text-sm text-muted-foreground mt-0.5">
@@ -110,121 +127,219 @@ const Verify = () => {
           </p>
         </div>
         <Button variant="outline" size="sm" onClick={loadChain} disabled={chainLoading}>
-          <Link2 className="h-4 w-4 mr-1.5" />
-          {chainLoading ? "Chargement..." : "Afficher la chaîne"}
+          <motion.span
+            animate={chainLoading ? { rotate: 360 } : { rotate: 0 }}
+            transition={chainLoading ? { duration: 0.8, repeat: Infinity, ease: "linear" } : { duration: 0.2 }}
+            className="mr-1.5 inline-flex"
+          >
+            <Link2 className="h-4 w-4" />
+          </motion.span>
+          {chainLoading ? "Chargement..." : showChain ? "Masquer la chaîne" : "Afficher la chaîne"}
         </Button>
-      </div>
+      </motion.div>
 
-      {/* Chaîne */}
-      {showChain && chain.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Link2 className="h-4 w-4" />
-              Chaîne de custody ({chain.length} maillons)
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col gap-1 text-xs font-mono">
-              {chain.map((entry, i) => (
-                <div key={entry.id} className="flex items-center gap-3 p-2 rounded-md hover:bg-muted/30">
-                  <span className="text-muted-foreground w-6 shrink-0">#{i + 1}</span>
-                  <span className="w-40 shrink-0 text-foreground">{entry.period}</span>
-                  <Badge className={STATUS_STYLES[entry.status] ?? ""} variant="outline">{entry.status}</Badge>
-                  <span className="text-muted-foreground truncate" title={entry.chain_hash}>
-                    Hash: {entry.chain_hash}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      {/* Loading initial */}
+      <AnimatePresence>
+        {loading && (
+          <motion.div
+            key="loading"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="flex items-center justify-center py-16 text-muted-foreground gap-2"
+          >
+            <Loader2 className="h-4 w-4 animate-spin" /> Chargement...
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Résultat de vérification */}
-      {verifyResult && (
-        <Card className={verifyResult.valid ? "border-green-500/30" : "border-red-500/30"}>
-          <CardContent className="pt-6">
-            <div className="flex items-start gap-3">
-              {verifyResult.valid
-                ? <CheckCircle2 className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                : <XCircle className="h-5 w-5 text-red-500 mt-0.5 shrink-0" />
-              }
-              <div className="flex-1">
-                <p className={`text-sm font-medium ${verifyResult.valid ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>
-                  Archive #{verifyResult.archive_id} — {verifyResult.valid ? "Intègre" : "Compromise"}
-                </p>
-                <div className="flex flex-col gap-1 mt-2 text-xs">
-                  {verifyResult.checks?.map((check, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      {check.ok
-                        ? <span className="text-green-500">✓</span>
-                        : <span className="text-red-500">✗</span>
-                      }
-                      <span className="text-muted-foreground">{check.name}</span>
-                      {check.detail && <span className="text-muted-foreground/60">— {check.detail}</span>}
+      {!loading && (
+        <>
+          {/* Chaîne */}
+          <AnimatePresence>
+            {showChain && chain.length > 0 && (
+              <motion.div
+                key="chain"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="overflow-hidden"
+              >
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-sm font-medium flex items-center gap-2">
+                      <Link2 className="h-4 w-4" />
+                      Chaîne de custody ({chain.length} maillons)
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <motion.div
+                      variants={staggerContainer}
+                      initial="hidden"
+                      animate="show"
+                      className="flex flex-col gap-1 text-xs font-mono"
+                    >
+                      {chain.map((entry, i) => (
+                        <motion.div key={entry.id} variants={rowItem} className="flex items-center gap-3 p-2 rounded-md">
+                          <span className="text-muted-foreground w-6 shrink-0">#{i + 1}</span>
+                          <span className="w-40 shrink-0 text-foreground">{entry.period}</span>
+                          <Badge className={STATUS_STYLES[entry.status] ?? ""} variant="outline">{entry.status}</Badge>
+                          <span className="text-muted-foreground truncate" title={entry.chain_hash}>
+                            Hash: {entry.chain_hash}
+                          </span>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Résultat de vérification */}
+          <AnimatePresence mode="wait">
+            {verifyResult && (
+              <motion.div
+                key={verifyResult.archive_id}
+                initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+              >
+                <Card className={verifyResult.valid ? "border-green-500/30" : "border-red-500/30"}>
+                  <CardContent className="pt-6">
+                    <div className="flex items-start gap-3">
+                      <motion.span
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: "spring", bounce: 0.4, duration: 0.4, delay: 0.1 }}
+                      >
+                        {verifyResult.valid
+                          ? <CheckCircle2 className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                          : <XCircle className="h-5 w-5 text-red-500 mt-0.5 shrink-0" />
+                        }
+                      </motion.span>
+                      <div className="flex-1">
+                        <p className={cn(
+                          "text-sm font-medium",
+                          verifyResult.valid ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
+                        )}>
+                          Archive #{verifyResult.archive_id} — {verifyResult.valid ? "Intègre" : "Compromise"}
+                        </p>
+                        <motion.div
+                          variants={staggerContainer}
+                          initial="hidden"
+                          animate="show"
+                          className="flex flex-col gap-1 mt-2 text-xs"
+                        >
+                          {verifyResult.checks?.map((check, i) => (
+                            <motion.div key={i} variants={rowItem} className="flex items-center gap-2">
+                              {check.ok
+                                ? <Check className="h-3 w-3 text-green-500" />
+                                : <X className="h-3 w-3 text-red-500" />
+                              }
+                              <span className="text-muted-foreground">{check.name}</span>
+                              {check.detail && <span className="text-muted-foreground/60">— {check.detail}</span>}
+                            </motion.div>
+                          ))}
+                        </motion.div>
+                      </div>
                     </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-      {verifyError && (
-        <Card className="border-red-500/30">
-          <CardContent className="pt-6">
-            <p className="text-sm text-destructive">{verifyError}</p>
-          </CardContent>
-        </Card>
-      )}
+          <AnimatePresence>
+            {verifyError && (
+              <motion.div
+                key="verify-error"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.2 }}
+                className="overflow-hidden"
+              >
+                <Card className="border-red-500/30">
+                  <CardContent className="pt-6">
+                    <p className="text-sm text-destructive">{verifyError}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-      {/* Liste des archives */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-sm font-medium">
-            Archives disponibles ({archives.length})
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {archives.length === 0 ? (
-            <p className="text-sm text-muted-foreground py-4 text-center">
-              Aucune archive créée. Les archives sont générées automatiquement ou via la page Archives.
-            </p>
-          ) : (
-            <div className="flex flex-col gap-2">
-              {archives.map((arc) => (
-                <div key={arc.id} className="border rounded-lg p-3 flex items-center justify-between gap-4 hover:border-primary/30 transition-colors">
-                  <div className="flex flex-col gap-1 min-w-0">
-                    <div className="flex items-center gap-2 text-sm">
-                      <span className="font-medium">Archive #{arc.id}</span>
-                      <Badge className={STATUS_STYLES[arc.status] ?? ""} variant="outline">{arc.status}</Badge>
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      {arc.date_from?.slice(0, 10)} → {arc.date_to?.slice(0, 10)} · {arc.log_count} logs
+          {/* Liste des archives */}
+          <motion.div variants={fadeUp} transition={{ duration: 0.3, ease: "easeOut" }}>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm font-medium">
+                  Archives disponibles ({archives.length})
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {archives.length === 0 ? (
+                  <div className="flex flex-col items-center gap-2 py-8 text-center">
+                    <ArchiveIcon className="h-8 w-8 text-muted-foreground/40" />
+                    <p className="text-sm text-muted-foreground">
+                      Aucune archive créée. Les archives sont générées automatiquement ou via la page Archives.
                     </p>
-                    {arc.chain_hash && (
-                      <p className="text-[11px] font-mono text-muted-foreground truncate">
-                        SHA-256: {arc.chain_hash}
-                      </p>
-                    )}
                   </div>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    disabled={verifyingId === arc.id}
-                    onClick={() => handleVerify(arc.id)}
+                ) : (
+                  <motion.div
+                    variants={staggerContainer}
+                    initial="hidden"
+                    animate="show"
+                    className="flex flex-col gap-2"
                   >
-                    {verifyingId === arc.id ? "Vérification..." : "Vérifier"}
-                  </Button>
-                </div>
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    </div>
+                    {archives.map((arc) => (
+                      <motion.div
+                        key={arc.id}
+                        variants={rowItem}
+                        className="border rounded-lg p-3 flex items-center justify-between gap-4"
+                      >
+                        <div className="flex flex-col gap-1 min-w-0">
+                          <div className="flex items-center gap-2 text-sm">
+                            <span className="font-medium">Archive #{arc.id}</span>
+                            <Badge className={STATUS_STYLES[arc.status] ?? ""} variant="outline">{arc.status}</Badge>
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            {arc.date_from?.slice(0, 10)} → {arc.date_to?.slice(0, 10)} · {arc.log_count} logs
+                          </p>
+                          {arc.chain_hash && (
+                            <p className="text-[11px] font-mono text-muted-foreground truncate">
+                              SHA-256: {arc.chain_hash}
+                            </p>
+                          )}
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          disabled={verifyingId === arc.id}
+                          onClick={() => handleVerify(arc.id)}
+                        >
+                          <motion.span
+                            animate={verifyingId === arc.id ? { rotate: 360 } : { rotate: 0 }}
+                            transition={verifyingId === arc.id ? { duration: 0.8, repeat: Infinity, ease: "linear" } : { duration: 0.2 }}
+                            className="mr-1.5 inline-flex"
+                          >
+                            {verifyingId === arc.id && <Loader2 className="h-3.5 w-3.5" />}
+                          </motion.span>
+                          {verifyingId === arc.id ? "Vérification..." : "Vérifier"}
+                        </Button>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+        </>
+      )}
+    </motion.div>
   );
 };
 

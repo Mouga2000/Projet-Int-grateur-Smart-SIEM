@@ -6,9 +6,9 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const VARIANTS: Record<string, string> = {
-  primary: "bg-cyan-600 hover:bg-cyan-500 text-white",
-  ghost: "bg-transparent text-gray-200 hover:bg-gray-800",
-  outline: "border border-gray-700 text-gray-200",
+  primary: "bg-primary hover:bg-primary/90 text-primary-foreground",
+  ghost: "bg-transparent text-foreground hover:bg-muted",
+  outline: "border border-input bg-background text-foreground hover:bg-muted",
 };
 
 const Button = ({ variant = "primary", className, children, ...props }: ButtonProps) => {
