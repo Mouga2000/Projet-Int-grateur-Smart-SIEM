@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { ReportConfig, ReportType, ReportFormat } from "../../types/report";
 import reportService from "../../services/reportService";
-import Button from "../../components/ui/Button";
+import { Button } from "../../components/ui/Button";
 
 const REPORT_TYPES: ReportType[] = ["SECURITY", "AUDIT", "KPI", "INCIDENT"];
 const REPORT_FORMATS: ReportFormat[] = ["PDF", "CSV", "EXCEL"];
@@ -128,7 +128,7 @@ const Reports = () => {
         {success && <p className="text-xs text-green-600 dark:text-green-400">Rapport généré avec succès.</p>}
 
         <div className="flex gap-3 pt-2">
-          <Button variant="primary" disabled={!isValid || loading} onClick={handleGenerate}>
+          <Button variant="default" disabled={!isValid || loading} onClick={handleGenerate}>
             {loading ? "Génération..." : "Générer le rapport"}
           </Button>
           <Button variant="ghost" onClick={() => navigate("/reports/export")}>

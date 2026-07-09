@@ -30,11 +30,6 @@ const staggerContainer = {
   show: { transition: { staggerChildren: 0.05 } },
 };
 
-const rowItem = {
-  hidden: { opacity: 0, y: 8 },
-  show: { opacity: 1, y: 0 },
-};
-
 const Archive = () => {
   const navigate = useNavigate();
   const [archives, setArchives] = useState<ArchiveType[]>([]);

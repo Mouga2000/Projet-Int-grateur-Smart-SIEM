@@ -14,7 +14,6 @@ import {
   Settings2,
   ShieldAlert,
   ShieldCheck,
-  ShieldHalf,
   Siren,
   Trash2,
   Users,
@@ -119,7 +118,6 @@ function useIsDesktop() {
 const Sidebar = ({
   collapsed,
   mobileOpen,
-  onCollapseChange,
   onMobileOpenChange,
 }: SidebarProps) => {
   const { user, hasAnyRole } = useAuth();

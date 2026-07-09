@@ -15,7 +15,6 @@ import { Plus, Loader2, Users as UsersIcon } from "lucide-react";
 
 const fadeUp = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } };
 const staggerContainer = { hidden: {}, show: { transition: { staggerChildren: 0.05 } } };
-const rowItem = { hidden: { opacity: 0, y: 6 }, show: { opacity: 1, y: 0 } };
 
 export default function Users() {
   const [users, setUsers] = useState<User[]>([]);
@@ -37,7 +36,8 @@ export default function Users() {
     }
   };
 
-  useEffect(() => { fetchUsers(); }, []);
+  useEffect(() => { fetchUsers(); // eslint-disable-line react-hooks/set-state-in-effect
+  }, []);
 
   const handleCreate = async () => {
     setError(null);
@@ -50,8 +50,9 @@ export default function Users() {
       setEmail("");
       setPassword("");
       setRole(Role.LECTEUR);
-    } catch (err: any) {
-      setError(err?.response?.data?.detail ?? "Erreur lors de la création.");
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { detail?: string } } };
+      setError(axiosErr?.response?.data?.detail ?? "Erreur lors de la création.");
     } finally {
       setSaving(false);
     }

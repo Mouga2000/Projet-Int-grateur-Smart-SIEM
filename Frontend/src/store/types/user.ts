@@ -1,5 +1,5 @@
 // src/types/user.ts
-import { Role } from "../config/roles";
+import { Role } from "../../config/roles";
 
 export type Perimeter = "equipe" | "service" | "filiale" | "environnement";
 

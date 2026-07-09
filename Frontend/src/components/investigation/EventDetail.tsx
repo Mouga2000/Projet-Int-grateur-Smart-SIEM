@@ -1,6 +1,6 @@
 // src/components/investigation/EventDetail.tsx
 import type { SecurityEvent } from "../../types/event";
-import Button from "../ui/Button";
+import { Button } from "../ui/Button";
 
 interface EventDetailProps {
   event: SecurityEvent | null;
@@ -34,7 +34,7 @@ const EventDetail = ({ event, onMark, onPivot }: EventDetailProps) => {
         <h3 className="text-sm font-medium text-white">Détail de l'événement</h3>
         <div className="flex gap-2">
           <Button
-            variant={event.marked ? "danger" : "secondary"}
+            variant={event.marked ? "destructive" : "secondary"}
             size="sm"
             onClick={() => onMark(event.id)}
           >

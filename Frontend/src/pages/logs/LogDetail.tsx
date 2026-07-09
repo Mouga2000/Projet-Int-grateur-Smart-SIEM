@@ -16,13 +16,6 @@ import { ArrowLeft, Trash2, FilePlus2, Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Role } from "@/config/roles";
 
-interface InvestigationItem {
-  id: number;
-  title: string;
-}
-
-type VerdictOption = "suspect" | "benign" | "confirmed" | "false_positive";
-
 const LogDetail = () => {
   const { id }   = useParams<{ id: string }>();
   const navigate = useNavigate();

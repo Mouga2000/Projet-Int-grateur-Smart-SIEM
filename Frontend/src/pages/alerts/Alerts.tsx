@@ -37,7 +37,7 @@ const fadeUp = { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } };
 const staggerContainer = { hidden: {}, show: { transition: { staggerChildren: 0.08 } } };
 
 const Alerts = () => {
-  const { alerts, loading, error, total, page, setPage, filter, setFilter, refresh } = useAlerts();
+  const { alerts, loading, error, total, page, setPage, filter: _filter, setFilter, refresh } = useAlerts();
   const { hasAnyRole } = useAuth();
   const isReadOnly = !hasAnyRole([Role.ANALYSTE, Role.ADMINISTRATEUR]);
   const pageSize = 20;
