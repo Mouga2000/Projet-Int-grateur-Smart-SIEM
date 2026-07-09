@@ -78,6 +78,9 @@ app.add_middleware(
         "http://localhost:3000",
         "http://127.0.0.1:5173",
         "http://localhost:5174",
+        "https://projet-int-grateur-smart-siem.vercel.app",          # Frontend Vercel
+        "https://api.smart-siem.strife-cyber.com",                    # API via Traefik
+        "https://api.smart-siem.strife-cyber.org",                    # API (org)
     ],
     allow_credentials=True,
     allow_methods=["*"],
