@@ -3,8 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import auditService from "../../services/auditService";
-import { Button } from "../../components/ui/Button";
-import { Input } from "../../components/ui/Input";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/table";
 import { cn } from "../../lib/utils";
 import {
   Download, Filter, Search, X, Loader2, ScrollText, ChevronLeft, ChevronRight,
@@ -332,17 +333,17 @@ const Logs = () => {
       {/* Table */}
       {!loading && logs.length > 0 && (
         <motion.div variants={fadeUp} transition={{ duration: 0.3, ease: "easeOut" }} className="overflow-hidden rounded-xl border bg-card text-card-foreground">
-          <table className="w-full text-xs">
-            <thead>
-              <tr className="border-b bg-muted/40">
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground">Date</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground">Utilisateur</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground">Action</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground">Ressource</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground">IP</th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table className="text-xs">
+            <TableHeader>
+              <TableRow className="bg-muted/40">
+                <TableHead>Date</TableHead>
+                <TableHead>Utilisateur</TableHead>
+                <TableHead>Action</TableHead>
+                <TableHead>Ressource</TableHead>
+                <TableHead>IP</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               <AnimatePresence mode="wait">
                 {logs.map((log) => (
                   <motion.tr
@@ -352,16 +353,16 @@ const Logs = () => {
                     animate="show"
                     className="border-b last:border-0"
                   >
-                    <td className="px-4 py-2.5 font-mono text-muted-foreground whitespace-nowrap">
+                    <TableCell className="font-mono text-muted-foreground">
                       {new Date(log.timestamp).toLocaleString("fr-FR")}
-                    </td>
-                    <td className="px-4 py-2.5 text-foreground">{log.username}</td>
-                    <td className="px-4 py-2.5">
+                    </TableCell>
+                    <TableCell className="text-foreground">{log.username}</TableCell>
+                    <TableCell>
                       <span className={`px-2 py-0.5 rounded text-xs font-medium ${actionColor(log.action)}`}>
                         {log.action}
                       </span>
-                    </td>
-                    <td className="px-4 py-2.5 text-muted-foreground">
+                    </TableCell>
+                    <TableCell className="text-muted-foreground">
                       {log.resource || log.resource_type || "—"}
                       {(log.resourceId || log.resource_id) && (
                         <span className="font-mono text-muted-foreground/70">#{ (log.resourceId || log.resource_id || "").slice(0, 8)}</span>
@@ -369,13 +370,13 @@ const Logs = () => {
                       {log.details?.method && (
                         <span className="ml-1 text-[10px] text-muted-foreground/80">({log.details.method})</span>
                       )}
-                    </td>
-                    <td className="px-4 py-2.5 font-mono text-muted-foreground">{(log as any).ip_address || log.ip || "—"}</td>
+                    </TableCell>
+                    <TableCell className="font-mono text-muted-foreground">{(log as any).ip_address || log.ip || "—"}</TableCell>
                   </motion.tr>
                 ))}
               </AnimatePresence>
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </motion.div>
       )}
 

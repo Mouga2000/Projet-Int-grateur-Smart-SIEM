@@ -229,8 +229,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
               <div className="flex flex-col gap-6">
                 {/* Header */}
                 <div className="flex flex-col items-center text-center gap-1">
-                  <div className="mb-1 flex items-center justify-center rounded-full bg-blue-50 p-3">
-                    <ShieldCheck className="h-6 w-6 text-blue-700" />
+                  <div className="mb-1 flex items-center justify-center rounded-full p-2 overflow-hidden bg-transparent dark:bg-blue-50">
+                    <img src="/logo.png" alt="Smart SIEM" className="h-10 w-10 rounded-full object-contain" />
                   </div>
                   <h1 className="text-2xl font-bold text-slate-900">
                     {step === "credentials" ? "Connexion" : "Vérification MFA"}

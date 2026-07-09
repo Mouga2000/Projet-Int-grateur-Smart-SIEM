@@ -12,6 +12,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.dependencies import get_current_user
+from app.core.config import settings
 from app.core.database import get_db
 from app.core.elasticsearch import get_es
 from app.core.redis import get_redis
@@ -77,6 +78,15 @@ async def ingest_log(
 
         repo = LogRepository(es)
         result = await repo.ingest(normalized)
+
+        # UEBA : scoring temps réel (asynchrone via Celery)
+        try:
+            if settings.UEBA_ENABLED:
+                from app.tasks.ueba_tasks import score_single_event
+
+                score_single_event.delay(normalized)
+        except Exception as e:
+            print(f"[UEBA] Erreur scoring temps reel : {e}")
 
         # Correlation
         try:

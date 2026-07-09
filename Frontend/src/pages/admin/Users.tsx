@@ -4,11 +4,11 @@ import type { User } from "@/types/user";
 import { Role } from "@/config/roles";
 import userService from "../../services/userService";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, Loader2, Users as UsersIcon } from "lucide-react";
@@ -171,7 +171,7 @@ export default function Users() {
           <motion.div key="table" variants={fadeUp} initial="hidden" animate="show" transition={{ duration: 0.3, ease: "easeOut" }}>
             <Card>
               <CardContent className="overflow-x-auto pt-6">
-                <Table className="min-w-[760px]">
+                <Table>
                   <TableHeader>
                     <TableRow>
                       <TableHead>Identifiant</TableHead>
@@ -181,15 +181,14 @@ export default function Users() {
                       <TableHead>Dernière connexion</TableHead>
                     </TableRow>
                   </TableHeader>
-                  <TableBody asChild>
-                    <motion.tbody variants={staggerContainer} initial="hidden" animate="show">
+                  <TableBody>
                       {users.map((u) => (
-                        <motion.tr key={u.id} variants={rowItem} className="border-b transition-none data-[state=selected]:bg-muted">
+                        <TableRow key={u.id}>
                           <TableCell className="font-medium">{u.username}</TableCell>
                           <TableCell className="text-xs text-muted-foreground">{u.email}</TableCell>
-                          <TableCell className="w-[180px]">
+                          <TableCell>
                             <Select value={u.role} onValueChange={(v) => handleRoleChange(u.username, v)}>
-                              <SelectTrigger className="h-8 w-full text-xs">
+                              <SelectTrigger className="h-8 w-full text-xs mx-auto max-w-[130px]">
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent>
@@ -207,9 +206,8 @@ export default function Users() {
                           <TableCell className="whitespace-nowrap text-xs text-muted-foreground">
                             {u.last_login ? new Date(u.last_login).toLocaleString("fr-FR") : "Jamais"}
                           </TableCell>
-                        </motion.tr>
+                        </TableRow>
                       ))}
-                    </motion.tbody>
                   </TableBody>
                 </Table>
               </CardContent>

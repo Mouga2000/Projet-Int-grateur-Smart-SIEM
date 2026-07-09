@@ -156,8 +156,8 @@ const Sidebar = ({
           transition={{ duration: 0.25, ease: "easeOut" }}
         >
           <div className="flex h-16 shrink-0 items-center gap-2 border-b border-sidebar-border px-3">
-            <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-              <ShieldHalf className="size-4" />
+            <div className="flex size-9 shrink-0 items-center justify-center rounded-lg overflow-hidden bg-transparent dark:bg-sidebar-primary">
+              <img src="/logo.png" alt="Smart SIEM" className="size-full object-contain" />
             </div>
             <motion.div
               className="min-w-0 overflow-hidden"
@@ -175,7 +175,7 @@ const Sidebar = ({
             {groups.map((group) => (
               <div key={group.title} className="mb-4">
                 <motion.p
-                  className="mb-1 overflow-hidden whitespace-nowrap px-2 text-[0.68rem] font-medium uppercase tracking-wide text-sidebar-foreground/50"
+                  className="mb-1 overflow-hidden whitespace-nowrap px-2 text-[0.68rem] font-medium uppercase tracking-wide text-sidebar-foreground/50 dark:text-white/50"
                   animate={{ opacity: collapsed ? 0 : 1, height: collapsed ? 0 : "auto" }}
                   initial={false}
                   transition={{ duration: 0.2 }}
@@ -197,7 +197,7 @@ const Sidebar = ({
                           to={item.path}
                           title={collapsed ? item.label : undefined}
                           onClick={() => onMobileOpenChange(false)}
-                           className="relative flex h-10 items-center rounded-md px-2 text-sm font-medium text-sidebar-foreground/75 sm:h-9"
+                           className="relative flex h-10 items-center rounded-md px-2 text-sm font-medium text-sidebar-foreground/75 dark:text-white/75 sm:h-9"
                         >
                           {isActive && (
                             <motion.span

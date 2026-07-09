@@ -35,6 +35,9 @@ cryptography==44.0.0
 # --- Client HTTP asynchrone (utilise par SOAR pour contacter les agents) ---
 httpx==0.28.1
 
+# --- Client HTTP synchrone (scripts d'ingestion) ---
+requests==2.32.3
+
 # --- Utilitaires ---
 python-dotenv==1.2.2
 celery==5.5.2

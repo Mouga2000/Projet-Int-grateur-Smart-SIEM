@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/label";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Plus, Link2, ShieldCheck, ShieldX, Loader2, Archive as ArchiveIcon } from "lucide-react";
 
 const STATUS_STYLES: Record<string, string> = {
@@ -185,10 +185,9 @@ const Archive = () => {
                       <TableHead>Actions</TableHead>
                     </TableRow>
                   </TableHeader>
-                  <TableBody asChild>
-                    <motion.tbody variants={staggerContainer} initial="hidden" animate="show">
+                  <TableBody>
                       {archives.map((a) => (
-                        <motion.tr key={a.id} variants={rowItem} className="border-b">
+                        <TableRow key={a.id}>
                           <TableCell className="font-mono text-xs">{a.id}</TableCell>
                           <TableCell className="text-xs">
                             {new Date(a.date_from).toLocaleDateString("fr-FR")} → {new Date(a.date_to).toLocaleDateString("fr-FR")}
@@ -234,9 +233,8 @@ const Archive = () => {
                               Vérifier
                             </Button>
                           </TableCell>
-                        </motion.tr>
+                        </TableRow>
                       ))}
-                    </motion.tbody>
                   </TableBody>
                 </Table>
               )}

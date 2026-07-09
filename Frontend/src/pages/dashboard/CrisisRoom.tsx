@@ -92,7 +92,7 @@ const CrisisRoom = () => {
         </motion.div>
       </motion.div>
 
-      <motion.div variants={staggerContainer} initial="hidden" animate="show" className="grid grid-cols-3 gap-4">
+      <motion.div variants={staggerContainer} initial="hidden" animate="show" className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <CrisisStat label="Alertes critiques actives" value={openCount} tone="red" icon={Flame} pulse />
         <CrisisStat label="En cours de traitement" value={progressCount} tone="orange" icon={ShieldAlert} />
         <CrisisStat label="Résolues" value={resolvedCount} tone="slate" icon={CheckCircle2} />
