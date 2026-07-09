@@ -59,14 +59,14 @@ export default function Rules() {
 
   useEffect(() => { (async () => { setLoading(true); try { const { data } = await api.get(ENDPOINTS.rules.list); setRules(data); } finally { setLoading(false); } })(); }, []);
 
-  const openCreate = () => { setEditing(null); setForm({ enabled: true, severity: "medium", rule_type: "single_event", condition: {} }); setFieldError(""); setModalOpen(true); };
+  const openCreate = () => { setEditing(null); setForm({ enabled: true, severity: "medium", rule_type: "single_event", condition: "" }); setFieldError(""); setModalOpen(true); };
   const openEdit = (rule: Rule) => { setEditing(rule); setForm(rule); setFieldError(""); setModalOpen(true); };
   const handleSave = async () => {
     if (!form.name?.trim()) return setFieldError("Le nom est obligatoire.");
     setSaving(true);
     try {
       const payload = { ...form };
-      if (typeof payload.condition === "string") { try { payload.condition = JSON.parse(payload.condition); } catch { payload.condition = {}; } }
+      if (typeof payload.condition === "string") { try { payload.condition = JSON.parse(payload.condition); } catch { payload.condition = ""; } }
       if (editing) { const { data } = await api.patch(ENDPOINTS.rules.update(editing.id), payload); setRules((p) => p.map((r) => r.id === data.id ? data : r)); }
       else { const { data } = await api.post(ENDPOINTS.rules.create, payload); setRules((p) => [...p, data]); }
       setModalOpen(false);

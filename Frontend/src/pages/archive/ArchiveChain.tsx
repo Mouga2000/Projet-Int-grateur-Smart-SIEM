@@ -56,7 +56,7 @@ const ArchiveChain = () => {
       <div className="relative pl-6">
         <div className="absolute left-2 top-0 bottom-0 w-px bg-border" />
         <div className="space-y-3">
-          {chain.map((entry, idx) => (
+          {chain.map((entry) => (
             <Card key={entry.id} className="relative">
               <div className="absolute -left-[1.85rem] top-6 w-3 h-3 rounded-full bg-primary border-2 border-background" />
               <CardContent className="pt-6">

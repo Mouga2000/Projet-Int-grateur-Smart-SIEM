@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import api from "../../services/api";
 import { ENDPOINTS } from "../../config/endpoints";
-import { Button } from "../../components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../../components/ui/card";
 import { Loader2 } from "lucide-react";
 

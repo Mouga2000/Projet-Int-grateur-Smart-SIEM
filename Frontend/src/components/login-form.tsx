@@ -171,9 +171,9 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
   const [error, setError]       = useState<string | null>(null);
   const [loading, setLoading]   = useState(false);
 
+
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const mfaRef       = useRef<HTMLInputElement>(null);
 
   const from = (location.state as any)?.from?.pathname ?? null;
 

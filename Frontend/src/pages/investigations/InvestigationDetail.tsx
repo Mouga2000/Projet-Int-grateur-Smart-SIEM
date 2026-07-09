@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import investigationService from "@/services/investigationService";
 import type {
-  Investigation, InvestigationStatus, InvestigationSeverity, Verdict,
+  Investigation, InvestigationStatus, InvestigationSeverity,
 } from "@/types/investigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/Button";
@@ -18,7 +18,7 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
 } from "@/components/ui/dialog";
 import {
-  ArrowLeft, Loader2, Save, Plus, Trash2,
+  ArrowLeft, Loader2, Save,
 } from "lucide-react";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
