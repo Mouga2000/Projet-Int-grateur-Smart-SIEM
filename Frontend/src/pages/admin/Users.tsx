@@ -193,7 +193,7 @@ export default function Users() {
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent>
-                                {Object.values(Role).filter((r) => r !== Role.ADMINISTRATEUR).map((r) => (
+                                {Object.values(Role).map((r) => (
                                   <SelectItem key={r} value={r}>{r}</SelectItem>
                                 ))}
                               </SelectContent>
