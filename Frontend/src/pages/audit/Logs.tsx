@@ -8,7 +8,7 @@ import { Input } from "../../components/ui/Input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/Table";
 import { cn } from "../../lib/utils";
 import {
-  Download, Filter, Search, X, Loader2, ScrollText, ChevronLeft, ChevronRight,
+  Download, Filter, Search, X, Loader2, ScrollText, ChevronLeft, ChevronRight, FileText,
 } from "lucide-react";
 
 interface AuditLog {
@@ -76,6 +76,7 @@ const Logs = () => {
   const [to, setTo]           = useState("");
   const [searchUser, setSearchUser] = useState("");
   const [exporting, setExporting] = useState(false);
+  const [pdfExporting, setPdfExporting] = useState(false);
   const [dateError, setDateError] = useState("");
   const pageSize = 25;
 
@@ -127,6 +128,67 @@ const Logs = () => {
       URL.revokeObjectURL(url);
     } finally {
       setExporting(false);
+    }
+  };
+
+  const generatePdf = async () => {
+    if (!validateDates()) return;
+    setPdfExporting(true);
+    try {
+      // Récupérer tous les logs (jusqu'à 5000) pour le rapport
+      const data = await auditService.getLogs({
+        from: from || undefined,
+        to: to || undefined,
+        username: searchUser || undefined,
+        page: 1,
+        size: 5000,
+      });
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const rows = (data.items as any[])
+        .map(
+          (log) => `
+        <tr>
+          <td style="padding:6px 10px;border-bottom:1px solid #e5e7eb;font-family:monospace;font-size:12px;color:#6b7280">${new Date(log.timestamp).toLocaleString("fr-FR")}</td>
+          <td style="padding:6px 10px;border-bottom:1px solid #e5e7eb;font-size:12px">${log.username}</td>
+          <td style="padding:6px 10px;border-bottom:1px solid #e5e7eb;font-size:12px"><span style="background:#f3f4f6;padding:2px 8px;border-radius:4px">${log.action}</span></td>
+          <td style="padding:6px 10px;border-bottom:1px solid #e5e7eb;font-size:12px;color:#6b7280">${log.resource || log.resource_type || "—"}</td>
+          <td style="padding:6px 10px;border-bottom:1px solid #e5e7eb;font-family:monospace;font-size:12px;color:#6b7280">${log.ip_address || log.ip || "—"}</td>
+        </tr>`
+        )
+        .join("");
+
+      const html = `<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Rapport d'audit - Smart SIEM</title>
+<style>
+  @page { margin: 20mm 15mm; }
+  body { font-family: 'Inter', Arial, sans-serif; color: #111827; margin: 0; padding: 20px; }
+  h1 { font-size: 22px; font-weight: 600; margin: 0 0 4px 0; }
+  .sub { font-size: 13px; color: #6b7280; margin-bottom: 24px; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #f9fafb; text-align: left; padding: 8px 10px; font-size: 11px; font-weight: 600; color: #374151; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #e5e7eb; }
+  .footer { margin-top: 24px; font-size: 11px; color: #9ca3af; text-align: center; border-top: 1px solid #e5e7eb; padding-top: 16px; }
+  .badge { display: inline-block; background: #f3f4f6; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+</style></head>
+<body>
+  <h1>📋 Rapport d'audit — Smart SIEM</h1>
+  <div class="sub">${data.total} entrée${data.total > 1 ? "s" : ""} • Généré le ${new Date().toLocaleString("fr-FR")}${from ? " • Du " + new Date(from).toLocaleString("fr-FR") : ""}${to ? " au " + new Date(to).toLocaleString("fr-FR") : ""}${searchUser ? " • Utilisateur : " + searchUser : ""}</div>
+  <table>
+    <thead><tr><th>Date</th><th>Utilisateur</th><th>Action</th><th>Ressource</th><th>IP</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>
+  <div class="footer">Smart SIEM — UCAC-ICAM • Document généré automatiquement</div>
+  <script>window.print()</script>
+</body></html>`;
+
+      const win = window.open("", "_blank");
+      if (win) {
+        win.document.write(html);
+        win.document.close();
+      }
+    } finally {
+      setPdfExporting(false);
     }
   };
 
@@ -294,6 +356,17 @@ const Logs = () => {
               {exporting ? <Loader2 className="h-4 w-4" /> : <Download className="h-4 w-4" />}
             </motion.span>
             Exporter CSV
+          </Button>
+
+          <Button variant="secondary" size="sm" disabled={pdfExporting} onClick={generatePdf}>
+            <motion.span
+              animate={pdfExporting ? { rotate: 360 } : { rotate: 0 }}
+              transition={pdfExporting ? { duration: 0.8, repeat: Infinity, ease: "linear" } : { duration: 0.2 }}
+              className="mr-1.5 inline-flex"
+            >
+              {pdfExporting ? <Loader2 className="h-4 w-4" /> : <FileText className="h-4 w-4" />}
+            </motion.span>
+            Rapport PDF
           </Button>
         </div>
       </motion.div>
