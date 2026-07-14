@@ -27,7 +27,7 @@ async def get_audit_logs(
     date_from: Optional[str] = Query(None, description="Date debut (ISO)"),
     date_to: Optional[str] = Query(None, description="Date fin (ISO)"),
     page: int = Query(1, ge=1),
-    size: int = Query(50, ge=1, le=200),
+    size: int = Query(50, ge=1, le=5000),
     current_user: dict = Depends(require_role([Role.AUDITEUR, Role.ADMINISTRATEUR])),
     db: AsyncSession = Depends(get_db),
 ):
